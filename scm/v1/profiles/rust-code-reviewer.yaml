@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Rust code review profile with personal review standards"
+tags:
+  - rust
+  - review
+  - code-quality
+
+parents:
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/profiles/rust-code-reviewer
+
+bundles:
+  - core-practices

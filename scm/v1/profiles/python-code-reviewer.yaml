@@ -1,0 +1,12 @@
+version: "1.0.0"
+description: "Python code review profile with personal review standards"
+tags:
+  - python
+  - review
+  - code-quality
+
+parents:
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/profiles/python-code-reviewer
+
+bundles:
+  - core-practices

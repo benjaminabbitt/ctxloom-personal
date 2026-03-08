@@ -1,0 +1,210 @@
+version: "1.0.0"
+tags:
+  - workflow
+  - organization
+  - llm
+  - context
+author: "scm"
+description: "Working context directory pattern for LLM-generated session artifacts"
+
+fragments:
+  working-context:
+    tags:
+      - workflow
+      - organization
+      - gitignore
+    content: |-
+      # Working Context Directory
+
+      Maintain a gitignored `_ctx/` directory for LLM-generated working files that don't belong in version control.
+
+      ## Purpose
+
+      LLM coding sessions produce artifacts that are:
+      - **Ephemeral**: Useful during a session, stale afterward
+      - **Personal**: Specific to one developer's workflow
+      - **Large**: Would bloat git history with frequent changes
+      - **Intermediate**: Working drafts, not final deliverables
+
+      These belong in `_ctx/`, not in the repo.
+
+      ## Setup
+
+      Add to `.gitignore`:
+      ```
+      # LLM working context
+      _ctx/
+      ```
+
+      Create the directory:
+      ```bash
+      mkdir -p _ctx
+      ```
+
+      ## What Goes Here
+
+      ### Plans (`_ctx/plans/`)
+      - Implementation plans before coding
+      - Architecture decision drafts
+      - Migration strategies
+      - Refactoring approaches
+
+      ```
+      _ctx/plans/
+      ├── auth-redesign.md
+      ├── api-v2-migration.md
+      └── database-optimization.md
+      ```
+
+      ### Checklists (`_ctx/checklists/`)
+      - Pre-commit verification steps
+      - Review checklists for specific PRs
+      - Deployment runbooks (session-specific)
+      - Testing matrices
+
+      ### Status (`_ctx/status/`)
+      - Code review progress tracking
+      - Multi-session task state
+      - Investigation notes
+      - Current focus/context
+
+      ```markdown
+      # Status: Feature X Implementation
+
+      ## Current State
+      - [x] Database schema
+      - [x] API endpoints
+      - [ ] Frontend integration
+      - [ ] Tests
+
+      ## Blockers
+      - Waiting on design review for UI
+
+      ## Next Session
+      - Start frontend work
+      ```
+
+      ### Research (`_ctx/research/`)
+      - Codebase exploration notes
+      - Dependency analysis
+      - Performance investigation
+      - Bug root cause analysis
+
+      ### Scratch (`_ctx/scratch/`)
+      - Temporary code experiments
+      - Prototype snippets
+      - Test data generation
+      - One-off scripts
+
+      ### Prompts (`_ctx/prompts/`)
+      - Reusable prompts for this project
+      - Context-setting preambles
+      - Review templates
+
+      ### Summaries (`_ctx/summaries/`)
+      - Module overviews for quick context loading
+      - Architecture summaries
+      - Dependency graphs (text format)
+
+      ## Naming Conventions
+
+      - Use kebab-case for filenames
+      - Include date prefix for time-sensitive files: `2024-01-15-auth-investigation.md`
+      - Use descriptive names over generic ones: `api-rate-limiting.md` not `plan.md`
+
+      ## Lifecycle
+
+      **Create** at session start:
+      - Status file for multi-step tasks
+      - Plan before significant changes
+
+      **Update** during session:
+      - Mark completed items
+      - Capture decisions and rationale
+      - Note blockers and questions
+
+      **Clean up** periodically:
+      - Delete stale files (> 2 weeks old)
+      - Archive valuable insights to proper docs
+      - Move finalized plans to ADRs if appropriate
+
+      ## What Does NOT Go Here
+
+      - **Final documentation** → goes in `docs/` or README
+      - **ADRs** → goes in `docs/adr/` (version controlled)
+      - **Test fixtures** → goes in `tests/fixtures/`
+      - **Generated code** → goes where it belongs in src
+      - **Secrets** → never write down, use env vars
+
+      ## Integration with Code Walkthrough
+
+      When doing interactive code reviews, the status document lives here:
+
+      ```
+      _ctx/status/
+      └── review-auth-module.md
+      ```
+
+      This tracks which files have been reviewed, questions raised, and decisions made.
+
+      ## Tips
+
+      - **Start sessions by reading** `_ctx/status/` to restore context
+      - **End sessions by updating** status with next steps
+      - **Don't over-organize** — flat structure is fine for most projects
+      - **Treat as disposable** — if it's valuable, move it somewhere permanent
+    distilled: |-
+      # Working Context Directory
+
+      Gitignored `_ctx/` for LLM session artifacts that don't belong in version control.
+
+      ## Setup
+      ```
+      # .gitignore
+      _ctx/
+      ```
+
+      ## Structure
+      ```
+      _ctx/
+      ├── plans/        # Implementation plans, architecture drafts
+      ├── checklists/   # Review checklists, verification steps
+      ├── status/       # Multi-session progress tracking
+      ├── research/     # Investigation notes, analysis
+      ├── scratch/      # Temporary code, experiments
+      ├── prompts/      # Reusable project prompts
+      └── summaries/    # Module overviews for quick context
+      ```
+
+      ## What Goes Here
+      - Plans before coding
+      - Session status/progress
+      - Code review tracking
+      - Research/investigation notes
+      - Scratch code experiments
+      - Reusable prompts
+      - Context summaries
+
+      ## What Does NOT
+      - Final docs → `docs/`
+      - ADRs → `docs/adr/`
+      - Test fixtures → `tests/fixtures/`
+      - Generated code → proper src location
+      - Secrets → never
+
+      ## Naming
+      - kebab-case filenames
+      - Date prefix for time-sensitive: `2024-01-15-investigation.md`
+      - Descriptive names over generic
+
+      ## Lifecycle
+      - **Create**: Status at session start, plan before changes
+      - **Update**: Mark progress, capture decisions
+      - **Clean**: Delete stale (>2 weeks), archive valuable to proper docs
+
+      ## Tips
+      - Read `_ctx/status/` at session start
+      - Update status with next steps at session end
+      - Don't over-organize
+      - If valuable, move to permanent location
+    distilled_by: claude-code

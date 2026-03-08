@@ -1,0 +1,164 @@
+version: "1.0.0"
+tags:
+  - review
+  - workflow
+  - collaboration
+author: "scm"
+description: "Interactive code walkthrough pattern for reviewing and refining code with human oversight"
+
+fragments:
+  walkthrough-pattern:
+    tags:
+      - review
+      - interaction
+    content: |-
+      # Code Walkthrough Pattern
+
+      ## Purpose
+
+      An interactive pattern for reviewing code where the AI presents small, digestible chunks
+      and the human provides feedback, asks questions, or approves changes before proceeding.
+
+      ## How It Works
+
+      1. **Present one function/method at a time**
+         - Show the actual code (not summarized)
+         - Keep chunks small enough to reason about (typically one function)
+         - Include file path and line numbers for context
+
+      2. **Explain non-obvious aspects**
+         - Describe what the code does
+         - Note any dependencies or side effects
+         - Highlight key design decisions
+
+      3. **Proactively identify issues**
+         - Ask questions if something seems unusual or odd
+         - Point out potential design concerns
+         - Suggest alternatives when appropriate
+
+      4. **Wait for human input**
+         - Don't proceed until the human says to continue
+         - Be ready to make changes if requested
+         - Implement fixes before moving to the next chunk
+
+      ## Interaction Flow
+
+      ```
+      AI: [presents function with explanation]
+          [asks questions about oddities]
+          "Changes, or continue?"
+
+      Human: [provides feedback / requests changes / says continue]
+
+      AI: [if changes requested: make them, show result]
+          [if continue: present next function]
+      ```
+
+      ## When to Use
+
+      - Codebase onboarding and knowledge transfer
+      - Code review where human approval is needed per-change
+      - Refactoring sessions with incremental validation
+      - Teaching/learning scenarios
+
+      ## Key Principles
+
+      - **Small chunks**: One function at a time allows focused review
+      - **Human control**: The human decides when to proceed
+      - **Immediate fixes**: Changes are made before moving on
+      - **Curiosity**: AI should question unusual patterns, not just explain them
+
+  walkthrough-status-tracking:
+    tags:
+      - review
+      - documentation
+    content: |-
+      # Status Document Pattern
+
+      ## Purpose
+
+      Maintain a gitignored status document to track progress through a multi-session code review.
+
+      ## Structure
+
+      ```markdown
+      # Code Review: [Project/Feature Name]
+
+      ## Approach
+      [Brief description of what's being reviewed and why]
+
+      ## Flow Map
+      [ASCII diagram showing the flow being traced]
+
+      ## Files to Review
+      | File | Status | Notes |
+      |------|--------|-------|
+      | path/to/file.rs | [x] | Brief notes |
+
+      ## Session Log
+      ### Session N: [Date/Topic]
+      **Reviewed:**
+      - [x] file1.rs - key observation
+      - [x] file2.rs - another observation
+
+      **Next:**
+      - [ ] file3.rs - what to look at
+
+      ## Questions/Notes
+      [Capture observations, questions, design decisions]
+
+      ## Summary
+      [Key patterns, learnings, decisions made]
+      ```
+
+      ## Best Practices
+
+      - **Gitignore the status file**: It's session-specific, not part of the codebase
+      - **Update as you go**: Mark items complete immediately after reviewing
+      - **Capture decisions**: Document why changes were made for future reference
+      - **Track blockers**: Note anything that needs follow-up
+
+  questioning-patterns:
+    tags:
+      - review
+      - quality
+    content: |-
+      # Questioning Unusual Code
+
+      ## When to Ask Questions
+
+      The AI should proactively ask about code that seems:
+
+      - **Inconsistent**: Different patterns used for similar operations
+      - **Surprising defaults**: Values that might not be what users expect
+      - **Missing configuration**: Hardcoded values that should be configurable
+      - **Implicit requirements**: Things that must be set but aren't enforced
+      - **Potential footguns**: Easy mistakes that could lead to bugs
+
+      ## Question Format
+
+      ```markdown
+      **Questions:**
+
+      1. **[Brief label]** — Why does X do Y? Should it instead do Z?
+
+      2. **[Another label]** — This defaults to A, but B seems more appropriate because...
+
+      ---
+
+      Any of these worth addressing before we continue?
+      ```
+
+      ## Examples
+
+      - "Hardcoded MergeCommutative — shouldn't merge strategy be configurable?"
+      - "Default sequence is 0 — could be a footgun for updates where caller forgets to set it"
+      - "root is Optional but routing requires it — when would None be valid?"
+
+      ## Outcome
+
+      Questions should lead to one of:
+      - **Fix it now**: Make the change before proceeding
+      - **Document it**: Add a comment explaining why it's intentional
+      - **Defer it**: Note for later if out of scope
+      - **Dismiss it**: Human explains why it's fine as-is

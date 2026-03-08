@@ -1,0 +1,18 @@
+version: "1.0.0"
+description: "TypeScript web development profile with personal practices and tooling"
+tags:
+  - typescript
+  - web
+  - frontend
+  - react
+
+parents:
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/profiles/typescript-web-developer
+
+bundles:
+  # Personal practices
+  - core-practices
+  - developer-mindset
+
+  # Personal tooling preferences
+  - just

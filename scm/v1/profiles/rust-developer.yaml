@@ -1,0 +1,18 @@
+version: "1.0.0"
+description: "Rust development profile with personal practices and tooling"
+tags:
+  - rust
+  - development
+  - systems
+
+parents:
+  - https://github.com/sophisticiatedContextManager/scm-main@v1/profiles/rust-developer
+
+bundles:
+  # Personal practices
+  - core-practices
+  - developer-mindset
+
+  # Personal tooling preferences
+  - just
+  - containers
