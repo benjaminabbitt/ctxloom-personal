@@ -15,28 +15,35 @@ prompts:
             - release
             - workflow
         content: |-
-            Release workflow for versionator. Execute the following steps:
+            Release workflow for versionator. User MUST specify version.
 
-            1. Stage all changes: `git add -A`
-            2. Commit with the provided message (or analyze changes to create appropriate conventional commit message)
-            3. Run `./versionator bump` to bump version based on commit message and amend the commit
-            4. Run `./versionator release push` to create tag, release branch, and push
+            User input: $ARGUMENTS
+            - Fixed version: "0.1.0", "1.0.0", "2.3.4"
+            - Bump instruction: "patch", "minor", "major"
 
-            Commit message rules:
-            - Use conventional commits: fix: (patch), feat: (minor), feat!: or BREAKING CHANGE (major)
-            - Or include +semver:patch, +semver:minor, or +semver:major in message
+            If no version specified, STOP and ask the user. Do not guess.
 
-            If no message provided, analyze the staged changes and create an appropriate conventional commit message.
+            Steps:
+            1. Parse user input for version or bump instruction
+            2. Stage all changes: `git add -A`
+            3. Analyze changes and create appropriate conventional commit message
+            4. If bump instruction (patch/minor/major):
+               - Commit with appropriate conventional prefix (fix:/feat:/feat!:)
+               - Run `./versionator bump` to increment and amend
+            5. If fixed version (X.Y.Z):
+               - Write version to VERSION file
+               - Commit with version in message
+            6. Run `./versionator release push` to create tag, release branch, and push
 
-            User input (optional commit message): $ARGUMENTS
+            IMPORTANT: Never auto-select version. User must explicitly specify.
         distilled: |-
-            Versionator release:
-            1. `git add -A`
-            2. Commit (conventional: fix:=patch, feat:=minor, feat!/BREAKING=major)
-            3. `./versionator bump` + amend
-            4. `./versionator release push`
+            Versionator release (version REQUIRED):
 
-            Message: $ARGUMENTS
+            Input: $ARGUMENTS
+            - Fixed: "0.1.0" → write VERSION, commit, release
+            - Bump: "patch|minor|major" → commit, bump, release
+
+            No version? STOP and ask.
         distilled_by: claude-code
     version-bump:
         description: Determine appropriate version bump
@@ -64,4 +71,48 @@ prompts:
             Changes: {{changes}}
 
             Major=breaking, Minor=features, Patch=fixes
+        distilled_by: claude-code
+    suggest-version:
+        description: Display current version and suggest next version based on changes
+        tags:
+            - versioning
+            - semver
+            - analysis
+        content: |-
+            Analyze the repository and suggest the next semantic version.
+
+            Steps:
+            1. Read the current version from VERSION file
+            2. Get changes since last tag using `git log --oneline $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD`
+            3. Analyze the commit messages and code changes
+
+            Display format:
+            ```
+            Current version: X.Y.Z
+            Commits since last release: N
+
+            Changes:
+            - [list key changes]
+
+            Suggested next version: X.Y.Z
+            Reasoning: [explanation based on semver]
+            ```
+
+            Semver rules:
+            - MAJOR (X): Breaking API changes, incompatible modifications
+            - MINOR (Y): New backward-compatible features, significant enhancements
+            - PATCH (Z): Bug fixes, minor improvements, documentation
+
+            Pre-1.0 rules:
+            - Breaking changes can be MINOR (0.X.0)
+            - Features can be PATCH (0.0.X)
+
+            Be conservative: when uncertain, suggest the lower bump level.
+        distilled: |-
+            Show current VERSION, list commits since last tag, suggest next semver.
+
+            MAJOR=breaking, MINOR=features, PATCH=fixes
+            Pre-1.0: breaking=minor, features=patch
+
+            Conservative: uncertain → lower bump
         distilled_by: claude-code
