@@ -1,0 +1,67 @@
+version: 1.0.0
+tags:
+    - versioning
+    - semver
+    - release
+author: scm
+description: Semantic versioning and release cycle management
+notes: |
+    Release workflow and versioning prompts for use with versionator tool.
+prompts:
+    release:
+        description: Release workflow for versionator projects
+        tags:
+            - versioning
+            - release
+            - workflow
+        content: |-
+            Release workflow for versionator. Execute the following steps:
+
+            1. Stage all changes: `git add -A`
+            2. Commit with the provided message (or analyze changes to create appropriate conventional commit message)
+            3. Run `./versionator bump` to bump version based on commit message and amend the commit
+            4. Run `./versionator release push` to create tag, release branch, and push
+
+            Commit message rules:
+            - Use conventional commits: fix: (patch), feat: (minor), feat!: or BREAKING CHANGE (major)
+            - Or include +semver:patch, +semver:minor, or +semver:major in message
+
+            If no message provided, analyze the staged changes and create an appropriate conventional commit message.
+
+            User input (optional commit message): $ARGUMENTS
+        distilled: |-
+            Versionator release:
+            1. `git add -A`
+            2. Commit (conventional: fix:=patch, feat:=minor, feat!/BREAKING=major)
+            3. `./versionator bump` + amend
+            4. `./versionator release push`
+
+            Message: $ARGUMENTS
+        distilled_by: claude-code
+    version-bump:
+        description: Determine appropriate version bump
+        tags:
+            - versioning
+            - semver
+        content: |-
+            Analyze these changes and recommend the appropriate semantic version bump:
+
+            Current version: {{version}}
+
+            Changes:
+            {{changes}}
+
+            Consider:
+            - Are there breaking API changes? → major
+            - New backward-compatible features? → minor
+            - Bug fixes only? → patch
+            - Is this pre-1.0? Different rules apply
+
+            Recommend version and explain reasoning.
+        distilled: |-
+            Recommend version bump for:
+            Version: {{version}}
+            Changes: {{changes}}
+
+            Major=breaking, Minor=features, Patch=fixes
+        distilled_by: claude-code

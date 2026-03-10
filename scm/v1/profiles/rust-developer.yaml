@@ -13,6 +13,9 @@ bundles:
   - core-practices
   - developer-mindset
 
+  # Rust patterns
+  - rust-test-support-pattern
+
   # Personal tooling preferences
   - just
   - containers
