@@ -6,7 +6,7 @@ tags:
   - systems
 
 parents:
-  - https://github.com/sophisticiatedContextManager/scm-main@v1/profiles/rust-developer
+  - https://github.com/SophisticatedContextManager/scm-main@v1/profiles/rust-developer
 
 bundles:
   # Personal practices
