@@ -1,7 +1,15 @@
-# personal-scm
+# ctxloom-personal
 
-This repository contains the owner's personal profiles, LLM context fragments, and prompts.
+Personal ctxloom bundles, profiles, and prompts.
+
+## Usage
+
+```bash
+ctxloom remote add personal benjaminabbitt/ctxloom-personal
+ctxloom remote pull personal/go-development --type bundle
+```
 
 ## History
 
-This repository location was formerly the application source for Sophisticated Context Manager (SCM). The project has migrated to a new organization. The source is now at: https://github.com/SophisticatedContextManager/scm
+This repository was formerly `scm-personal`. The project has been renamed to ctxloom.
+The main ctxloom source is at: https://github.com/ctxloom/ctxloom
