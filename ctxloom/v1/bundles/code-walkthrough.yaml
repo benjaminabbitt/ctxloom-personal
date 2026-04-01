@@ -1,164 +1,278 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - review
-  - workflow
-  - collaboration
-author: "scm"
-description: "Interactive code walkthrough pattern for reviewing and refining code with human oversight"
-
+    - review
+    - workflow
+    - collaboration
+author: scm
+description: Interactive code walkthrough pattern for reviewing and refining code with human oversight
 fragments:
-  walkthrough-pattern:
-    tags:
-      - review
-      - interaction
-    content: |-
-      # Code Walkthrough Pattern
+    questioning-patterns:
+        tags:
+            - review
+            - quality
+        content: |-
+            # Questioning Unusual Code
 
-      ## Purpose
+            ## When to Ask Questions
 
-      An interactive pattern for reviewing code where the AI presents small, digestible chunks
-      and the human provides feedback, asks questions, or approves changes before proceeding.
+            The AI should proactively ask about code that seems:
 
-      ## How It Works
+            - **Inconsistent**: Different patterns used for similar operations
+            - **Surprising defaults**: Values that might not be what users expect
+            - **Missing configuration**: Hardcoded values that should be configurable
+            - **Implicit requirements**: Things that must be set but aren't enforced
+            - **Potential footguns**: Easy mistakes that could lead to bugs
 
-      1. **Present one function/method at a time**
-         - Show the actual code (not summarized)
-         - Keep chunks small enough to reason about (typically one function)
-         - Include file path and line numbers for context
+            ## Question Format
 
-      2. **Explain non-obvious aspects**
-         - Describe what the code does
-         - Note any dependencies or side effects
-         - Highlight key design decisions
+            ```markdown
+            **Questions:**
 
-      3. **Proactively identify issues**
-         - Ask questions if something seems unusual or odd
-         - Point out potential design concerns
-         - Suggest alternatives when appropriate
+            1. **[Brief label]** — Why does X do Y? Should it instead do Z?
 
-      4. **Wait for human input**
-         - Don't proceed until the human says to continue
-         - Be ready to make changes if requested
-         - Implement fixes before moving to the next chunk
+            2. **[Another label]** — This defaults to A, but B seems more appropriate because...
 
-      ## Interaction Flow
+            ---
 
-      ```
-      AI: [presents function with explanation]
-          [asks questions about oddities]
-          "Changes, or continue?"
+            Any of these worth addressing before we continue?
+            ```
 
-      Human: [provides feedback / requests changes / says continue]
+            ## Examples
 
-      AI: [if changes requested: make them, show result]
-          [if continue: present next function]
-      ```
+            - "Hardcoded MergeCommutative — shouldn't merge strategy be configurable?"
+            - "Default sequence is 0 — could be a footgun for updates where caller forgets to set it"
+            - "root is Optional but routing requires it — when would None be valid?"
 
-      ## When to Use
+            ## Outcome
 
-      - Codebase onboarding and knowledge transfer
-      - Code review where human approval is needed per-change
-      - Refactoring sessions with incremental validation
-      - Teaching/learning scenarios
+            Questions should lead to one of:
+            - **Fix it now**: Make the change before proceeding
+            - **Document it**: Add a comment explaining why it's intentional
+            - **Defer it**: Note for later if out of scope
+            - **Dismiss it**: Human explains why it's fine as-is
+        content_hash: sha256:128704c5a8ab82bca0c0a93c08dc9b3f2cf95c7154746cbd13f15751e2c6a806
+        distilled: |-
+            # Questioning Unusual Code
 
-      ## Key Principles
+            ## When to Ask
+            Proactively question code that seems:
+            - **Inconsistent**: Different patterns for similar ops
+            - **Surprising defaults**: Unexpected values
+            - **Missing config**: Hardcoded values needing configurability
+            - **Implicit requirements**: Unenforced must-haves
+            - **Footguns**: Easy mistakes causing bugs
 
-      - **Small chunks**: One function at a time allows focused review
-      - **Human control**: The human decides when to proceed
-      - **Immediate fixes**: Changes are made before moving on
-      - **Curiosity**: AI should question unusual patterns, not just explain them
+            ## Format
+            ```markdown
+            **Questions:**
+            1. **[Label]** — Why X does Y? Should it do Z?
+            2. **[Label]** — Default A, but B seems better because...
+            ---
+            Worth addressing before continuing?
+            ```
 
-  walkthrough-status-tracking:
-    tags:
-      - review
-      - documentation
-    content: |-
-      # Status Document Pattern
+            ## Examples
+            - "Hardcoded MergeCommutative — merge strategy configurable?"
+            - "Default sequence 0 — footgun if caller forgets to set?"
+            - "root Optional but routing requires it — when is None valid?"
 
-      ## Purpose
+            ## Outcomes
+            - **Fix now** | **Document why** | **Defer** | **Dismiss**
+        distilled_by: claude-3-opus
+    walkthrough-pattern:
+        tags:
+            - review
+            - interaction
+        content: |-
+            # Code Walkthrough Pattern
 
-      Maintain a gitignored status document to track progress through a multi-session code review.
+            ## Purpose
 
-      ## Structure
+            An interactive pattern for reviewing code where the AI presents small, digestible chunks
+            and the human provides feedback, asks questions, or approves changes before proceeding.
 
-      ```markdown
-      # Code Review: [Project/Feature Name]
+            ## How It Works
 
-      ## Approach
-      [Brief description of what's being reviewed and why]
+            1. **Present one function/method at a time**
+               - Show the actual code (not summarized)
+               - Keep chunks small enough to reason about (typically one function)
+               - Include file path and line numbers for context
 
-      ## Flow Map
-      [ASCII diagram showing the flow being traced]
+            2. **Explain non-obvious aspects**
+               - Describe what the code does
+               - Note any dependencies or side effects
+               - Highlight key design decisions
 
-      ## Files to Review
-      | File | Status | Notes |
-      |------|--------|-------|
-      | path/to/file.rs | [x] | Brief notes |
+            3. **Proactively identify issues**
+               - Ask questions if something seems unusual or odd
+               - Point out potential design concerns
+               - Suggest alternatives when appropriate
 
-      ## Session Log
-      ### Session N: [Date/Topic]
-      **Reviewed:**
-      - [x] file1.rs - key observation
-      - [x] file2.rs - another observation
+            4. **Wait for human input**
+               - Don't proceed until the human says to continue
+               - Be ready to make changes if requested
+               - Implement fixes before moving to the next chunk
 
-      **Next:**
-      - [ ] file3.rs - what to look at
+            ## Interaction Flow
 
-      ## Questions/Notes
-      [Capture observations, questions, design decisions]
+            ```
+            AI: [presents function with explanation]
+                [asks questions about oddities]
+                "Changes, or continue?"
 
-      ## Summary
-      [Key patterns, learnings, decisions made]
-      ```
+            Human: [provides feedback / requests changes / says continue]
 
-      ## Best Practices
+            AI: [if changes requested: make them, show result]
+                [if continue: present next function]
+            ```
 
-      - **Gitignore the status file**: It's session-specific, not part of the codebase
-      - **Update as you go**: Mark items complete immediately after reviewing
-      - **Capture decisions**: Document why changes were made for future reference
-      - **Track blockers**: Note anything that needs follow-up
+            ## When to Use
 
-  questioning-patterns:
-    tags:
-      - review
-      - quality
-    content: |-
-      # Questioning Unusual Code
+            - Codebase onboarding and knowledge transfer
+            - Code review where human approval is needed per-change
+            - Refactoring sessions with incremental validation
+            - Teaching/learning scenarios
 
-      ## When to Ask Questions
+            ## Key Principles
 
-      The AI should proactively ask about code that seems:
+            - **Small chunks**: One function at a time allows focused review
+            - **Human control**: The human decides when to proceed
+            - **Immediate fixes**: Changes are made before moving on
+            - **Curiosity**: AI should question unusual patterns, not just explain them
+        content_hash: sha256:1e6c86fdfb147affc5321989ef9f1092d26bb4e8affd3516185e17f0f853aca3
+        distilled: |-
+            # Code Walkthrough Pattern
 
-      - **Inconsistent**: Different patterns used for similar operations
-      - **Surprising defaults**: Values that might not be what users expect
-      - **Missing configuration**: Hardcoded values that should be configurable
-      - **Implicit requirements**: Things that must be set but aren't enforced
-      - **Potential footguns**: Easy mistakes that could lead to bugs
+            ## Purpose
+            Interactive review: AI presents small chunks, human approves/requests changes before proceeding.
 
-      ## Question Format
+            ## Flow
 
-      ```markdown
-      **Questions:**
+            1. **Present one function at a time**
+               - Show actual code w/ file path + line numbers
+               - Keep chunks small (one function)
 
-      1. **[Brief label]** — Why does X do Y? Should it instead do Z?
+            2. **Explain non-obvious aspects**
+               - What it does, dependencies, side effects
+               - Key design decisions
 
-      2. **[Another label]** — This defaults to A, but B seems more appropriate because...
+            3. **Identify issues proactively**
+               - Question unusual/odd patterns (see: questioning-patterns)
+               - Note design concerns, suggest alternatives
 
-      ---
+            4. **Wait for human input**
+               - Don't proceed until human says continue
+               - Make changes before moving to next chunk
 
-      Any of these worth addressing before we continue?
-      ```
+            ## Interaction
+            ```
+            AI: [function + explanation + questions]
+                "Changes, or continue?"
+            H:  [feedback / changes / continue]
+            AI: [apply changes if requested, then next function]
+            ```
 
-      ## Examples
+            ## When to Use
+            - Codebase onboarding
+            - Code review requiring per-change approval
+            - Incremental refactoring
+            - Teaching/learning
 
-      - "Hardcoded MergeCommutative — shouldn't merge strategy be configurable?"
-      - "Default sequence is 0 — could be a footgun for updates where caller forgets to set it"
-      - "root is Optional but routing requires it — when would None be valid?"
+            ## Principles
+            - Small chunks → focused review
+            - Human controls pace
+            - Immediate fixes before proceeding
+            - Curiosity over passive explanation (see: questioning-patterns)
+        distilled_by: claude-3-opus
+    walkthrough-status-tracking:
+        tags:
+            - review
+            - documentation
+        content: |-
+            # Status Document Pattern
 
-      ## Outcome
+            ## Purpose
 
-      Questions should lead to one of:
-      - **Fix it now**: Make the change before proceeding
-      - **Document it**: Add a comment explaining why it's intentional
-      - **Defer it**: Note for later if out of scope
-      - **Dismiss it**: Human explains why it's fine as-is
+            Maintain a gitignored status document to track progress through a multi-session code review.
+
+            ## Structure
+
+            ```markdown
+            # Code Review: [Project/Feature Name]
+
+            ## Approach
+            [Brief description of what's being reviewed and why]
+
+            ## Flow Map
+            [ASCII diagram showing the flow being traced]
+
+            ## Files to Review
+            | File | Status | Notes |
+            |------|--------|-------|
+            | path/to/file.rs | [x] | Brief notes |
+
+            ## Session Log
+            ### Session N: [Date/Topic]
+            **Reviewed:**
+            - [x] file1.rs - key observation
+            - [x] file2.rs - another observation
+
+            **Next:**
+            - [ ] file3.rs - what to look at
+
+            ## Questions/Notes
+            [Capture observations, questions, design decisions]
+
+            ## Summary
+            [Key patterns, learnings, decisions made]
+            ```
+
+            ## Best Practices
+
+            - **Gitignore the status file**: It's session-specific, not part of the codebase
+            - **Update as you go**: Mark items complete immediately after reviewing
+            - **Capture decisions**: Document why changes were made for future reference
+            - **Track blockers**: Note anything that needs follow-up
+        content_hash: sha256:3e9a750fe2373c8793cf34b9c066bcb52b7544e11782c5e02e716bed40556be4
+        distilled: |-
+            # Status Document Pattern
+
+            ## Purpose
+            Gitignored doc tracking multi-session review progress.
+
+            ## Structure
+            ```markdown
+            # Code Review: [Project/Feature]
+
+            ## Approach
+            [What's being reviewed, why]
+
+            ## Flow Map
+            [ASCII flow diagram]
+
+            ## Files to Review
+            | File | Status | Notes |
+            |------|--------|-------|
+            | path/to/file.rs | [x] | Brief notes |
+
+            ## Session Log
+            ### Session N: [Date/Topic]
+            **Reviewed:**
+            - [x] file1.rs - observation
+
+            **Next:**
+            - [ ] file3.rs - what to check
+
+            ## Questions/Notes
+            [Observations, questions, decisions]
+
+            ## Summary
+            [Key patterns, learnings]
+            ```
+
+            ## Best Practices
+            - Gitignore status file (session-specific)
+            - Update immediately after reviewing
+            - Document decision rationale
+            - Track blockers for follow-up
+        distilled_by: claude-3-opus

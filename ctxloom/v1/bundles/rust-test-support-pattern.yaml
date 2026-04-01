@@ -168,3 +168,65 @@ fragments:
             ```
 
             **Result:** Production file reduced from ~300 lines to ~205 lines. Test code cleanly separated but still co-located for discoverability.
+        content_hash: sha256:74a5bcf03793ec897c6f53b59a1dd5a77e92eb2dc1ef8b2cb6108eccaac32022
+        distilled: |-
+            # Rust Test Support File Pattern
+
+            Separate test-only code from production using `#[path]` directive.
+
+            ## Structure
+            ```
+            src/module/
+            ├── foo.rs                 # Production (clean)
+            ├── foo_test_support.rs    # Test helpers
+            ├── tests.rs               # Unit tests
+            ```
+
+            ## Pattern
+
+            **foo.rs** (4 lines boilerplate):
+            ```rust
+            #[cfg(test)]
+            #[path = "foo_test_support.rs"]
+            pub(crate) mod test_support;
+
+            fn production_function() {
+                #[cfg(test)]
+                if needs_test_handling {
+                    return test_support::test_handler();
+                }
+                // production logic
+            }
+            ```
+
+            **foo_test_support.rs**:
+            ```rust
+            //! Only compiled during tests via #[path] include.
+
+            pub(crate) fn test_handler() -> HashSet<String> {
+                HashSet::new()
+            }
+            ```
+
+            **tests.rs**:
+            ```rust
+            use super::foo::test_support::test_handler;
+            ```
+
+            ## Visibility
+
+            | Visibility | Use |
+            |------------|-----|
+            | `pub(super)` | Only parent module needs access |
+            | `pub(crate)` | Sibling test modules need access |
+
+            ## When to Use
+            - Production code needs conditional test behavior
+            - Test helpers >20 lines
+            - Minimize context when reading production code
+
+            ## When NOT to Use
+            - Small helpers (<10 lines)
+            - Test code not called from production
+            - Pure unit tests → use regular `foo.test.rs`
+        distilled_by: claude-3-opus

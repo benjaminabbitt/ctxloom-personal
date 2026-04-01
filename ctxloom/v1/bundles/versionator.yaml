@@ -36,42 +36,26 @@ prompts:
             6. Run `./versionator release push` to create tag, release branch, and push
 
             IMPORTANT: Never auto-select version. User must explicitly specify.
+        content_hash: sha256:3d93b025e504ba73972d1ea7681a2ba51e777729acb22e365814ba49edbb45f3
         distilled: |-
-            Versionator release (version REQUIRED):
+            # release
+
+            Release workflow for versionator. User MUST specify version.
 
             Input: $ARGUMENTS
-            - Fixed: "0.1.0" → write VERSION, commit, release
-            - Bump: "patch|minor|major" → commit, bump, release
+            - Fixed: "0.1.0", "1.0.0"
+            - Bump: "patch", "minor", "major"
 
-            No version? STOP and ask.
-        distilled_by: claude-code
-    version-bump:
-        description: Determine appropriate version bump
-        tags:
-            - versioning
-            - semver
-        content: |-
-            Analyze these changes and recommend the appropriate semantic version bump:
+            No version → STOP and ask. Never guess.
 
-            Current version: {{version}}
-
-            Changes:
-            {{changes}}
-
-            Consider:
-            - Are there breaking API changes? → major
-            - New backward-compatible features? → minor
-            - Bug fixes only? → patch
-            - Is this pre-1.0? Different rules apply
-
-            Recommend version and explain reasoning.
-        distilled: |-
-            Recommend version bump for:
-            Version: {{version}}
-            Changes: {{changes}}
-
-            Major=breaking, Minor=features, Patch=fixes
-        distilled_by: claude-code
+            Steps:
+            1. Parse input
+            2. `git add -A`
+            3. Create conventional commit
+            4. Bump instruction: commit w/ fix:/feat:/feat!:, run `./versionator bump`, amend
+            5. Fixed version: write VERSION, commit
+            6. `./versionator release push` → tag, release branch, push
+        distilled_by: claude-3-opus
     suggest-version:
         description: Display current version and suggest next version based on changes
         tags:
@@ -108,11 +92,70 @@ prompts:
             - Features can be PATCH (0.0.X)
 
             Be conservative: when uncertain, suggest the lower bump level.
+        content_hash: sha256:022d75da530d8dc9c31f03dc5a642f3b57d9a4275a7afa8766046eb182b1589c
         distilled: |-
-            Show current VERSION, list commits since last tag, suggest next semver.
+            # suggest-version
 
-            MAJOR=breaking, MINOR=features, PATCH=fixes
-            Pre-1.0: breaking=minor, features=patch
+            Analyze repo, suggest next semver.
 
-            Conservative: uncertain → lower bump
-        distilled_by: claude-code
+            Steps:
+            1. Read VERSION file
+            2. Get changes: `git log --oneline $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD`
+            3. Analyze commits/changes
+
+            Output:
+            ```
+            Current version: X.Y.Z
+            Commits since last release: N
+            Changes: [list]
+            Suggested next version: X.Y.Z
+            Reasoning: [semver basis]
+            ```
+
+            Semver:
+            - MAJOR: Breaking/incompatible changes
+            - MINOR: New backward-compatible features
+            - PATCH: Bug fixes, docs, minor improvements
+
+            Pre-1.0:
+            - Breaking → MINOR (0.X.0)
+            - Features → PATCH (0.0.X)
+
+            When uncertain, suggest lower bump.
+        distilled_by: claude-3-opus
+    version-bump:
+        description: Determine appropriate version bump
+        tags:
+            - versioning
+            - semver
+        content: |-
+            Analyze these changes and recommend the appropriate semantic version bump:
+
+            Current version: {{version}}
+
+            Changes:
+            {{changes}}
+
+            Consider:
+            - Are there breaking API changes? → major
+            - New backward-compatible features? → minor
+            - Bug fixes only? → patch
+            - Is this pre-1.0? Different rules apply
+
+            Recommend version and explain reasoning.
+        content_hash: sha256:3f1de80cf353b874781c64d48de3f92552ac2309b2eeabd86d3b81da07b296b3
+        distilled: |-
+            # version-bump
+
+            Analyze changes, recommend semver bump:
+
+            Current: {{version}}
+            Changes: {{changes}}
+
+            - Breaking API → major
+            - New features (backward-compat) → minor
+            - Bug fixes → patch
+            - Pre-1.0: different rules
+
+            Recommend version + reasoning.
+        distilled_by: claude-3-opus
