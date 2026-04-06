@@ -3,7 +3,7 @@ tags:
     - golang
     - development
     - testing
-author: scm
+author: ctxloom
 description: Go development guidelines and best practices
 notes: |
     Comprehensive Go development bundle including coding standards,

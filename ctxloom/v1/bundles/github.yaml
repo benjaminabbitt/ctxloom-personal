@@ -6,7 +6,7 @@ tags:
     - automation
     - just
     - git
-author: scm
+author: ctxloom
 description: GitHub Actions CI/CD pipeline with mutation testing, auto version bump, and release automation
 fragments:
     cicd-just-targets:

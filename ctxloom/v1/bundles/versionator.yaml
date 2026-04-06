@@ -3,7 +3,7 @@ tags:
     - versioning
     - semver
     - release
-author: scm
+author: ctxloom
 description: Semantic versioning and release cycle management
 notes: |
     Release workflow and versioning prompts for use with versionator tool.

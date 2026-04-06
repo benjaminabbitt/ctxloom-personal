@@ -9,5 +9,5 @@ Thumbs.db
 .idea/
 .vscode/
 
-# SCM local files
-.scm/
+# ctxloom local files
+.ctxloom/

@@ -4,7 +4,7 @@ tags:
   - patterns
   - interfaces
   - bit
-author: "scm"
+author: "ctxloom"
 description: "Behavioral Interface Testing (BIT) pattern for verifying implementation contracts"
 
 fragments:

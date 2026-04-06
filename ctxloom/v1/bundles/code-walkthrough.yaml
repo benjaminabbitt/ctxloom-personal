@@ -3,7 +3,7 @@ tags:
     - review
     - workflow
     - collaboration
-author: scm
+author: ctxloom
 description: Interactive code walkthrough pattern for reviewing and refining code with human oversight
 fragments:
     questioning-patterns:

@@ -7,7 +7,7 @@ tags:
   - react
 
 parents:
-  - https://github.com/SophisticatedContextManager/scm-main@v1/profiles/typescript-web-developer
+  - https://github.com/ctxloom/ctxloom-default@v1/profiles/typescript-web-developer
 
 bundles:
   # Personal practices

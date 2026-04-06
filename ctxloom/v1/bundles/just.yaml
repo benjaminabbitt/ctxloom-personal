@@ -3,7 +3,7 @@ tags:
   - just
   - tooling
   - task-runner
-author: "scm"
+author: "ctxloom"
 description: "just command runner for language-agnostic task automation"
 
 fragments:

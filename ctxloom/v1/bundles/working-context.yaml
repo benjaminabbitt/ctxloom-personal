@@ -4,7 +4,7 @@ tags:
     - organization
     - llm
     - context
-author: scm
+author: ctxloom
 description: Working context directory pattern for LLM-generated session artifacts
 fragments:
     working-context:

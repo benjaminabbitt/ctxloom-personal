@@ -6,7 +6,7 @@ tags:
   - code-quality
 
 parents:
-  - https://github.com/SophisticatedContextManager/scm-main@v1/profiles/go-code-reviewer
+  - https://github.com/ctxloom/ctxloom-default@v1/profiles/go-code-reviewer
 
 bundles:
   - core-practices

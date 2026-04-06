@@ -5,7 +5,7 @@ tags:
   - development
 
 parents:
-  - https://github.com/SophisticatedContextManager/scm-main@v1/profiles/python-developer
+  - https://github.com/ctxloom/ctxloom-default@v1/profiles/python-developer
 
 bundles:
   # Personal practices
