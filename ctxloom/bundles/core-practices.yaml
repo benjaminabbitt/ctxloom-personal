@@ -153,12 +153,6 @@ fragments:
 
       **Exception:** README updates permitted when adding new features.
 
-      ## Plan Files
-
-      - Place planning documents in `.plan/` directory
-      - Ensure `.plan/` is in `.gitignore` - plan files should not be committed
-      - Use descriptive names: `.plan/feature-name.md`, `.plan/refactor-strategy.md`
-
       ## Don't Document Progress in Code
 
       - No "reorganized code to..." comments
@@ -196,11 +190,6 @@ fragments:
       - Meta-docs
 
       **Exception:** README updates for new features OK
-
-      ## Plan Files
-      - Place in `.plan/` directory
-      - Add `.plan/` to `.gitignore` (never commit)
-      - Use descriptive names: `.plan/feature-name.md`
 
       ## Don't
       - Add progress comments in code ("reorganized...", "refactored X to Y")
