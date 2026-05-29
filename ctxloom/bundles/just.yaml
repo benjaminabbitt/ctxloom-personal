@@ -1,0 +1,272 @@
+_published:
+    from: /home/babbitt/workspace/ben-abbitt-me/.ctxloom/cache/bundles/personal/just.yaml
+    published_at: "2026-05-16T00:41:50Z"
+author: ctxloom
+description: just command runner for language-agnostic task automation
+fragments:
+    just:
+        content: |
+            # just: Command Runner
+
+            Language-agnostic task runner. Define common tasks (`just test`, `just lint`, `just build`) in a `justfile`.
+
+            ## TOP: the standard repo-root variable
+
+            Every justfile in this convention defines `TOP` at the top of the file:
+
+            ```just
+            TOP := `git rev-parse --show-toplevel`
+            ```
+
+            All directory paths in the file are expressed relative to `TOP`. Non-negotiable. A justfile that hard-codes relative paths or relies on `{{justfile_directory()}}` breaks the moment a recipe is invoked from a subdirectory or composed by a parent justfile.
+
+            ```just
+            TOP := `git rev-parse --show-toplevel`
+
+            build:
+                cargo build --manifest-path {{TOP}}/Cargo.toml --release
+
+            generate:
+                protoc -I {{TOP}}/proto --go_out={{TOP}}/gen {{TOP}}/proto/*.proto
+            ```
+
+            ## Local justfiles, composed at the root
+
+            Place a justfile next to the code it manages. Compose them at the root using `mod`:
+
+            ```just
+            # /justfile (root)
+            TOP := `git rev-parse --show-toplevel`
+
+            mod web   "{{TOP}}/web/justfile"
+            mod api   "{{TOP}}/api/justfile"
+            mod infra "{{TOP}}/infra/justfile"
+            ```
+
+            Each submodule defines its own `TOP` (resolved the same way) and owns its own recipes. From the root: `just web build`. From inside `web/`: `just build`. Same recipes, no duplication.
+
+            A monolithic root justfile that owns every recipe grows past readability and turns every subdirectory change into a root-file change. Don't do that.
+
+            ## Recipe shape
+
+            - Recipe used 3+ times: lift it into a target.
+            - Top of file: short comment naming purpose, prerequisites, side effects.
+            - Recipe arguments via `+ARGS` (preserved through delegation).
+
+            ## Cross-platform
+
+            Prefer `[unix]` / `[windows]` recipe attributes over parallel platform justfiles. Reserve parallel files (`justfile.nix`, `justfile.windows` via the `platform_justfile` import pattern) for cases where the recipe shape itself differs.
+
+            ```just
+            [unix]
+            clean:
+                rm -rf {{TOP}}/target
+
+            [windows]
+            clean:
+                Remove-Item -Recurse -Force {{TOP}}\target
+            ```
+
+            ## Anti-Patterns
+
+            - Hard-coded relative paths (`./src/...`, `../proto/...`): break under composition.
+            - `{{justfile_directory()}}` as a stand-in for `TOP`: scoped to the local file, not the composing parent.
+            - A monolithic root justfile.
+
+            For container-delegated recipes (host invokes a container, container runs the build), see the `just-container-overlay` fragment.
+        content_hash: sha256:6da70ba9fb9e7b6c57600fd4c62b9e11d1dca30461eb2acb357fd5ff5eed0988
+        distilled: |-
+            # just: Command Runner
+
+            Language-agnostic task runner. Define tasks (`just test`, `just lint`, `just build`) in a `justfile`.
+
+            ## TOP: standard repo-root variable
+
+            Every justfile defines `TOP`:
+
+            ```just
+            TOP := `git rev-parse --show-toplevel`
+            ```
+
+            All paths relative to `TOP`. Non-negotiable. Hard-coded relative paths or `{{justfile_directory()}}` break when invoked from subdirs or composed by parent justfiles.
+
+            ```just
+            TOP := `git rev-parse --show-toplevel`
+
+            build:
+                cargo build --manifest-path {{TOP}}/Cargo.toml --release
+            ```
+
+            ## Local justfiles, composed at root
+
+            Place justfile next to code it manages. Compose via `mod`:
+
+            ```just
+            # /justfile (root)
+            TOP := `git rev-parse --show-toplevel`
+
+            mod web   "{{TOP}}/web/justfile"
+            mod api   "{{TOP}}/api/justfile"
+            ```
+
+            Each submodule defines own `TOP`, owns own recipes. Root: `just web build`. Inside `web/`: `just build`. DO NOT use monolithic root justfile.
+
+            ## Recipe shape
+
+            - Used 3+ times: lift to target.
+            - Top of file: short comment (purpose, prerequisites, side effects).
+            - Args via `+ARGS` (preserved through delegation).
+
+            ## Cross-platform
+
+            Prefer `[unix]` / `[windows]` attributes over parallel platform justfiles. Reserve parallel files (`platform_justfile` import) for differing recipe shapes.
+
+            ```just
+            [unix]
+            clean:
+                rm -rf {{TOP}}/target
+
+            [windows]
+            clean:
+                Remove-Item -Recurse -Force {{TOP}}\target
+            ```
+
+            ## Anti-Patterns
+
+            - Hard-coded relative paths (`./src/...`): break under composition.
+            - `{{justfile_directory()}}` as `TOP` stand-in: scoped to local file, not composing parent.
+            - Monolithic root justfile.
+
+            For container-delegated recipes, see `just-container-overlay` fragment.
+        distilled_by: claude-3-opus
+        tags:
+            - just
+            - tooling
+            - task-runner
+            - convention
+            - top
+            - composition
+    just-container-overlay:
+        content: |
+            # just: Container Overlay Pattern
+
+            When a recipe needs a specific containerized toolchain (pinned `protoc`, sealed network, reproducible build environment), the host justfile delegates into a container; inside the container, a different justfile is mounted over the host's and runs the actual command. Same `just build` works in both contexts. No duplicate target names. No `container-build` vs `build` split.
+
+            ## The setup
+
+            ```just
+            # Host /justfile
+            TOP := `git rev-parse --show-toplevel`
+
+            _run +ARGS:
+                docker run --rm \
+                  -v {{TOP}}:/workspace \
+                  -v {{TOP}}/justfile.container:/workspace/justfile:ro \
+                  -w /workspace build-env:latest just {{ARGS}}
+
+            build: (_run "build")
+            test:  (_run "test")
+            ```
+
+            ```just
+            # /justfile.container
+            TOP := `git rev-parse --show-toplevel`
+
+            build:
+                cargo build --manifest-path {{TOP}}/Cargo.toml --release
+
+            test:
+                cargo test --manifest-path {{TOP}}/Cargo.toml
+            ```
+
+            ## Why this works
+
+            The load-bearing line is `-v {{TOP}}/justfile.container:/workspace/justfile:ro`. The bind mount obscures `justfile` inside the container with `justfile.container`. Inside the container, `just build` resolves to the container's `build` recipe (which runs the actual cargo command). On the host, `just build` resolves to the delegation that spawns the container.
+
+            ## Concerns separated
+
+            - Host file orchestrates the container, never the build.
+            - Container file runs the build, never knows about the container.
+            - Build-logic changes touch only the container file.
+            - Container-orchestration changes touch only the host file.
+
+            ## Real-world example
+
+            Angzarr uses this pattern across coordinators (aggregate, saga, projector, process-manager, stream, log, grpc-gateway). Each coordinator has a local `justfile` and `justfile.container`. The root justfile composes them via `mod`, so `just aggregate build` works from the repo root and `just build` works from inside the coordinator directory or inside the container, all producing the same result.
+
+            ## Anti-Patterns
+
+            - `_run` that runs on the host instead of in a container: defeats the overlay.
+            - Container justfile that re-invokes `docker run`: docker-in-docker by accident.
+            - Mounting the container justfile over the host's read-write rather than `:ro`: the container build accidentally edits the host file.
+            - Recipe-argument escaping ceremony: just's `+ARGS` preserves multi-word args through the delegation without `$$`-escaping. Use it.
+        content_hash: sha256:f3414a9345fec0393d1b93227f302f0a416de46949b323ef44f23123bb97db45
+        distilled: |-
+            # just-container-overlay
+
+            # just: Container Overlay Pattern
+
+            Host justfile delegates to container; inside container, different justfile mounted over host's runs actual command. Same `just build` works both contexts. No duplicate target names, no `container-build` vs `build` split.
+
+            ## Setup
+
+            ```just
+            # Host /justfile
+            TOP := `git rev-parse --show-toplevel`
+
+            _run +ARGS:
+                docker run --rm \
+                  -v {{TOP}}:/workspace \
+                  -v {{TOP}}/justfile.container:/workspace/justfile:ro \
+                  -w /workspace build-env:latest just {{ARGS}}
+
+            build: (_run "build")
+            test:  (_run "test")
+            ```
+
+            ```just
+            # /justfile.container
+            TOP := `git rev-parse --show-toplevel`
+
+            build:
+                cargo build --manifest-path {{TOP}}/Cargo.toml --release
+
+            test:
+                cargo test --manifest-path {{TOP}}/Cargo.toml
+            ```
+
+            ## Why it works
+
+            Load-bearing: `-v {{TOP}}/justfile.container:/workspace/justfile:ro`. Bind mount obscures host `justfile` with `justfile.container` inside container. Inside: `just build` → container recipe (cargo). On host: `just build` → delegation spawning container.
+
+            ## Separation
+
+            - Host file: orchestrates container, never builds.
+            - Container file: builds, never knows about container.
+            - Build changes → container file only.
+            - Orchestration changes → host file only.
+
+            ## Real-world
+
+            Angzarr uses this across coordinators (aggregate, saga, projector, process-manager, stream, log, grpc-gateway). Each has local `justfile` + `justfile.container`. Root composes via `mod`; `just aggregate build` from root and `just build` from coordinator dir or container all produce same result.
+
+            ## Anti-Patterns
+
+            - `_run` running on host instead of container: defeats overlay.
+            - Container justfile re-invoking `docker run`: accidental docker-in-docker.
+            - Mounting container justfile read-write instead of `:ro`: container build edits host file.
+            - Arg-escaping ceremony: just's `+ARGS` preserves multi-word args through delegation without `$$`-escaping. Use it.
+        distilled_by: claude-3-opus
+        tags:
+            - just
+            - tooling
+            - containers
+            - docker
+            - podman
+            - overlay-pattern
+            - top
+tags:
+    - just
+    - tooling
+    - task-runner
+version: 1.0.0
