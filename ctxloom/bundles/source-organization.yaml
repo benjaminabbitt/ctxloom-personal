@@ -1,116 +1,184 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - source-organization
-  - git
-  - worktree
-  - workflow
-  - layout
-  - version-control
-author: "ctxloom"
-description: "Source tree organization conventions: <repo>/main for the primary checkout, <repo>/<branch-or-worktree-name> for additional git worktrees"
-
+    - source-organization
+    - git
+    - worktree
+    - workflow
+    - layout
+    - version-control
+author: ctxloom
+description: 'Source tree organization conventions: <repo>/main for the primary checkout, <repo>/<branch-or-worktree-name> for additional git worktrees'
 fragments:
-  source-organization:
-    tags:
-      - source-organization
-      - git
-      - worktree
-      - layout
-    installation: |-
-      This bundle is a workspace layout convention. There are no harness rules to add — the convention is enforced by where you clone repos and where you place worktrees.
+    source-organization:
+        tags:
+            - source-organization
+            - git
+            - worktree
+            - layout
+        installation: |-
+            This bundle is a workspace layout convention. There are no harness rules to add — the convention is enforced by where you clone repos and where you place worktrees.
 
-      Existing repos that are checked out at `<parent>/<repo>` (a single directory containing the working tree) should be migrated:
+            Existing repos that are checked out at `<parent>/<repo>` (a single directory containing the working tree) should be migrated:
 
-      1. Move the working tree to `<repo>/main`:
-         ```
-         mv <repo> <repo>.tmp
-         mkdir <repo>
-         mv <repo>.tmp <repo>/main
-         ```
-      2. Update any tooling, IDE projects, or shell aliases that referenced the old path.
-      3. From `<repo>/main`, add additional worktrees with the layout below.
+            1. Move the working tree to `<repo>/main`:
+               ```
+               mv <repo> <repo>.tmp
+               mkdir <repo>
+               mv <repo>.tmp <repo>/main
+               ```
+            2. Update any tooling, IDE projects, or shell aliases that referenced the old path.
+            3. From `<repo>/main`, add additional worktrees with the layout below.
 
-      Do not migrate repos used by other tools without checking them first; some build systems hard-code paths.
-    content: |-
-      # Git Worktree Layout
+            Do not migrate repos used by other tools without checking them first; some build systems hard-code paths.
+        content: |-
+            # Git Worktree Layout
 
-      ## Convention
+            ## Convention
 
-      For a repository named `<repo>`, organize checkouts as:
+            For a repository named `<repo>`, organize checkouts as:
 
-      ```
-      <repo>/
-        main/              # primary checkout, tracks main/master
-        <branch-name>/     # additional worktree for a branch
-        <feature-x>/       # additional worktree
-        ...
-      ```
+            ```
+            <repo>/
+              main/              # primary checkout, tracks main/master
+              <branch-name>/     # additional worktree for a branch
+              <feature-x>/       # additional worktree
+              ...
+            ```
 
-      The repository name becomes a **parent directory**. The primary checkout lives at `<repo>/main`. Every additional worktree (feature branch, hotfix, review checkout, scratch branch) lives as a sibling directory under `<repo>/`.
+            The repository name becomes a **parent directory**. The primary checkout lives at `<repo>/main`. Every additional worktree (feature branch, hotfix, review checkout, scratch branch) lives as a sibling directory under `<repo>/`.
 
-      Example for a repo named `angzarr`:
+            Example for a repo named `angzarr`:
 
-      ```
-      angzarr/
-        main/                  # git clone <url> angzarr/main
-        feature-auth-rewrite/  # git worktree add for branch feature/auth-rewrite
-        hotfix-1.2.1/          # git worktree add for branch hotfix/1.2.1
-        review-pr-482/         # ad-hoc worktree for reviewing a PR
-      ```
+            ```
+            angzarr/
+              main/                  # git clone <url> angzarr/main
+              feature-auth-rewrite/  # git worktree add for branch feature/auth-rewrite
+              hotfix-1.2.1/          # git worktree add for branch hotfix/1.2.1
+              review-pr-482/         # ad-hoc worktree for reviewing a PR
+            ```
 
-      ## Cloning a New Repo
+            ## Cloning a New Repo
 
-      ```
-      mkdir <repo>
-      git clone <url> <repo>/main
-      cd <repo>/main
-      ```
+            ```
+            mkdir <repo>
+            git clone <url> <repo>/main
+            cd <repo>/main
+            ```
 
-      Never clone directly into `<repo>/` as a flat checkout — always nest under `<repo>/main`.
+            Never clone directly into `<repo>/` as a flat checkout — always nest under `<repo>/main`.
 
-      ## Adding a Worktree
+            ## Adding a Worktree
 
-      From inside `<repo>/main`:
+            From inside `<repo>/main`:
 
-      ```
-      git worktree add ../<dir-name> <branch>
-      ```
+            ```
+            git worktree add ../<dir-name> <branch>
+            ```
 
-      - `<dir-name>` is the directory under `<repo>/`, **not** a path outside the repo parent
-      - `<dir-name>` should match the branch or worktree's purpose
-      - For branches with `/` in the name (e.g. `feature/auth`), slugify to a filesystem-friendly name (e.g. `feature-auth`); the branch name itself is unchanged, only the directory is
+            - `<dir-name>` is the directory under `<repo>/`, **not** a path outside the repo parent
+            - `<dir-name>` should match the branch or worktree's purpose
+            - For branches with `/` in the name (e.g. `feature/auth`), slugify to a filesystem-friendly name (e.g. `feature-auth`); the branch name itself is unchanged, only the directory is
 
-      To create a new branch and a worktree for it in one step:
+            To create a new branch and a worktree for it in one step:
 
-      ```
-      git worktree add -b <new-branch> ../<dir-name>
-      ```
+            ```
+            git worktree add -b <new-branch> ../<dir-name>
+            ```
 
-      ## Listing & Inspecting
+            ## Listing & Inspecting
 
-      - `git worktree list` from any worktree shows all worktrees for the repo
-      - The output paths should all share `<repo>/` as their parent; if one doesn't, it is out-of-convention — flag it before relying on it
+            - `git worktree list` from any worktree shows all worktrees for the repo
+            - The output paths should all share `<repo>/` as their parent; if one doesn't, it is out-of-convention — flag it before relying on it
 
-      ## Removing a Worktree
+            ## Removing a Worktree
 
-      ```
-      git worktree remove ../<dir-name>
-      ```
+            ```
+            git worktree remove ../<dir-name>
+            ```
 
-      - Removes the working tree and prunes the admin entry
-      - Use `--force` only if the user explicitly asks — it discards uncommitted changes
-      - After removal, also delete the (now empty) directory if it lingers
+            - Removes the working tree and prunes the admin entry
+            - Use `--force` only if the user explicitly asks — it discards uncommitted changes
+            - After removal, also delete the (now empty) directory if it lingers
 
-      ## Why This Layout
+            ## Why This Layout
 
-      - **Predictable paths**: `<repo>/main` is always the trunk checkout; tooling, scripts, and shell history can rely on it
-      - **Worktrees are first-class siblings**, not buried inside the main checkout — avoids the trap where IDEs index `<repo>/main/.git/worktrees/...` paths or miss them entirely
-      - **`<repo>/` as a parent** keeps every checkout for one project under one directory, so cleanup, backup, and search are scoped naturally
-      - **Worktree name = directory name** makes it obvious from `pwd` which branch you're operating on
+            - **Predictable paths**: `<repo>/main` is always the trunk checkout; tooling, scripts, and shell history can rely on it
+            - **Worktrees are first-class siblings**, not buried inside the main checkout — avoids the trap where IDEs index `<repo>/main/.git/worktrees/...` paths or miss them entirely
+            - **`<repo>/` as a parent** keeps every checkout for one project under one directory, so cleanup, backup, and search are scoped naturally
+            - **Worktree name = directory name** makes it obvious from `pwd` which branch you're operating on
 
-      ## Common Mistakes
+            ## Common Mistakes
 
-      - Cloning to `<repo>/` directly (flat) — convert to `<repo>/main` before adding worktrees
-      - Adding a worktree at `<repo>/main/<branch>` (nested inside main) — wrong; siblings only
-      - Adding a worktree outside `<repo>/` — wrong; it should be a sibling of `main`
-      - Reusing a directory name from a deleted worktree without first running `git worktree prune`
+            - Cloning to `<repo>/` directly (flat) — convert to `<repo>/main` before adding worktrees
+            - Adding a worktree at `<repo>/main/<branch>` (nested inside main) — wrong; siblings only
+            - Adding a worktree outside `<repo>/` — wrong; it should be a sibling of `main`
+            - Reusing a directory name from a deleted worktree without first running `git worktree prune`
+        content_hash: sha256:0ee7a9d4f23ad2e7be6d123d86db15b07839437420044ff63301e70147eff598
+        distilled: |-
+            # source-organization
+
+            ## Git Worktree Layout
+
+            For repo `<repo>`, use:
+            ```
+            <repo>/
+              main/           # primary checkout
+              <dir-name>/     # additional worktrees
+            ```
+
+            Primary checkout at `<repo>/main`; all worktrees as siblings under `<repo>/`.
+
+            Example (`angzarr`):
+            ```
+            angzarr/
+              main/
+              feature-auth-rewrite/
+              hotfix-1.2.1/
+              review-pr-482/
+            ```
+
+            ## Clone
+
+            ```
+            mkdir <repo>
+            git clone <url> <repo>/main
+            ```
+
+            NEVER clone directly to `<repo>/` (flat); always nest under `<repo>/main`.
+
+            ## Add Worktree
+
+            From `<repo>/main`:
+            ```
+            git worktree add ../<dir-name> <branch>
+            ```
+
+            - `<dir-name>`: directory under `<repo>/`, describes branch/purpose
+            - Slugify branch names with `/` (e.g., `feature/auth` → `feature-auth`); branch name unchanged
+
+            Create branch + worktree:
+            ```
+            git worktree add -b <new-branch> ../<dir-name>
+            ```
+
+            ## List & Inspect
+
+            `git worktree list` from any worktree. All paths must share `<repo>/` parent; otherwise misconfigured.
+
+            ## Remove Worktree
+
+            ```
+            git worktree remove ../<dir-name>
+            ```
+
+            - Prunes admin entry
+            - `--force` only if user explicitly requests; discards uncommitted changes
+            - Delete empty directory if lingers
+
+            ## Common Mistakes
+
+            - Clone to `<repo>/` flat → convert to `<repo>/main` first
+            - Worktree at `<repo>/main/<branch>` (nested) → wrong; must be sibling
+            - Worktree outside `<repo>/` → must be sibling of `main`
+            - Reuse deleted worktree dir without `git worktree prune` first
+        distilled_by: claude-haiku-4-5-20251001

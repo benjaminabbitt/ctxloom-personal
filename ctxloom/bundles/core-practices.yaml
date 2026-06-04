@@ -1,215 +1,218 @@
-version: "1.0.0"
+version: 1.0.0
 tags:
-  - practices
-  - workflow
-  - quality
-author: "ctxloom"
-description: "Core development practices for code quality, documentation, and problem solving"
-
+    - practices
+    - workflow
+    - quality
+author: ctxloom
+description: Core development practices for code quality, documentation, and problem solving
 fragments:
-  documentation:
-    tags:
-      - documentation
-      - workflow
-    content: |-
-      # Documentation Guidelines
+    documentation:
+        tags:
+            - documentation
+            - workflow
+        content: |-
+            # Documentation Guidelines
 
-      ## README Management
+            ## README Management
 
-      - **Read first** - Consult the README before taking action
-      - **Update README** when adding new commands or features
-      - README should always reflect the current state of the project
+            - **Read first** - Consult the README before taking action
+            - **Update README** when adding new commands or features
+            - README should always reflect the current state of the project
 
-      ## Ask First Before Creating
+            ## Ask First Before Creating
 
-      - Markdown files (*.md) - REFACTORING.md, architecture docs, etc.
-      - Planning or strategy documents
-      - Project tracking files
-      - Meta-documentation
+            - Markdown files (*.md) - REFACTORING.md, architecture docs, etc.
+            - Planning or strategy documents
+            - Project tracking files
+            - Meta-documentation
 
-      **Exception:** README updates permitted when adding new features.
+            **Exception:** README updates permitted when adding new features.
 
-      ## Don't Document Progress in Code
+            ## Don't Document Progress in Code
 
-      - No "reorganized code to..." comments
-      - No "refactored X to Y" inline documentation
-      - No changelog-style comments in code
-      - Version control handles this - use commit messages instead
+            - No "reorganized code to..." comments
+            - No "refactored X to Y" inline documentation
+            - No changelog-style comments in code
+            - Version control handles this - use commit messages instead
 
-      ## Don't Include Change History in Files
+            ## Don't Include Change History in Files
 
-      - No "Updated on..." or "Changed from..." annotations
-      - No "Previously this was..." explanations
-      - No revision history within data/content
-      - History belongs in version control, not in the data itself
+            - No "Updated on..." or "Changed from..." annotations
+            - No "Previously this was..." explanations
+            - No revision history within data/content
+            - History belongs in version control, not in the data itself
 
-      ## Do
+            ## Do
 
-      - Suggest documentation needs first
-      - Summarize findings in chat
-      - Update existing documentation
-      - Create code, tests, and configuration files
-      - Write meaningful commit messages for progress tracking
-    content_hash: sha256:2481f885e714c651a51c140c41e92dcff11e445283211847581b24343b319e8c
-    distilled: |-
-      # Documentation
+            - Suggest documentation needs first
+            - Summarize findings in chat
+            - Update existing documentation
+            - Create code, tests, and configuration files
+            - Write meaningful commit messages for progress tracking
+        content_hash: sha256:c3d395989c348fde8392802280ae00e6beaa446d8a52bd24659cb5c02ed86d6e
+        distilled: |-
+            # documentation
 
-      ## README
-      - Read first before acting
-      - Update when adding commands/features
-      - Keep current with project state
+            # Documentation Guidelines
 
-      ## Ask Before Creating
-      - *.md files (REFACTORING.md, arch docs)
-      - Planning/strategy docs
-      - Project tracking files
-      - Meta-docs
+            ## README Management
+            - Read README first
+            - Update when adding features
+            - Keep current
 
-      **Exception:** README updates for new features OK
+            ## Ask First Before Creating
+            - *.md files (REFACTORING.md, architecture docs)
+            - Planning/strategy docs
+            - Project tracking
+            - Meta-documentation
 
-      ## Don't
-      - Add progress comments in code ("reorganized...", "refactored X to Y")
-      - Include changelog-style comments
-      - Add "Updated on...", "Changed from...", revision history in files
-      - History belongs in VCS, not data
+            Exception: README updates permitted for new features
 
-      ## Do
-      - Suggest doc needs first
-      - Summarize in chat
-      - Update existing docs
-      - Create code/tests/config
-      - Use commit messages for tracking
-    distilled_by: claude-code
+            ## Don't Document Progress in Code
+            - No "reorganized/refactored" comments
+            - No changelog-style inline docs
+            - Use commit messages instead
 
-  strings:
-    tags:
-      - code
-      - strings
-      - errors
-    content: |-
-      # String Handling
+            ## Don't Include Change History in Files
+            - No "Updated on..." or "Previously..." annotations
+            - History stays in version control, not data
 
-      ## No String-Based Flow Control
+            ## Do
+            - Suggest documentation needs
+            - Summarize findings
+            - Update existing docs
+            - Create code, tests, config
+            - Write meaningful commit messages
+        distilled_by: claude-haiku-4-5-20251001
+    strings:
+        tags:
+            - code
+            - strings
+            - errors
+        content: |-
+            # String Handling
 
-      Never use string approximations (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly instructed. These are brittle and break silently when messages change.
+            ## No String-Based Flow Control
 
-      ```python
-      # Wrong: brittle string matching
-      if error.message.startswith("Invalid"):
-          handle_validation_error()
-      elif "not found" in error.message.lower():
-          handle_not_found()
+            Never use string approximations (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly instructed. These are brittle and break silently when messages change.
 
-      # Right: use typed errors or error codes
-      if isinstance(error, ValidationError):
-          handle_validation_error()
-      elif error.code == ErrorCode.NOT_FOUND:
-          handle_not_found()
-      ```
+            ```python
+            # Wrong: brittle string matching
+            if error.message.startswith("Invalid"):
+                handle_validation_error()
+            elif "not found" in error.message.lower():
+                handle_not_found()
 
-      ```go
-      // Wrong
-      if strings.Contains(err.Error(), "connection refused") {
-          retry()
-      }
+            # Right: use typed errors or error codes
+            if isinstance(error, ValidationError):
+                handle_validation_error()
+            elif error.code == ErrorCode.NOT_FOUND:
+                handle_not_found()
+            ```
 
-      // Right
-      if errors.Is(err, ErrConnectionRefused) {
-          retry()
-      }
-      ```
+            ```go
+            // Wrong
+            if strings.Contains(err.Error(), "connection refused") {
+                retry()
+            }
 
-      ## Error Messages as Constants
+            // Right
+            if errors.Is(err, ErrConnectionRefused) {
+                retry()
+            }
+            ```
 
-      All error messages must be defined as constants and reused in test assertions. No magic strings.
+            ## Error Messages as Constants
 
-      ```python
-      # constants.py
-      ERR_USER_NOT_FOUND = "user not found"
-      ERR_INVALID_EMAIL = "invalid email format"
+            All error messages must be defined as constants and reused in test assertions. No magic strings.
 
-      # service.py
-      from .constants import ERR_USER_NOT_FOUND
-      raise NotFoundError(ERR_USER_NOT_FOUND)
+            ```python
+            # constants.py
+            ERR_USER_NOT_FOUND = "user not found"
+            ERR_INVALID_EMAIL = "invalid email format"
 
-      # test_service.py
-      from .constants import ERR_USER_NOT_FOUND
-      assert str(exc.value) == ERR_USER_NOT_FOUND
-      ```
+            # service.py
+            from .constants import ERR_USER_NOT_FOUND
+            raise NotFoundError(ERR_USER_NOT_FOUND)
 
-      ```go
-      // errors.go
-      var (
-          ErrUserNotFound = errors.New("user not found")
-          ErrInvalidEmail = errors.New("invalid email format")
-      )
+            # test_service.py
+            from .constants import ERR_USER_NOT_FOUND
+            assert str(exc.value) == ERR_USER_NOT_FOUND
+            ```
 
-      // service.go
-      return ErrUserNotFound
+            ```go
+            // errors.go
+            var (
+                ErrUserNotFound = errors.New("user not found")
+                ErrInvalidEmail = errors.New("invalid email format")
+            )
 
-      // service_test.go
-      assert.ErrorIs(t, err, ErrUserNotFound)
-      ```
+            // service.go
+            return ErrUserNotFound
 
-      ## Why This Matters
+            // service_test.go
+            assert.ErrorIs(t, err, ErrUserNotFound)
+            ```
 
-      - String matching breaks silently when messages change
-      - Typos in string comparisons cause subtle bugs
-      - Constants enable IDE refactoring and find-all-references
-      - Tests verify actual error handling, not string coincidences
-      - Internationalization becomes possible
-    content_hash: sha256:88b53b81c5c315b7879976858f39a1ed5eb71d390c47522fc448ca04d9e6037a
-    distilled: |-
-      # String Handling
+            ## Why This Matters
 
-      ## No String-Based Flow Control
+            - String matching breaks silently when messages change
+            - Typos in string comparisons cause subtle bugs
+            - Constants enable IDE refactoring and find-all-references
+            - Tests verify actual error handling, not string coincidences
+            - Internationalization becomes possible
+        content_hash: sha256:88b53b81c5c315b7879976858f39a1ed5eb71d390c47522fc448ca04d9e6037a
+        distilled: |-
+            # String Handling
 
-      Never use string approximations (startswith, endswith, contains, substring) for flow control—brittle, breaks silently.
+            ## No String-Based Flow Control
 
-      ```python
-      # Wrong
-      if error.message.startswith("Invalid"): ...
-      elif "not found" in error.message.lower(): ...
+            Never use string approximations (startswith, endswith, contains, substring) for flow control—brittle, breaks silently.
 
-      # Right
-      if isinstance(error, ValidationError): ...
-      elif error.code == ErrorCode.NOT_FOUND: ...
-      ```
+            ```python
+            # Wrong
+            if error.message.startswith("Invalid"): ...
+            elif "not found" in error.message.lower(): ...
 
-      ```go
-      // Wrong
-      if strings.Contains(err.Error(), "connection refused") { retry() }
+            # Right
+            if isinstance(error, ValidationError): ...
+            elif error.code == ErrorCode.NOT_FOUND: ...
+            ```
 
-      // Right
-      if errors.Is(err, ErrConnectionRefused) { retry() }
-      ```
+            ```go
+            // Wrong
+            if strings.Contains(err.Error(), "connection refused") { retry() }
 
-      ## Error Messages as Constants
+            // Right
+            if errors.Is(err, ErrConnectionRefused) { retry() }
+            ```
 
-      Define error messages as constants; reuse in tests. No magic strings.
+            ## Error Messages as Constants
 
-      ```python
-      # constants.py
-      ERR_USER_NOT_FOUND = "user not found"
+            Define error messages as constants; reuse in tests. No magic strings.
 
-      # service.py
-      raise NotFoundError(ERR_USER_NOT_FOUND)
+            ```python
+            # constants.py
+            ERR_USER_NOT_FOUND = "user not found"
 
-      # test_service.py
-      assert str(exc.value) == ERR_USER_NOT_FOUND
-      ```
+            # service.py
+            raise NotFoundError(ERR_USER_NOT_FOUND)
 
-      ```go
-      var ErrUserNotFound = errors.New("user not found")
-      // service: return ErrUserNotFound
-      // test: assert.ErrorIs(t, err, ErrUserNotFound)
-      ```
+            # test_service.py
+            assert str(exc.value) == ERR_USER_NOT_FOUND
+            ```
 
-      ## Why
+            ```go
+            var ErrUserNotFound = errors.New("user not found")
+            // service: return ErrUserNotFound
+            // test: assert.ErrorIs(t, err, ErrUserNotFound)
+            ```
 
-      - String matching breaks silently on message changes
-      - Typos cause subtle bugs
-      - Constants enable IDE refactoring/find-refs
-      - Tests verify error handling, not string coincidence
-      - Enables i18n
-    distilled_by: claude-code
+            ## Why
+
+            - String matching breaks silently on message changes
+            - Typos cause subtle bugs
+            - Constants enable IDE refactoring/find-refs
+            - Tests verify error handling, not string coincidence
+            - Enables i18n
+        distilled_by: claude-code

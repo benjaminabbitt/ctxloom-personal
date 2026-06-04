@@ -1,405 +1,746 @@
 version: 1.0.0
 tags:
-  - modern-forage
-  - regional-food
-  - research
-  - reddit
+    - modern-forage
+    - regional-food
+    - research
+    - reddit
 author: ben-abbitt-me
 description: Modern Forage research workflow — process a Reddit thread for new entries, evaluate against the containment test, produce cited decisions
-
 fragments:
-  containment-criteria:
-    tags:
-      - modern-forage
-      - criteria
-    content: |-
-      # Modern Forage Containment Criteria
+    containment-criteria:
+        tags:
+            - modern-forage
+            - criteria
+        content: |-
+            # Modern Forage Containment Criteria
 
-      A candidate qualifies for the survey if it meets at least TWO of:
+            A candidate qualifies for the survey if it meets at least TWO of:
 
-      1. **Geographic containment** — rarely found more than ~100-200 miles from origin
-      2. **Name-recognition failure** — ordering it elsewhere produces a blank stare
-      3. **No national chain adoption** — hasn't been picked up by national franchises
-      4. **Active local culture** — not a museum piece; locals eat it constantly
+            1. **Geographic containment** — rarely found more than ~100-200 miles from origin
+            2. **Name-recognition failure** — ordering it elsewhere produces a blank stare
+            3. **No national chain adoption** — hasn't been picked up by national franchises
+            4. **Active local culture** — not a museum piece; locals eat it constantly
 
-      Nationally famous regional icons (deep-dish pizza, Philly cheesesteaks, Nashville hot chicken, lobster rolls, fluffernutter) are out — they've already escaped.
+            Nationally famous regional icons (deep-dish pizza, Philly cheesesteaks, Nashville hot chicken, lobster rolls, fluffernutter) are out — they've already escaped.
 
-      ## Source threshold
+            ## Source threshold
 
-      - **Minimum**: 2 independent named sources for inclusion at all
-      - **Target**: 5-8 named sources for confident promotion to canonical doc
-      - "Named" means food media, local TV, longform journalism, academic press, podcast transcripts, oral histories — NOT just Reddit comments or single user reviews
-      - Reddit threads count as a *seed signal*, not a source
+            - **Minimum**: 2 independent named sources for inclusion at all
+            - **Target**: 5-8 named sources for confident promotion to canonical doc
+            - "Named" means food media, local TV, longform journalism, academic press, podcast transcripts, oral histories — NOT just Reddit comments or single user reviews
+            - Reddit threads count as a *seed signal*, not a source
 
-      ## Containment-mechanism taxonomy
+            ## Containment-mechanism taxonomy
 
-      When a candidate passes, identify which mechanism(s) lock it. From the tracker:
+            When a candidate passes, identify which mechanism(s) lock it. From the tracker:
 
-      1. **Immigrant-community-locked** — Greek diner empire, Chinese-American adaptations, Cornish mining corridor, German-Russian Great Plains. Most common.
-      2. **Apparatus-locked** — Chicago aquarium smoker, Provel cheese, Old Vienna chip seasoning machinery.
-      3. **Operational-routine-locked** — Pizza Pot Pie's dough-and-bowl flip, Brown Hotel's Hot Brown service.
-      4. **Commitment-purchase-locked** — Atomic Cake (whole cakes only), Pittsburgh Cookie Table (wedding-only).
+            1. **Immigrant-community-locked** — Greek diner empire, Chinese-American adaptations, Cornish mining corridor, German-Russian Great Plains. Most common.
+            2. **Apparatus-locked** — Chicago aquarium smoker, Provel cheese, Old Vienna chip seasoning machinery.
+            3. **Operational-routine-locked** — Pizza Pot Pie's dough-and-bowl flip, Brown Hotel's Hot Brown service.
+            4. **Commitment-purchase-locked** — Atomic Cake (whole cakes only), Pittsburgh Cookie Table (wedding-only).
 
-      ## Geographic ladder
+            ## Geographic ladder
 
-      - **Hyperlocal** — locked to one neighborhood, one shop, or one immigrant enclave (Pizza Pot Pie at 2121 N Clark; mild sauce in Bronzeville)
-      - **City-wide** — across the metro, multiple vendors, multiple neighborhoods (Goetta, Italian Beef)
-      - **Regional** — cross-metro within a coherent geography (UP Pasty across Marquette/Houghton/Iron Mountain; Beef Roll across the Illinois Valley)
+            - **Hyperlocal** — locked to one neighborhood, one shop, or one immigrant enclave (Pizza Pot Pie at 2121 N Clark; mild sauce in Bronzeville)
+            - **City-wide** — across the metro, multiple vendors, multiple neighborhoods (Goetta, Italian Beef)
+            - **Regional** — cross-metro within a coherent geography (UP Pasty across Marquette/Houghton/Iron Mountain; Beef Roll across the Illinois Valley)
 
-      A hyperlocal entry can be **promoted to regional** when independent threads or research surface the same dish across adjacent metros.
+            A hyperlocal entry can be **promoted to regional** when independent threads or research surface the same dish across adjacent metros.
 
-      ## Allowed partial-containment readings
+            ## Allowed partial-containment readings
 
-      - **"Two places, no national attention"** — Walker Bros Apple Pancake (Portland origin → Chicago North Shore home, neither nationally known). Qualifies despite multiple legitimate homes.
-      - **"Practice-locked but dish-traveled"** — Flaming Saganaki (dish escaped to Greek restaurants nationwide, but the flame and "Opa!" theater stays Chicago-locked). Include with explicit caveat blockquote.
-      - **"Total media invisibility"** — Beef Roll (dozens of menus, no Wikipedia / no NYT / no LTHForum). Broad local presence + total media silence is itself the strongest containment signal.
+            - **"Two places, no national attention"** — Walker Bros Apple Pancake (Portland origin → Chicago North Shore home, neither nationally known). Qualifies despite multiple legitimate homes.
+            - **"Practice-locked but dish-traveled"** — Flaming Saganaki (dish escaped to Greek restaurants nationwide, but the flame and "Opa!" theater stays Chicago-locked). Include with explicit caveat blockquote.
+            - **"Total media invisibility"** — Beef Roll (dozens of menus, no Wikipedia / no NYT / no LTHForum). Broad local presence + total media silence is itself the strongest containment signal.
 
-      ## Diaspora signal
+            ## Diaspora signal
 
-      The #1 lead generator per the tracker. Comments shaped like "I moved from X and can't find Y anywhere" are the strongest seed-quality input. Treat them as primary, then validate with named sources.
+            The #1 lead generator per the tracker. Comments shaped like "I moved from X and can't find Y anywhere" are the strongest seed-quality input. Treat them as primary, then validate with named sources.
+        content_hash: sha256:996f19a5ddcd44a0083dca23a17bacb7b42101d1af4766b51d20d1de167775e9
+        distilled: |-
+            # containment-criteria
 
-  disposition-rubric:
-    tags:
-      - modern-forage
-      - criteria
-    content: |-
-      # Disposition Rubric
+            Qualifies if ≥2 of: geographic containment (~100-200mi) | name-recognition failure | no national chain adoption | active local culture
 
-      Each candidate that passes initial filtering gets exactly one of these classifications, with an explicit reason.
+            Exclude: nationally famous icons (deep-dish, Philly cheesesteak, Nashville hot chicken, lobster rolls, fluffernutter)
 
-      ## ✅ PROMOTE
-      - Meets 2+ of the 4 selection criteria
-      - 5+ named sources verified
-      - Multi-vendor presence (or single-vendor with explicit structural lock — apparatus, operational routine, or commitment purchase)
-      - Diaspora signal documented OR strong containment evidence (media invisibility, format complexity)
+            ## Sources
+            - **Min**: 2 independent named sources
+            - **Target**: 5-8 for canonical
+            - "Named": food media, local TV, longform, academic, podcast, oral history (NOT Reddit comments)
+            - Reddit = seed signal only
 
-      ## ◧ PROMOTE WITH CONTAINMENT CAVEAT
-      - Structurally interesting but the dish has escaped the metro
-      - Practice/preparation/scene is locked even if the dish isn't (Flaming Saganaki pattern)
-      - "Two places, no national attention" reading (Walker Bros pattern)
-      - Mark as marginalia in the entry; include a blockquote explaining the caveat
+            ## Containment mechanisms
+            1. **Immigrant-community-locked** — Greek diners, Chinese-American, Cornish mining, German-Russian (most common)
+            2. **Apparatus-locked** — Chicago aquarium smoker, Provel, Old Vienna machinery
+            3. **Operational-routine-locked** — Pizza Pot Pie flip, Brown Hotel service
+            4. **Commitment-purchase-locked** — Atomic Cake whole-only, Pittsburgh Cookie Table wedding
 
-      ## ⏸ DEFER
-      - Promising but under-sourced (1-2 sources only)
-      - Needs additional research mechanisms (cookbook mining, oral history, focused diaspora threads)
-      - Note specifically: what would unlock promotion?
+            ## Geographic tiers
+            - **Hyperlocal** — single neighborhood/shop
+            - **City-wide** — multiple vendors/neighborhoods
+            - **Regional** — cross-metro coherent geography
 
-      ## ❌ EXCLUDE
-      Always with an explicit reason from this list:
-      - **Too nationally known** — has national chain adoption (deep-dish, Philly cheesesteak, lobster rolls, fluffernutter, Brunswick stew, Key lime pie)
-      - **Single restaurant, not regional tradition** — Shady Glen cheese-skirt burger, Johnny's Cafe steaks, Fry Bread House (single restaurant ≠ city tradition; the dish must exist beyond one room)
-      - **Ingredient not dish** — Montana huckleberries, brand-only items
-      - **Format not dish** — Hawaii plate lunch, Vegas casino food, "school lunch culture"
-      - **Ecosystem not adaptation** — LA Koreatown KBBQ, Stockton Filipino food (authentic immigrant food rather than locally-created adaptation)
-      - **Origin contested too heavily** — chimichanga (Tucson vs Yuma vs Mexico)
-      - **Brand substituting for dish** — Grippo's, Cheerwine, Vernors. Brands belong in the regional-condiments / regional-snacks tracks, not the main dish survey.
+            Promote hyperlocal → regional when adjacent metros surface dish
 
-      ## ↺ ALREADY COVERED
-      - In canonical survey (`subprojects/modern_forage/dishes/hyper-local-us-regional-cuisines.md`)
-      - In a published blog post under `src/content/posts/modern-forage-*/`
-      - In tracker as ✅ PROMOTED
-      - Note specifically *where* — file, section heading, line if useful
+            ## Partial-containment allowed
+            - **Two places, no national**: Walker Bros Apple Pancake (Portland → Chicago North Shore, both unknown)
+            - **Practice-locked, dish-escaped**: Flaming Saganaki (nationwide but flame/"Opa!" Chicago-locked; include w/ caveat)
+            - **Total media invisibility**: Beef Roll (dozens menus, no Wikipedia/NYT/LTHForum; local presence + zero media = strongest signal)
 
-      ## ↑ PROMOTION CANDIDATE (hyperlocal → regional)
-      - Existing canonical entry currently city-locked
-      - This thread (or independently surfaced research) shows it in another adjacent metro
-      - Recommend reframing as regional or adding cross-reference to the existing entry
+            ## Diaspora signal
+            #1 lead: "moved from X, can't find Y" = strongest seed. Treat primary; validate w/ named sources.
+        distilled_by: claude-haiku-4-5-20251001
+    disposition-rubric:
+        tags:
+            - modern-forage
+            - criteria
+        content: |-
+            # Disposition Rubric
 
-      ## JBF America's Classics caveat
-      JBF Classics honor *restaurants*, not *dishes*. A JBF win is a useful lead generator but needs a containment filter: does the *dish* exist beyond one restaurant? If no, it's an institution, not a regional food. EXCLUDE under "single restaurant, not regional tradition" with the JBF win noted.
+            Each candidate that passes initial filtering gets exactly one of these classifications, with an explicit reason.
 
-  editorial-voice:
-    tags:
-      - modern-forage
-      - voice
-    content: |-
-      # Editorial Voice (strcrssd / Ben Abbitt)
+            ## ✅ PROMOTE
+            - Meets 2+ of the 4 selection criteria
+            - 5+ named sources verified
+            - Multi-vendor presence (or single-vendor with explicit structural lock — apparatus, operational routine, or commitment purchase)
+            - Diaspora signal documented OR strong containment evidence (media invisibility, format complexity)
 
-      ## Author standards
-      - **No em-dashes** in blog/site/code prose. Use regular hyphens or rephrase. Reason: minimize AI tells. Conversational chat is exempt.
-      - **"Common knowledge inside, blank stare outside"** is the framing language. The "blank stare 200 miles away" test is the colloquial form.
-      - **Diaspora signal** ("I moved away and can't find X") is the highest-trust lead source.
-      - **Distrust single-restaurant entries** unless the structural lock is explicit and load-bearing (Pizza Pot Pie qualifies on operational-routine-locked grounds; Shady Glen does not).
-      - **Distrust brand-substituting-for-dish** — Grippo's chips don't qualify; the dish has to be on menus around town.
+            ## ◧ PROMOTE WITH CONTAINMENT CAVEAT
+            - Structurally interesting but the dish has escaped the metro
+            - Practice/preparation/scene is locked even if the dish isn't (Flaming Saganaki pattern)
+            - "Two places, no national attention" reading (Walker Bros pattern)
+            - Mark as marginalia in the entry; include a blockquote explaining the caveat
 
-      ## Per-dish staged-file format
+            ## ⏸ DEFER
+            - Promising but under-sourced (1-2 sources only)
+            - Needs additional research mechanisms (cookbook mining, oral history, focused diaspora threads)
+            - Note specifically: what would unlock promotion?
 
-      `subprojects/modern_forage/dishes/<slug>.md` (and `_pending/<slug>.md` for pre-review). Frontmatter:
+            ## ❌ EXCLUDE
+            Always with an explicit reason from this list:
+            - **Too nationally known** — has national chain adoption (deep-dish, Philly cheesesteak, lobster rolls, fluffernutter, Brunswick stew, Key lime pie)
+            - **Single restaurant, not regional tradition** — Shady Glen cheese-skirt burger, Johnny's Cafe steaks, Fry Bread House (single restaurant ≠ city tradition; the dish must exist beyond one room)
+            - **Ingredient not dish** — Montana huckleberries, brand-only items
+            - **Format not dish** — Hawaii plate lunch, Vegas casino food, "school lunch culture"
+            - **Ecosystem not adaptation** — LA Koreatown KBBQ, Stockton Filipino food (authentic immigrant food rather than locally-created adaptation)
+            - **Origin contested too heavily** — chimichanga (Tucson vs Yuma vs Mexico)
+            - **Brand substituting for dish** — Grippo's, Cheerwine, Vernors. Brands belong in the regional-condiments / regional-snacks tracks, not the main dish survey.
 
-      ```yaml
-      ---
-      slug: <city-or-region>-<dish>
-      title: <Dish> — <Region>
-      city: <city>
-      state: <state>
-      neighborhood: <if applicable>
-      year_established: <year or "1950s" / "disputed">
-      status: active, geographically locked, ~N years
-      threshold_met:
-        - geographic_containment: true|false
-        - name_recognition_failure: true|false
-        - no_national_chain_adoption: true|false
-        - active_local_culture: true|false
-      seed_source: <e.g., /r/chicagofood thread (LemonBerryCake), May 2026>
-      last_verified: <YYYY-MM-DD>
-      ---
-      ```
+            ## ↺ ALREADY COVERED
+            - In canonical survey (`subprojects/modern_forage/dishes/hyper-local-us-regional-cuisines.md`)
+            - In a published blog post under `src/content/posts/modern-forage-*/`
+            - In tracker as ✅ PROMOTED
+            - Note specifically *where* — file, section heading, line if useful
 
-      Body sections (in order):
-      - `# <Dish>`
-      - `## What it is` — one paragraph, structural composition
-      - `## Origin` — year, founding figure, neighborhood, dispute notes
-      - `## Why it's contained` — which mechanism(s), evidence
-      - `## Canonical purveyors` — markdown table: Spot / Address / Notes (ratings as snapshot)
-      - `## Sources verified` — bulleted list of `[Name](URL) — short note`
-      - `## Notes for blog inclusion` — suggested section, pattern membership, cross-references
+            ## ↑ PROMOTION CANDIDATE (hyperlocal → regional)
+            - Existing canonical entry currently city-locked
+            - This thread (or independently surfaced research) shows it in another adjacent metro
+            - Recommend reframing as regional or adding cross-reference to the existing entry
 
-      ## Published-blog format (post body)
+            ## JBF America's Classics caveat
+            JBF Classics honor *restaurants*, not *dishes*. A JBF win is a useful lead generator but needs a containment filter: does the *dish* exist beyond one restaurant? If no, it's an institution, not a regional food. EXCLUDE under "single restaurant, not regional tradition" with the JBF win noted.
+        content_hash: sha256:a20218cb525dc9a7d75e39550a6c3720b09388aa568e11f5142c00af634f48d4
+        distilled: |-
+            # disposition-rubric
 
-      Per-entry shape in `src/content/posts/modern-forage-*/index.mdx`:
-      - `### <Dish> — <City/Metro>`
-      - Optional `*Pattern: [link to thematic post]*` line
-      - One long paragraph integrating origin, composition, containment, why-it-matters
-      - `*Sources: [Name](URL) (year, short note); [Name](URL); ...*` — inline italic block at end
-      - `**Where to eat:** [Spot](Google Maps URL), address (rating, brief note). [Spot](URL)...` — vendor list
+            Each candidate gets exactly one classification + explicit reason.
 
-      ## Reddit-thread voice
-      - The author is **u/strcrssd**.
-      - Their own thread comments are editorial commentary (the author's research-in-progress notes), not candidate suggestions.
-      - If u/strcrssd has replied (anywhere in a comment subtree) to a top-level suggestion, treat that suggestion as **already engaged** — skip from research queue.
+            ## ✅ PROMOTE
+            - Meets 2+ of 4 selection criteria
+            - 5+ named sources verified
+            - Multi-vendor OR single-vendor w/ structural lock (apparatus/operational routine/commitment purchase)
+            - Diaspora signal documented OR strong containment evidence (media invisibility, format complexity)
 
+            ## ◧ PROMOTE WITH CONTAINMENT CAVEAT
+            - Structurally interesting; dish escaped metro
+            - Practice/prep/scene locked (Flaming Saganaki pattern)
+            - "Two places, no national attention" (Walker Bros pattern)
+            - Include marginalia blockquote explaining caveat
+
+            ## ⏸ DEFER
+            - Under-sourced (1-2 sources)
+            - Needs additional research (cookbook mining, oral history, diaspora threads)
+            - Note: what would unlock promotion?
+
+            ## ❌ EXCLUDE
+            Always with explicit reason:
+            - **Too nationally known** — national chain adoption (e.g., deep-dish)
+            - **Single restaurant, not regional tradition** — e.g., Shady Glen cheese-skirt burger
+            - **Ingredient not dish** — e.g., Montana huckleberries
+            - **Format not dish** — e.g., Hawaii plate lunch
+            - **Ecosystem not adaptation** — e.g., LA Koreatown KBBQ
+            - **Origin heavily contested** — e.g., chimichanga
+            - **Brand substituting for dish** — Grippo's, Cheerwine, Vernors (use regional-condiments/snacks track)
+
+            ## ↺ ALREADY COVERED
+            - In canonical survey (`subprojects/modern_forage/dishes/hyper-local-us-regional-cuisines.md`)
+            - In published post (`src/content/posts/modern-forage-*/`)
+            - In tracker as ✅ PROMOTED
+            - Note: file, section, line if useful
+
+            ## ↑ PROMOTION CANDIDATE (hyperlocal → regional)
+            - Existing canonical entry, city-locked
+            - Thread shows it in adjacent metro
+            - Recommend regional reframe or cross-reference
+
+            ## JBF America's Classics caveat
+            JBF honors *restaurants* not *dishes*. Filter: does *dish* exist beyond one restaurant? If no → EXCLUDE as "single restaurant, not regional tradition."
+        distilled_by: claude-haiku-4-5-20251001
+    editorial-voice:
+        tags:
+            - modern-forage
+            - voice
+        content: |-
+            # Editorial Voice (strcrssd / Ben Abbitt)
+
+            ## Author standards
+            - **No em-dashes** in blog/site/code prose. Use regular hyphens or rephrase. Reason: minimize AI tells. Conversational chat is exempt.
+            - **"Common knowledge inside, blank stare outside"** is the framing language. The "blank stare 200 miles away" test is the colloquial form.
+            - **Diaspora signal** ("I moved away and can't find X") is the highest-trust lead source.
+            - **Distrust single-restaurant entries** unless the structural lock is explicit and load-bearing (Pizza Pot Pie qualifies on operational-routine-locked grounds; Shady Glen does not).
+            - **Distrust brand-substituting-for-dish** — Grippo's chips don't qualify; the dish has to be on menus around town.
+
+            ## Per-dish staged-file format
+
+            `subprojects/modern_forage/dishes/<slug>.md` (and `_pending/<slug>.md` for pre-review). Frontmatter:
+
+            ```yaml
+            ---
+            slug: <city-or-region>-<dish>
+            title: <Dish> — <Region>
+            city: <city>
+            state: <state>
+            neighborhood: <if applicable>
+            year_established: <year or "1950s" / "disputed">
+            status: active, geographically locked, ~N years
+            threshold_met:
+              - geographic_containment: true|false
+              - name_recognition_failure: true|false
+              - no_national_chain_adoption: true|false
+              - active_local_culture: true|false
+            seed_source: <e.g., /r/chicagofood thread (LemonBerryCake), May 2026>
+            last_verified: <YYYY-MM-DD>
+            ---
+            ```
+
+            Body sections (in order):
+            - `# <Dish>`
+            - `## What it is` — one paragraph, structural composition
+            - `## Origin` — year, founding figure, neighborhood, dispute notes
+            - `## Why it's contained` — which mechanism(s), evidence
+            - `## Canonical purveyors` — markdown table: Spot / Address / Notes (ratings as snapshot)
+            - `## Sources verified` — bulleted list of `[Name](URL) — short note`
+            - `## Notes for blog inclusion` — suggested section, pattern membership, cross-references
+
+            ## Published-blog format (post body)
+
+            Per-entry shape in `src/content/posts/modern-forage-*/index.mdx`:
+            - `### <Dish> — <City/Metro>`
+            - Optional `*Pattern: [link to thematic post]*` line
+            - One long paragraph integrating origin, composition, containment, why-it-matters
+            - `*Sources: [Name](URL) (year, short note); [Name](URL); ...*` — inline italic block at end
+            - `**Where to eat:** [Spot](Google Maps URL), address (rating, brief note). [Spot](URL)...` — vendor list
+
+            ## Reddit-thread voice
+            - The author is **u/strcrssd**.
+            - Their own thread comments are editorial commentary (the author's research-in-progress notes), not candidate suggestions.
+            - If u/strcrssd has replied (anywhere in a comment subtree) to a top-level suggestion, treat that suggestion as **already engaged** — skip from research queue.
+        content_hash: sha256:1a8c079b715623f770b4fe11a0d6b3acd5bbd900cca8dcfebaf0e92847773e6e
+        distilled: |-
+            # editorial-voice
+
+            **Author standards**
+            - No em-dashes in prose (minimize AI tells); chat exempt
+            - "Common knowledge inside, blank stare outside" / blank stare 200 miles test
+            - Diaspora signal = highest-trust lead
+            - Single-restaurant entries only if structural lock explicit & load-bearing
+            - Brand-substituting-for-dish: must appear on multiple menus
+
+            **Staged-file format**
+
+            `subprojects/modern_forage/dishes/<slug>.md` or `_pending/<slug>.md`
+
+            ```yaml
+            slug: <city>-<dish>
+            title: <Dish> — <Region>
+            city: <city>
+            state: <state>
+            neighborhood: <if applicable>
+            year_established: <year|"1950s"|"disputed">
+            status: active|geographically locked|~N years
+            threshold_met:
+              - geographic_containment: true|false
+              - name_recognition_failure: true|false
+              - no_national_chain_adoption: true|false
+              - active_local_culture: true|false
+            seed_source: /r/<subreddit> thread, <Month YYYY>
+            last_verified: <YYYY-MM-DD>
+            ```
+
+            Body sections (in order):
+            - `# <Dish>`
+            - `## What it is` — structural composition (1 para)
+            - `## Origin` — year, founder, neighborhood, disputes
+            - `## Why it's contained` — mechanism(s) + evidence
+            - `## Canonical purveyors` — Spot | Address | Notes
+            - `## Sources verified` — `[Name](URL) — note` list
+            - `## Notes for blog inclusion` — patterns, cross-refs
+
+            **Published-blog format**
+
+            `src/content/posts/modern-forage-*/index.mdx`
+
+            - `### <Dish> — <City/Metro>`
+            - `*Pattern: [link]*` (optional)
+            - Paragraph: origin, composition, containment, significance
+            - `*Sources: [Name](URL) (note); ...*` (italic)
+            - `**Where to eat:** [Spot](Maps URL), address (rating, note). [Spot](URL)...`
+
+            **Reddit-thread voice**
+
+            - Author: u/strcrssd
+            - Comments = editorial/research notes only, not suggestions
+            - If u/strcrssd replied anywhere in subtree: mark **already engaged**, remove from queue
+        distilled_by: claude-haiku-4-5-20251001
 prompts:
-  reddit-monitor:
-    description: Process a Reddit thread for Modern Forage candidates with cited decisions
-    tags:
-      - modern-forage
-      - research
-      - reddit
-    content: |-
-      Process a Reddit food thread for Modern Forage candidates. Apply the containment test, do real research, produce cited decisions.
+    reddit-monitor:
+        description: Process a Reddit thread for Modern Forage candidates with cited decisions
+        tags:
+            - modern-forage
+            - research
+            - reddit
+        content: |-
+            Process a Reddit food thread for Modern Forage candidates. Apply the containment test, do real research, produce cited decisions.
 
-      User input: $ARGUMENTS — a Reddit post URL (preferably old.reddit.com).
+            User input: $ARGUMENTS — a Reddit post URL (preferably old.reddit.com).
 
-      If no URL is supplied, STOP and ask.
+            If no URL is supplied, STOP and ask.
 
-      Methodology context to load: see fragments `containment-criteria`, `disposition-rubric`, `editorial-voice`.
+            Methodology context to load: see fragments `containment-criteria`, `disposition-rubric`, `editorial-voice`.
 
-      ## Step 1 — Fetch the thread
+            ## Step 1 — Fetch the thread
 
-      Fetch the thread JSON: `curl -sL -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "<url>.json"`. Parse with python.
+            Fetch the thread JSON: `curl -sL -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "<url>.json"`. Parse with python.
 
-      Extract:
-      - Post: id, title, selftext, permalink
-      - Each top-level comment: id, author, body, permalink (`https://old.reddit.com{permalink}`)
-      - Recursive replies — at minimum walk the subtree looking for u/strcrssd-authored comments
+            Extract:
+            - Post: id, title, selftext, permalink
+            - Each top-level comment: id, author, body, permalink (`https://old.reddit.com{permalink}`)
+            - Recursive replies — at minimum walk the subtree looking for u/strcrssd-authored comments
 
-      ## Step 2 — Locate matching draft + load tracker state
+            ## Step 2 — Locate matching draft + load tracker state
 
-      The post or its comments likely reference a Modern Forage post on ben.abbitt.me. Identify the matching post.
+            The post or its comments likely reference a Modern Forage post on ben.abbitt.me. Identify the matching post.
 
-      If ambiguous (multiple posts could match), list candidates and ask which to compare against.
+            If ambiguous (multiple posts could match), list candidates and ask which to compare against.
 
-      Read once at start:
-      - The matching `src/content/posts/modern-forage-*/index.mdx`
-      - `subprojects/modern_forage/dishes/regional-cuisine-research-tracker.md` (current promotion/exclude/defer state)
-      - `subprojects/modern_forage/dishes/hyper-local-us-regional-cuisines.md` (already-covered entries)
+            Read once at start:
+            - The matching `src/content/posts/modern-forage-*/index.mdx`
+            - `subprojects/modern_forage/dishes/regional-cuisine-research-tracker.md` (current promotion/exclude/defer state)
+            - `subprojects/modern_forage/dishes/hyper-local-us-regional-cuisines.md` (already-covered entries)
 
-      ## Step 3 — Re-run delta check
+            ## Step 3 — Re-run delta check
 
-      State file: `subprojects/modern_forage/research-logs/reddit-<post-id>.md`.
+            State file: `subprojects/modern_forage/research-logs/reddit-<post-id>.md`.
 
-      If the file exists, read its "Processed comment IDs" list. Skip any comment IDs already there. Only process the delta.
+            If the file exists, read its "Processed comment IDs" list. Skip any comment IDs already there. Only process the delta.
 
-      If the file doesn't exist, this is a fresh run.
+            If the file doesn't exist, this is a fresh run.
 
-      ## Step 4 — Filter the working set
+            ## Step 4 — Filter the working set
 
-      Build the candidates list from top-level comments:
+            Build the candidates list from top-level comments:
 
-      - **Skip (already engaged)** — if u/strcrssd has replied anywhere in the comment's subtree. Record the strcrssd permalink alongside.
-      - **Collect (editorial commentary)** — every u/strcrssd-authored comment (top-level or reply), with permalink and body summary.
-      - **Discard (noise)** — pure jokes, single-emoji or ack reactions, off-topic, brand-only mentions without a dish. Note discarded items briefly with permalinks in a "Filtered noise" section so the user can reconsider.
+            - **Skip (already engaged)** — if u/strcrssd has replied anywhere in the comment's subtree. Record the strcrssd permalink alongside.
+            - **Collect (editorial commentary)** — every u/strcrssd-authored comment (top-level or reply), with permalink and body summary.
+            - **Discard (noise)** — pure jokes, single-emoji or ack reactions, off-topic, brand-only mentions without a dish. Note discarded items briefly with permalinks in a "Filtered noise" section so the user can reconsider.
 
-      The remaining top-level comments are the candidate set.
+            The remaining top-level comments are the candidate set.
 
-      ## Step 5 — Cross-check tracker before researching
+            ## Step 5 — Cross-check tracker before researching
 
-      For each candidate, search the tracker text + canonical survey for matching entries:
-      - **ALREADY COVERED** — note where (file + section); skip fresh research.
-      - **DEFERRED with reason** — note prior reason; only re-research if the comment specifically presents new evidence that addresses the deferral cause.
-      - **EXCLUDED with reason** — note prior reason; only re-research if the comment specifically counters that reason.
-      - Otherwise — queue for fresh research.
+            For each candidate, search the tracker text + canonical survey for matching entries:
+            - **ALREADY COVERED** — note where (file + section); skip fresh research.
+            - **DEFERRED with reason** — note prior reason; only re-research if the comment specifically presents new evidence that addresses the deferral cause.
+            - **EXCLUDED with reason** — note prior reason; only re-research if the comment specifically counters that reason.
+            - Otherwise — queue for fresh research.
 
-      ## Step 6 — Research each new candidate
+            ## Step 6 — Research each new candidate
 
-      Use WebSearch + WebFetch. **Target 5+ named independent sources** per the source threshold. Sources should be food media, local TV, longform journalism, academic, oral histories — NOT Reddit, NOT single user reviews.
+            Use WebSearch + WebFetch. **Target 5+ named independent sources** per the source threshold. Sources should be food media, local TV, longform journalism, academic, oral histories — NOT Reddit, NOT single user reviews.
 
-      Capture per candidate:
-      - **What it is** — one paragraph, structural composition
-      - **Origin** — year, neighborhood, founding figure if known, dispute notes
-      - **Containment evidence** — which mechanism(s), geographic spread, diaspora signal, media coverage volume, name-recognition test
-      - **Sources** — list of 2-8 cited URLs with one-line notes
+            Capture per candidate:
+            - **What it is** — one paragraph, structural composition
+            - **Origin** — year, neighborhood, founding figure if known, dispute notes
+            - **Containment evidence** — which mechanism(s), geographic spread, diaspora signal, media coverage volume, name-recognition test
+            - **Sources** — list of 2-8 cited URLs with one-line notes
 
-      Apply the 4-factor selection test (containment-criteria fragment) and classify per the disposition-rubric: PROMOTE / PROMOTE WITH CONTAINMENT CAVEAT / DEFER / EXCLUDE / ALREADY COVERED / PROMOTION CANDIDATE.
+            Apply the 4-factor selection test (containment-criteria fragment) and classify per the disposition-rubric: PROMOTE / PROMOTE WITH CONTAINMENT CAVEAT / DEFER / EXCLUDE / ALREADY COVERED / PROMOTION CANDIDATE.
 
-      Each classification needs an explicit one-line reason.
+            Each classification needs an explicit one-line reason.
 
-      ## Step 7 — Write outputs
+            ## Step 7 — Write outputs
 
-      ### A. Research log (always written)
+            ### A. Research log (always written)
 
-      Path: `subprojects/modern_forage/research-logs/reddit-<post-id>.md`
+            Path: `subprojects/modern_forage/research-logs/reddit-<post-id>.md`
 
-      On first run, create with:
+            On first run, create with:
 
-      ```markdown
-      # Reddit thread research log: <post-id>
+            ```markdown
+            # Reddit thread research log: <post-id>
 
-      **Thread:** [<title>](<post URL>)
-      **First processed:** <YYYY-MM-DD>
-      **Last processed:** <YYYY-MM-DD>
-      **Processed comment IDs:** <id1>, <id2>, ...
+            **Thread:** [<title>](<post URL>)
+            **First processed:** <YYYY-MM-DD>
+            **Last processed:** <YYYY-MM-DD>
+            **Processed comment IDs:** <id1>, <id2>, ...
 
-      ## Editorial commentary (u/strcrssd)
-      - [<permalink>] — <one-line summary>
+            ## Editorial commentary (u/strcrssd)
+            - [<permalink>] — <one-line summary>
 
-      ## Already-engaged comments (u/strcrssd replied)
-      - <user> [<permalink>]: <suggestion> — strcrssd reply: [<permalink>]
+            ## Already-engaged comments (u/strcrssd replied)
+            - <user> [<permalink>]: <suggestion> — strcrssd reply: [<permalink>]
 
-      ## Filtered noise
-      - <user> [<permalink>]: <reason — joke / brand / off-topic>
+            ## Filtered noise
+            - <user> [<permalink>]: <reason — joke / brand / off-topic>
 
-      ## Candidates
+            ## Candidates
 
-      ### <Dish> — <City> [<DISPOSITION>]
-      **Suggested by:** [<user>](<comment permalink>)
-      **Disposition reason:** <one line>
+            ### <Dish> — <City> [<DISPOSITION>]
+            **Suggested by:** [<user>](<comment permalink>)
+            **Disposition reason:** <one line>
 
-      **What it is:** ...
+            **What it is:** ...
 
-      **Origin:** ...
+            **Origin:** ...
 
-      **Containment evidence:** ...
+            **Containment evidence:** ...
 
-      **Sources:**
-      - [Name](URL) — note
-      - [Name](URL) — note
-      - ...
+            **Sources:**
+            - [Name](URL) — note
+            - [Name](URL) — note
+            - ...
 
-      **Action:** <staged at <path> | track at <existing entry path:line> | research more by <mechanism> | exclude on grounds of <reason>>
-      ```
+            **Action:** <staged at <path> | track at <existing entry path:line> | research more by <mechanism> | exclude on grounds of <reason>>
+            ```
 
-      On re-run, **append** new candidates and editorial commentary; update Last processed and Processed comment IDs.
+            On re-run, **append** new candidates and editorial commentary; update Last processed and Processed comment IDs.
 
-      ### A2. Drafted replies (one per commenter who contributed a PROMOTE or PROMOTE-WITH-CAVEAT)
+            ### A2. Drafted replies (one per commenter who contributed a PROMOTE or PROMOTE-WITH-CAVEAT)
 
-      For each commenter whose suggestion produced a PROMOTE (or CAVEAT) classification, draft a brief Reddit reply in strcrssd's voice. Constraints:
+            For each commenter whose suggestion produced a PROMOTE (or CAVEAT) classification, draft a brief Reddit reply in strcrssd's voice. Constraints:
 
-      - **Brief.** 40-80 words. Reddit-comment length.
-      - **CRITICAL: Wrap each reply body in a fenced code block** (triple backticks). The Claude Code renderer auto-converts inline `[text](url)` to clickable links, which strips the bracket syntax on copy. The code block preserves the literal markdown source so the user can copy-paste it into Reddit's editor with link syntax intact.
-      - **Plain text inside the code block, no blockquote indentation, no leading spaces.** Every line of the reply body must start flush-left inside the code fence.
-      - **Inline markdown citations.** Cite 2-4 sources via `[link text](url)` syntax. Pick the most load-bearing sources (food-historian posts, smoking-gun containment facts, canonical brand histories). Don't bother citing primary-source restaurant menus.
-      - **No em-dashes** — strcrssd's voice rule.
-      - **Acknowledge counter-commenters explicitly** if the disposition involved resolving counter-evidence. Name them by handle. Reddit auto-links usernames.
-      - **Close with intent.** End with "Going in [next iteration]." or equivalent.
+            - **Brief.** 40-80 words. Reddit-comment length.
+            - **CRITICAL: Wrap each reply body in a fenced code block** (triple backticks). The Claude Code renderer auto-converts inline `[text](url)` to clickable links, which strips the bracket syntax on copy. The code block preserves the literal markdown source so the user can copy-paste it into Reddit's editor with link syntax intact.
+            - **Plain text inside the code block, no blockquote indentation, no leading spaces.** Every line of the reply body must start flush-left inside the code fence.
+            - **Inline markdown citations.** Cite 2-4 sources via `[link text](url)` syntax. Pick the most load-bearing sources (food-historian posts, smoking-gun containment facts, canonical brand histories). Don't bother citing primary-source restaurant menus.
+            - **No em-dashes** — strcrssd's voice rule.
+            - **Acknowledge counter-commenters explicitly** if the disposition involved resolving counter-evidence. Name them by handle. Reddit auto-links usernames.
+            - **Close with intent.** End with "Going in [next iteration]." or equivalent.
 
-      For commenters who contributed multiple PROMOTEs in one comment, write one reply that addresses all of them. For commenters whose suggestion was EXCLUDED, no reply is drafted by default. If strcrssd already replied in the thread, the new reply is a follow-up that closes the loop.
+            For commenters who contributed multiple PROMOTEs in one comment, write one reply that addresses all of them. For commenters whose suggestion was EXCLUDED, no reply is drafted by default. If strcrssd already replied in the thread, the new reply is a follow-up that closes the loop.
 
-      ### B. Staged dish file (one per PROMOTE-classified candidate)
+            ### B. Staged dish file (one per PROMOTE-classified candidate)
 
-      Path: `subprojects/modern_forage/dishes/_pending/<slug>.md`
+            Path: `subprojects/modern_forage/dishes/_pending/<slug>.md`
 
-      Use the per-dish format from the editorial-voice fragment. Frontmatter, then full body sections (What it is / Origin / Why it's contained / Canonical purveyors / Sources verified / Notes for blog inclusion).
+            Use the per-dish format from the editorial-voice fragment. Frontmatter, then full body sections (What it is / Origin / Why it's contained / Canonical purveyors / Sources verified / Notes for blog inclusion).
 
-      For PROMOTE WITH CONTAINMENT CAVEAT, add `caveat: <one-line reason>` to frontmatter and include the caveat blockquote in the body.
+            For PROMOTE WITH CONTAINMENT CAVEAT, add `caveat: <one-line reason>` to frontmatter and include the caveat blockquote in the body.
 
-      Do NOT stage files for DEFER, EXCLUDE, ALREADY COVERED, or PROMOTION CANDIDATE.
+            Do NOT stage files for DEFER, EXCLUDE, ALREADY COVERED, or PROMOTION CANDIDATE.
 
-      ### C. Punch list (stdout, the user-facing summary — MANDATORY)
+            ### C. Punch list (stdout, the user-facing summary — MANDATORY)
 
-      This is the final user-facing output of the run. Always emit it. Always include comment permalinks as bare URLs (not markdown link text) so they're clickable in any terminal renderer. For each PROMOTE specifically, surface the commenter handle (`u/<name>`) prominently — the user wants to be able to thank or follow up with the original commenter, so the link must be impossible to miss.
+            This is the final user-facing output of the run. Always emit it. Always include comment permalinks as bare URLs (not markdown link text) so they're clickable in any terminal renderer. For each PROMOTE specifically, surface the commenter handle (`u/<name>`) prominently — the user wants to be able to thank or follow up with the original commenter, so the link must be impossible to miss.
 
-      ```
-      ## Reddit thread: <title>
-      <post URL>
-      Processed: <N> comments (<M> new this run, <K> already in log)
+            ```
+            ## Reddit thread: <title>
+            <post URL>
+            Processed: <N> comments (<M> new this run, <K> already in log)
 
-      ### Editorial commentary (u/strcrssd)
-      - <comment id> (top-level | reply to <parent user>): <bare permalink URL> — "<verbatim quoted snippet>"
+            ### Editorial commentary (u/strcrssd)
+            - <comment id> (top-level | reply to <parent user>): <bare permalink URL> — "<verbatim quoted snippet>"
 
-      ### New candidates — PROMOTE (<n>)
+            ### New candidates — PROMOTE (<n>)
 
-      1. **<Dish>** (<city>) — ✅ PROMOTE
-         Suggested by **u/<author>**: <bare permalink URL>
-         [Reinforced by **u/<other author>**: <bare permalink URL>]
-         [Counter-evidence from **u/<author>**: <bare permalink URL> — <one-line resolution>]
-         Why: <one-line classification reason; cite source count + key containment evidence>
-         Action: staged at `subprojects/modern_forage/dishes/_pending/<slug>.md`
+            1. **<Dish>** (<city>) — ✅ PROMOTE
+               Suggested by **u/<author>**: <bare permalink URL>
+               [Reinforced by **u/<other author>**: <bare permalink URL>]
+               [Counter-evidence from **u/<author>**: <bare permalink URL> — <one-line resolution>]
+               Why: <one-line classification reason; cite source count + key containment evidence>
+               Action: staged at `subprojects/modern_forage/dishes/_pending/<slug>.md`
 
-      ### New candidates — PROMOTE WITH CONTAINMENT CAVEAT (<n>)
-      [same shape, with the caveat explicit]
+            ### New candidates — PROMOTE WITH CONTAINMENT CAVEAT (<n>)
+            [same shape, with the caveat explicit]
 
-      ### New candidates — DEFER (<n>)
-      1. **<Dish>** (<city>) — ⏸ DEFER
-         Suggested by **u/<author>**: <bare permalink URL>
-         Why: <reason — typically under-sourced>
-         Unlock condition: <what additional research mechanism would promote this>
+            ### New candidates — DEFER (<n>)
+            1. **<Dish>** (<city>) — ⏸ DEFER
+               Suggested by **u/<author>**: <bare permalink URL>
+               Why: <reason — typically under-sourced>
+               Unlock condition: <what additional research mechanism would promote this>
 
-      ### Already covered (skipped fresh research)
-      - **u/<author>** — <dish>: <bare permalink URL> → already in <file>:<line>
+            ### Already covered (skipped fresh research)
+            - **u/<author>** — <dish>: <bare permalink URL> → already in <file>:<line>
 
-      ### Excluded
-      - **u/<author>** — <dish>: <bare permalink URL> — <exclude reason>
+            ### Excluded
+            - **u/<author>** — <dish>: <bare permalink URL> — <exclude reason>
 
-      ### Filtered noise
-      - **u/<author>**: <bare permalink URL> — <reason: joke / off-topic / etc.>
+            ### Filtered noise
+            - **u/<author>**: <bare permalink URL> — <reason: joke / off-topic / etc.>
 
-      ### Already engaged (skipped per skip-rule, unless overridden by user)
-      - **u/<author>** — <dish>: <bare permalink URL> — strcrssd reply at <bare permalink URL>
+            ### Already engaged (skipped per skip-rule, unless overridden by user)
+            - **u/<author>** — <dish>: <bare permalink URL> — strcrssd reply at <bare permalink URL>
 
-      ### Promotion candidates (hyperlocal → regional)
-      - <Dish> currently in <post> as <city>-locked; this thread surfaces it in <other metro> via **u/<author>**: <bare permalink URL>.
-      [None surfaced this run.] — emit if empty
+            ### Promotion candidates (hyperlocal → regional)
+            - <Dish> currently in <post> as <city>-locked; this thread surfaces it in <other metro> via **u/<author>**: <bare permalink URL>.
+            [None surfaced this run.] — emit if empty
 
-      ### Suggested replies (copy-paste ready)
+            ### Suggested replies (copy-paste ready)
 
-      For each commenter who contributed a PROMOTE or PROMOTE-WITH-CAVEAT. Plain text, no blockquote indentation, inline markdown link citations.
+            For each commenter who contributed a PROMOTE or PROMOTE-WITH-CAVEAT. Plain text, no blockquote indentation, inline markdown link citations.
 
-      **Reply to u/<author>** — <bare permalink URL>
+            **Reply to u/<author>** — <bare permalink URL>
 
-      <reply text with inline [link text](url) citations to 2-4 load-bearing sources>
+            <reply text with inline [link text](url) citations to 2-4 load-bearing sources>
 
-      ---
+            ---
 
-      **Reply to u/<other author>** — <bare permalink URL>
+            **Reply to u/<other author>** — <bare permalink URL>
 
-      <reply text>
-      ```
+            <reply text>
+            ```
 
-      Required structural rules:
-      - The PROMOTE section comes FIRST after editorial commentary, not buried below the noise
-      - Every commenter handle is rendered as `**u/<name>**` (bold) so it stands out
-      - Every permalink is emitted as a bare URL, not wrapped in markdown link syntax — easier to copy
-      - Include the suggesting commenter for ALL dispositions (not just PROMOTE), but PROMOTE entries get extra visibility (Reinforced by / Counter-evidence from sub-bullets)
-      - If a section has no entries, emit "[None surfaced this run.]" — never silently omit a section
+            Required structural rules:
+            - The PROMOTE section comes FIRST after editorial commentary, not buried below the noise
+            - Every commenter handle is rendered as `**u/<name>**` (bold) so it stands out
+            - Every permalink is emitted as a bare URL, not wrapped in markdown link syntax — easier to copy
+            - Include the suggesting commenter for ALL dispositions (not just PROMOTE), but PROMOTE entries get extra visibility (Reinforced by / Counter-evidence from sub-bullets)
+            - If a section has no entries, emit "[None surfaced this run.]" — never silently omit a section
 
-      ## Monitoring
+            ## Monitoring
 
-      Re-run the same skill against the same URL to pick up new comments. The research log records processed comment IDs, so each run only handles the delta.
+            Re-run the same skill against the same URL to pick up new comments. The research log records processed comment IDs, so each run only handles the delta.
 
-      For continuous monitoring, wrap with /loop:
+            For continuous monitoring, wrap with /loop:
 
-      ```
-      /loop 1h /forage:reddit-monitor https://old.reddit.com/r/cincyeats/comments/...
-      ```
+            ```
+            /loop 1h /forage:reddit-monitor https://old.reddit.com/r/cincyeats/comments/...
+            ```
 
-      Or use /schedule for cron-driven runs.
+            Or use /schedule for cron-driven runs.
 
-      ## Operating rules
+            ## Operating rules
 
-      - **Always emit the punch list to stdout** as the final action of the run, after writing the research log and any staged files. Never end a run without it. The user is reading the punch list, not the file system.
-      - **Surface commenter permalinks for every disposition,** not just PROMOTE. The user wants to be able to click through to thank, follow up with, or reply to any commenter who contributed a suggestion that was acted on.
-      - **Don't write entries** to the canonical survey or blog post directly. The skill is a research assistant; the human stays in the curatorial seat.
-      - **Don't promote without 5+ named sources.** If you can't reach 5, classify as DEFER and note what additional research mechanism would unlock promotion.
-      - **No em-dashes** in any user-facing prose (per editorial-voice).
-      - **Cite everything.** Every disposition reason must trace to either a source URL, a tracker line, or a published-post line.
+            - **Always emit the punch list to stdout** as the final action of the run, after writing the research log and any staged files. Never end a run without it. The user is reading the punch list, not the file system.
+            - **Surface commenter permalinks for every disposition,** not just PROMOTE. The user wants to be able to click through to thank, follow up with, or reply to any commenter who contributed a suggestion that was acted on.
+            - **Don't write entries** to the canonical survey or blog post directly. The skill is a research assistant; the human stays in the curatorial seat.
+            - **Don't promote without 5+ named sources.** If you can't reach 5, classify as DEFER and note what additional research mechanism would unlock promotion.
+            - **No em-dashes** in any user-facing prose (per editorial-voice).
+            - **Cite everything.** Every disposition reason must trace to either a source URL, a tracker line, or a published-post line.
+        content_hash: sha256:b0b85be1d108ed206bf9d5b426ac63634a0b8c90fec4af4fe195e27214e3892f
+        distilled: |-
+            # reddit-monitor
+
+            Process Reddit food threads for Modern Forage candidates via containment test, research, cited decisions.
+
+            **Input:** Reddit post URL (old.reddit.com preferred). STOP if missing.
+
+            **Load:** containment-criteria, disposition-rubric, editorial-voice fragments.
+
+            ## Step 1 — Fetch thread
+
+            ```
+            curl -sL -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "<url>.json"
+            ```
+
+            Extract: post (id, title, selftext, permalink), top-level comments (id, author, body, permalink), recursive u/strcrssd-authored replies.
+
+            ## Step 2 — Locate matching draft + load state
+
+            Identify matching Modern Forage post on ben.abbitt.me. If ambiguous, list candidates and ask.
+
+            Read once:
+            - `src/content/posts/modern-forage-*/index.mdx`
+            - `subprojects/modern_forage/dishes/regional-cuisine-research-tracker.md`
+            - `subprojects/modern_forage/dishes/hyper-local-us-regional-cuisines.md`
+
+            ## Step 3 — Delta check
+
+            State file: `subprojects/modern_forage/research-logs/reddit-<post-id>.md`
+
+            Read "Processed comment IDs" if exists; skip already-processed. Otherwise fresh run.
+
+            ## Step 4 — Filter working set
+
+            - **Skip** — u/strcrssd replied in subtree; record strcrssd permalink
+            - **Collect** — u/strcrssd top-level or reply comments (permalink + summary)
+            - **Discard** — jokes, emojis, off-topic, brand-only; record in "Filtered noise" section with links
+
+            Remaining top-level comments = candidate set.
+
+            ## Step 5 — Cross-check tracker
+
+            Per candidate, search tracker + survey:
+            - **ALREADY COVERED** — note file+section; skip
+            - **DEFERRED** — note reason; re-research only if comment adds evidence addressing deferral
+            - **EXCLUDED** — note reason; re-research only if comment counters reason
+            - Else — queue for research
+
+            ## Step 6 — Research candidates
+
+            WebSearch + WebFetch. **5+ independent named sources** (food media, local TV, longform journalism, academic, oral histories — NOT Reddit/single reviews).
+
+            Per candidate:
+            - **What it is** — one paragraph, structure
+            - **Origin** — year, neighborhood, figure, disputes
+            - **Containment evidence** — mechanism(s), spread, diaspora, media volume, name recognition
+            - **Sources** — 2-8 URLs with notes
+
+            Apply 4-factor test (containment-criteria) → classify per disposition-rubric: PROMOTE / PROMOTE WITH CAVEAT / DEFER / EXCLUDE / ALREADY COVERED / PROMOTION CANDIDATE. Each needs explicit one-line reason.
+
+            ## Step 7 — Write outputs
+
+            ### A. Research log
+
+            Path: `subprojects/modern_forage/research-logs/reddit-<post-id>.md`
+
+            First run, create:
+
+            ```markdown
+            # Reddit thread research log: <post-id>
+
+            **Thread:** [<title>](<post URL>)
+            **First processed:** <YYYY-MM-DD>
+            **Last processed:** <YYYY-MM-DD>
+            **Processed comment IDs:** <id1>, <id2>, ...
+
+            ## Editorial commentary (u/strcrssd)
+            - [<permalink>] — <summary>
+
+            ## Already-engaged comments
+            - <user> [<permalink>]: <suggestion> — strcrssd reply: [<permalink>]
+
+            ## Filtered noise
+            - <user> [<permalink>]: <reason>
+
+            ## Candidates
+
+            ### <Dish> — <City> [<DISPOSITION>]
+            **Suggested by:** [<user>](<permalink>)
+            **Disposition reason:** <one line>
+
+            **What it is:** ...
+            **Origin:** ...
+            **Containment evidence:** ...
+            **Sources:**
+            - [Name](URL) — note
+            ...
+
+            **Action:** <staged | track at <path:line> | research more | exclude on <reason>>
+            ```
+
+            Re-run: append new candidates/commentary; update dates and comment IDs.
+
+            ### A2. Drafted replies
+
+            One per PROMOTE/CAVEAT commenter. Draft brief reply in strcrssd's voice:
+            - 40-80 words
+            - **CRITICAL: Wrap body in code block (triple backticks) — preserves markdown link syntax for Reddit paste**
+            - Flush-left, no indentation/blockquotes inside fence
+            - Cite 2-4 sources via `[text](url)` (pick load-bearing: historians, key facts, canonical histories; skip menus)
+            - No em-dashes
+            - Acknowledge counter-commenters by handle if resolving counter-evidence (Reddit auto-links)
+            - Close: "Going in [iteration]." or equiv.
+
+            One reply per commenter; multiple PROMOTEs in one comment = one reply addressing all. No reply for EXCLUDED unless strcrssd already replied (then follow-up).
+
+            ### B. Staged dish files
+
+            Path: `subprojects/modern_forage/dishes/_pending/<slug>.md`
+
+            Use editorial-voice format. Frontmatter + sections (What it is / Origin / Why contained / Canonical purveyors / Sources verified / Blog notes).
+
+            For CAVEAT: add `caveat: <reason>` to frontmatter + blockquote in body.
+
+            Only for PROMOTE-classified. Skip DEFER/EXCLUDE/ALREADY COVERED/PROMOTION CANDIDATE.
+
+            ### C. Punch list (user-facing stdout)
+
+            **ALWAYS emit.** Final action after logs + files.
+
+            ```
+            ## Reddit thread: <title>
+            <post URL>
+            Processed: <N> comments (<M> new, <K> existing)
+
+            ### Editorial commentary (u/strcrssd)
+            - <id> (top-level | reply): <bare URL> — "<snippet>"
+
+            ### New candidates — PROMOTE (<n>)
+
+            1. **<Dish>** (<city>) — ✅ PROMOTE
+               Suggested by **u/<author>**: <bare URL>
+               [Reinforced by **u/<other>**: <bare URL>]
+               [Counter-evidence from **u/<author>**: <bare URL> — <resolution>]
+               Why: <one-line reason; cite source count + evidence>
+               Action: staged at `subprojects/modern_forage/dishes/_pending/<slug>.md`
+
+            ### New candidates — PROMOTE WITH CAVEAT (<n>)
+            [same, caveat explicit]
+
+            ### New candidates — DEFER (<n>)
+
+            1. **<Dish>** (<city>) — ⏸ DEFER
+               Suggested by **u/<author>**: <bare URL>
+               Why: <reason>
+               Unlock: <research mechanism>
+
+            ### Already covered (skipped)
+            - **u/<author>** — <dish>: <bare URL> → <file>:<line>
+
+            ### Excluded
+            - **u/<author>** — <dish>: <bare URL> — <reason>
+
+            ### Filtered noise
+            - **u/<author>**: <bare URL> — <reason>
+
+            ### Already engaged (skipped)
+            - **u/<author>** — <dish>: <bare URL> — strcrssd reply: <bare URL>
+
+            ### Promotion candidates (hyperlocal → regional)
+            - <Dish> in <post> as <city>; surfaced <other metro> via **u/<author>**: <bare URL>
+            [None surfaced this run.]
+
+            ### Suggested replies
+
+            **Reply to u/<author>** — <bare URL>
+
+            <reply text with inline [link](url)>
+
+            ---
+            ```
+
+            Structural rules:
+            - PROMOTE first after editorial
+            - Handles as **u/<name>** (bold)
+            - Permalinks as bare URLs
+            - All dispositions show commenter; PROMOTE gets extra visibility
+            - Empty sections: "[None surfaced this run.]"
+
+            ## Monitoring
+
+            Re-run same URL to pick up new comments. Log tracks processed IDs.
+
+            Continuous: `/loop 1h /forage:reddit-monitor <url>`
+            Or: `/schedule`
+
+            ## Operating rules
+
+            - **Always emit punch list to stdout** as final action. User reads punch list, not files.
+            - **Surface permalinks for all dispositions.** User needs to thank/follow up contributors.
+            - **Don't write directly** to canonical survey or blog. Skill = research only; human = curator.
+            - **5+ sources minimum** for PROMOTE. Below 5 = DEFER + note unlock condition.
+            - **No em-dashes** (editorial-voice rule).
+            - **Cite everything.** Every reason traces to source URL, tracker line, or post line.
+        distilled_by: claude-haiku-4-5-20251001
