@@ -10,6 +10,9 @@ parents:
   - https://github.com/ctxloom/ctxloom-default@profiles/typescript-web-developer
 
 bundles:
+  # Shared baseline (single-sourced in ctxloom-default)
+  - https://github.com/ctxloom/ctxloom-default@bundles/default
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
   # Personal practices
   - core-practices
   - developer-mindset

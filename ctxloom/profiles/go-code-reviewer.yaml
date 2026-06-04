@@ -9,5 +9,8 @@ parents:
   - https://github.com/ctxloom/ctxloom-default@profiles/go-code-reviewer
 
 bundles:
+  # Shared baseline (single-sourced in ctxloom-default)
+  - https://github.com/ctxloom/ctxloom-default@bundles/default
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
   - core-practices
   - go-development

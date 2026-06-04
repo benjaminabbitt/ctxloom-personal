@@ -1,0 +1,11 @@
+version: "1.0.0"
+description: "Ben's personal developer profile — language-agnostic tooling preferences"
+tags:
+  - personal
+  - development
+
+bundles:
+  # Personal tooling preferences
+  - just
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+  - source-organization
