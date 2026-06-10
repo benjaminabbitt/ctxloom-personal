@@ -7,5 +7,5 @@ tags:
 bundles:
   # Personal tooling preferences
   - just
-  - ctxloom-default/ast-grep
+  - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
   - source-organization

@@ -10,7 +10,7 @@ parents:
 
 bundles:
   # Shared baseline (single-sourced in ctxloom-default)
-  - ctxloom-default/default
-  - ctxloom-default/code-quality
+  - https://github.com/ctxloom/ctxloom-default@bundles/default
+  - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
   - core-practices
   - go-development
