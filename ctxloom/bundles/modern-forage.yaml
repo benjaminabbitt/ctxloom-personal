@@ -303,7 +303,7 @@ fragments:
             - Comments = editorial/research notes only, not suggestions
             - If u/strcrssd replied anywhere in subtree: mark **already engaged**, remove from queue
         distilled_by: claude-haiku-4-5-20251001
-prompts:
+skills:
     reddit-monitor:
         description: Process a Reddit thread for Modern Forage candidates with cited decisions
         tags:

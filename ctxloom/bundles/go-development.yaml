@@ -265,7 +265,7 @@ fragments:
             - Test error cases
             - Mock external deps
         distilled_by: claude-code
-prompts:
+skills:
     code-review:
         description: Go-specific code review
         tags:
