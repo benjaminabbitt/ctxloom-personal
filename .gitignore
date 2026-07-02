@@ -11,3 +11,6 @@ Thumbs.db
 
 # ctxloom local files
 .ctxloom/
+
+# ctxloom harness backups
+*.ctxloom.bak
