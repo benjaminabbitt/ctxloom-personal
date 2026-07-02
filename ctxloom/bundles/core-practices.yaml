@@ -1,23 +1,17 @@
 version: 1.0.0
 tags:
-    - practices
-    - workflow
-    - quality
+- practices
+- workflow
+- quality
 author: ctxloom
 description: Core development practices for code quality, documentation, and problem solving
 fragments:
     documentation:
         tags:
-            - documentation
-            - workflow
+        - documentation
+        - workflow
         content: |-
             # Documentation Guidelines
-
-            ## README Management
-
-            - **Read first** - Consult the README before taking action
-            - **Update README** when adding new commands or features
-            - README should always reflect the current state of the project
 
             ## Ask First Before Creating
 
@@ -30,85 +24,32 @@ fragments:
 
             ## Don't Document Progress in Code
 
-            - No "reorganized code to..." comments
-            - No "refactored X to Y" inline documentation
+            - No "reorganized code to..." or "refactored X to Y" comments
             - No changelog-style comments in code
             - Version control handles this - use commit messages instead
 
             ## Don't Include Change History in Files
 
-            - No "Updated on..." or "Changed from..." annotations
-            - No "Previously this was..." explanations
+            - No "Updated on...", "Changed from...", or "Previously this was..." annotations
             - No revision history within data/content
             - History belongs in version control, not in the data itself
-
-            ## Do
-
-            - Suggest documentation needs first
-            - Summarize findings in chat
-            - Update existing documentation
-            - Create code, tests, and configuration files
-            - Write meaningful commit messages for progress tracking
-        content_hash: sha256:c3d395989c348fde8392802280ae00e6beaa446d8a52bd24659cb5c02ed86d6e
+        content_hash: sha256:9c4ca97e008558656b963f70d2940bc2780c8bb7ce7174fa12582a833bceab00
         distilled: |-
-            # documentation
-
             # Documentation Guidelines
 
-            ## README Management
-            - Read README first
-            - Update when adding features
-            - Keep current
-
-            ## Ask First Before Creating
-            - *.md files (REFACTORING.md, architecture docs)
-            - Planning/strategy docs
-            - Project tracking
-            - Meta-documentation
-
-            Exception: README updates permitted for new features
-
-            ## Don't Document Progress in Code
-            - No "reorganized/refactored" comments
-            - No changelog-style inline docs
-            - Use commit messages instead
-
-            ## Don't Include Change History in Files
-            - No "Updated on..." or "Previously..." annotations
-            - History stays in version control, not data
-
-            ## Do
-            - Suggest documentation needs
-            - Summarize findings
-            - Update existing docs
-            - Create code, tests, config
-            - Write meaningful commit messages
-        distilled_by: claude-haiku-4-5-20251001
+            Ask first before creating any *.md file, planning/strategy document, tracking file, or meta-documentation (exception: README updates when adding features). No progress notes in code ("refactored X to Y", changelog-style comments) and no change history in files ("Updated on...", "Previously this was..."); history belongs in version control and commit messages.
+        distilled_by: claude-code
     strings:
         tags:
-            - code
-            - strings
-            - errors
+        - code
+        - strings
+        - errors
         content: |-
             # String Handling
 
             ## No String-Based Flow Control
 
-            Never use string approximations (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly instructed. These are brittle and break silently when messages change.
-
-            ```python
-            # Wrong: brittle string matching
-            if error.message.startswith("Invalid"):
-                handle_validation_error()
-            elif "not found" in error.message.lower():
-                handle_not_found()
-
-            # Right: use typed errors or error codes
-            if isinstance(error, ValidationError):
-                handle_validation_error()
-            elif error.code == ErrorCode.NOT_FOUND:
-                handle_not_found()
-            ```
+            Never use string approximations (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly instructed. Use typed errors or error codes instead.
 
             ```go
             // Wrong
@@ -126,26 +67,9 @@ fragments:
 
             All error messages must be defined as constants and reused in test assertions. No magic strings.
 
-            ```python
-            # constants.py
-            ERR_USER_NOT_FOUND = "user not found"
-            ERR_INVALID_EMAIL = "invalid email format"
-
-            # service.py
-            from .constants import ERR_USER_NOT_FOUND
-            raise NotFoundError(ERR_USER_NOT_FOUND)
-
-            # test_service.py
-            from .constants import ERR_USER_NOT_FOUND
-            assert str(exc.value) == ERR_USER_NOT_FOUND
-            ```
-
             ```go
             // errors.go
-            var (
-                ErrUserNotFound = errors.New("user not found")
-                ErrInvalidEmail = errors.New("invalid email format")
-            )
+            var ErrUserNotFound = errors.New("user not found")
 
             // service.go
             return ErrUserNotFound
@@ -153,66 +77,9 @@ fragments:
             // service_test.go
             assert.ErrorIs(t, err, ErrUserNotFound)
             ```
-
-            ## Why This Matters
-
-            - String matching breaks silently when messages change
-            - Typos in string comparisons cause subtle bugs
-            - Constants enable IDE refactoring and find-all-references
-            - Tests verify actual error handling, not string coincidences
-            - Internationalization becomes possible
-        content_hash: sha256:88b53b81c5c315b7879976858f39a1ed5eb71d390c47522fc448ca04d9e6037a
+        content_hash: sha256:5278e4fbf6ebf5b7bfe478c7ab3579c6297d3a1b7e73a49bce9b4ce88ac3cd3b
         distilled: |-
             # String Handling
 
-            ## No String-Based Flow Control
-
-            Never use string approximations (startswith, endswith, contains, substring) for flow control—brittle, breaks silently.
-
-            ```python
-            # Wrong
-            if error.message.startswith("Invalid"): ...
-            elif "not found" in error.message.lower(): ...
-
-            # Right
-            if isinstance(error, ValidationError): ...
-            elif error.code == ErrorCode.NOT_FOUND: ...
-            ```
-
-            ```go
-            // Wrong
-            if strings.Contains(err.Error(), "connection refused") { retry() }
-
-            // Right
-            if errors.Is(err, ErrConnectionRefused) { retry() }
-            ```
-
-            ## Error Messages as Constants
-
-            Define error messages as constants; reuse in tests. No magic strings.
-
-            ```python
-            # constants.py
-            ERR_USER_NOT_FOUND = "user not found"
-
-            # service.py
-            raise NotFoundError(ERR_USER_NOT_FOUND)
-
-            # test_service.py
-            assert str(exc.value) == ERR_USER_NOT_FOUND
-            ```
-
-            ```go
-            var ErrUserNotFound = errors.New("user not found")
-            // service: return ErrUserNotFound
-            // test: assert.ErrorIs(t, err, ErrUserNotFound)
-            ```
-
-            ## Why
-
-            - String matching breaks silently on message changes
-            - Typos cause subtle bugs
-            - Constants enable IDE refactoring/find-refs
-            - Tests verify error handling, not string coincidence
-            - Enables i18n
+            Never branch on string approximations of messages (startswith/contains/substring) unless explicitly instructed — use typed errors or error codes (`errors.Is(err, ErrConnectionRefused)`, not `strings.Contains(err.Error(), ...)`). Define all error messages as constants/sentinel errors and reuse them in test assertions — no magic strings.
         distilled_by: claude-code

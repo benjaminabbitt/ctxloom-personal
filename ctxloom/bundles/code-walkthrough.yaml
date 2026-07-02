@@ -118,8 +118,6 @@ fragments:
         content: |-
             # Status Document Pattern
 
-            ## Purpose
-
             Maintain a gitignored status document to track progress through a multi-session code review.
 
             ## Structure
@@ -142,64 +140,19 @@ fragments:
             ### Session N: [Date/Topic]
             **Reviewed:**
             - [x] file1.rs - key observation
-            - [x] file2.rs - another observation
 
             **Next:**
             - [ ] file3.rs - what to look at
 
             ## Questions/Notes
-            [Capture observations, questions, design decisions]
+            [Observations, questions, design decisions]
 
             ## Summary
             [Key patterns, learnings, decisions made]
             ```
-
-            ## Best Practices
-
-            - **Gitignore the status file**: It's session-specific, not part of the codebase
-            - **Update as you go**: Mark items complete immediately after reviewing
-            - **Capture decisions**: Document why changes were made for future reference
-            - **Track blockers**: Note anything that needs follow-up
-        content_hash: sha256:3e9a750fe2373c8793cf34b9c066bcb52b7544e11782c5e02e716bed40556be4
+        content_hash: sha256:6a9e10d15ac7622ef433b0c69cfc99d88ca432bb69b7799714a6744bb8c98c9a
         distilled: |-
             # Status Document Pattern
 
-            ## Purpose
-            Gitignored doc tracking multi-session review progress.
-
-            ## Structure
-            ```markdown
-            # Code Review: [Project/Feature]
-
-            ## Approach
-            [What's being reviewed, why]
-
-            ## Flow Map
-            [ASCII flow diagram]
-
-            ## Files to Review
-            | File | Status | Notes |
-            |------|--------|-------|
-            | path/to/file.rs | [x] | Brief notes |
-
-            ## Session Log
-            ### Session N: [Date/Topic]
-            **Reviewed:**
-            - [x] file1.rs - observation
-
-            **Next:**
-            - [ ] file3.rs - what to check
-
-            ## Questions/Notes
-            [Observations, questions, decisions]
-
-            ## Summary
-            [Key patterns, learnings]
-            ```
-
-            ## Best Practices
-            - Gitignore status file (session-specific)
-            - Update immediately after reviewing
-            - Document decision rationale
-            - Track blockers for follow-up
-        distilled_by: claude-3-opus
+            Track multi-session code-review progress in a gitignored status doc with sections: Approach (what/why); Flow Map (ASCII diagram); Files to Review (table: File | Status | Notes); Session Log (per-session Reviewed/Next checklists); Questions/Notes; Summary.
+        distilled_by: claude-code

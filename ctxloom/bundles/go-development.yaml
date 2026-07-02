@@ -97,68 +97,18 @@ fragments:
         - golang
         - testing
         - tdd
-        content: |
+        content: |-
             # Go Testing Practices
 
-            ## Structure
-            - Table-driven tests for multiple cases
-            - Use testify/assert for complex assertions
-            - Subtests with t.Run for organization
-
             ## Naming
+
             - Test functions: TestFunctionName_Scenario_ExpectedResult
             - Use descriptive subtest names
-
-            ## Patterns
-            ```go
-            func TestAdd_TwoPositiveNumbers_ReturnsSum(t *testing.T) {
-                tests := []struct {
-                    name     string
-                    a, b     int
-                    expected int
-                }{
-                    {"basic", 1, 2, 3},
-                    {"zero", 0, 0, 0},
-                }
-                for _, tt := range tests {
-                    t.Run(tt.name, func(t *testing.T) {
-                        got := Add(tt.a, tt.b)
-                        assert.Equal(t, tt.expected, got)
-                    })
-                }
-            }
-            ```
-
-            ## Coverage
-            - Aim for 80%+ coverage on critical paths
-            - Test error cases explicitly
-            - Use mocks for external dependencies
-        content_hash: sha256:99924f745f3777fee51ed0a1aa4a829064e1bf2545b0f44a80ce564e85fcb3bf
+        content_hash: sha256:bc82e484b4135e4414e5fb251d2ea4545413ea0daa36dee8a1a3e10deae75398
         distilled: |-
             # Go Testing
 
-            ## Structure
-            - Table-driven tests w/ testify/assert
-            - t.Run for subtests
-
-            ## Naming
-            - TestFunc_Scenario_Expected
-            - Descriptive subtest names
-
-            ## Pattern
-            ```go
-            tests := []struct{ name string; a,b,expected int }{...}
-            for _, tt := range tests {
-                t.Run(tt.name, func(t *testing.T) {
-                    assert.Equal(t, tt.expected, Add(tt.a, tt.b))
-                })
-            }
-            ```
-
-            ## Coverage
-            - 80%+ on critical paths
-            - Test error cases
-            - Mock external deps
+            Name test functions TestFunctionName_Scenario_ExpectedResult; use descriptive subtest names.
         distilled_by: claude-code
 skills:
     tooling:
