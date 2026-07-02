@@ -1,8 +1,8 @@
 version: 1.0.0
 tags:
-    - golang
-    - development
-    - testing
+- golang
+- development
+- testing
 author: ctxloom
 description: Go development guidelines and best practices
 notes: |
@@ -11,8 +11,8 @@ notes: |
 fragments:
     golang:
         tags:
-            - golang
-            - language
+        - golang
+        - language
         content: |-
             # Golang Dev
 
@@ -92,116 +92,11 @@ fragments:
             }
             ```
         distilled_by: claude-3-opus
-    project-structure:
-        tags:
-            - golang
-            - architecture
-        content: |
-            # Go Project Organization
-
-            ## Standard Layout
-            ```
-            cmd/           # Main applications
-            internal/      # Private application code
-            pkg/           # Public library code
-            api/           # API definitions (OpenAPI, proto)
-            web/           # Web assets
-            configs/       # Configuration templates
-            scripts/       # Build/install scripts
-            test/          # Integration tests
-            ```
-
-            ## Package Design
-            - Small, focused packages
-            - Avoid circular dependencies
-            - Internal packages for implementation details
-            - Accept interfaces, return structs
-
-            ## Dependencies
-            - Use go.mod for dependency management
-            - Vendor if reproducibility required
-            - Minimize external dependencies
-        content_hash: sha256:ef370522469935ea2be4bc988144c837de1e11df5986d8a97d9007449bc6157a
-        distilled: |-
-            # Go Project Structure
-
-            ## Layout
-            ```
-            cmd/           # Main apps
-            internal/      # Private code
-            pkg/           # Public libs
-            api/           # API defs (OpenAPI, proto)
-            web/           # Web assets
-            configs/       # Config templates
-            scripts/       # Build scripts
-            test/          # Integration tests
-            ```
-
-            ## Packages
-            - Small, focused
-            - No circular deps
-            - Internal for impl details
-            - Accept interfaces, return structs
-
-            ## Deps
-            - go.mod for management
-            - Vendor for reproducibility
-            - Minimize external deps
-        distilled_by: claude-code
-    style:
-        tags:
-            - golang
-            - style
-        content: |
-            # Go Code Style
-
-            ## Formatting
-            - Use gofmt for all code
-            - Follow Effective Go guidelines
-            - Keep functions focused and small (<50 lines preferred)
-
-            ## Naming
-            - Use MixedCaps, not underscores
-            - Exported names: descriptive and complete
-            - Interfaces: method-based (Reader, Writer, Closer)
-            - Receivers: short, 1-2 letters, consistent
-
-            ## Documentation
-            - Document all exported identifiers
-            - Start with the name being documented
-            - Complete sentences ending with period
-
-            ## Error Handling
-            - Return errors, don't panic
-            - Wrap errors with context: fmt.Errorf("op: %w", err)
-            - Check errors immediately after call
-            - Use sentinel errors sparingly
-        content_hash: sha256:2b879b077def6c48f175e8f14b77262b30fc7e6dd665d58872c2a042b6298692
-        distilled: |-
-            # Go Style
-
-            ## Format
-            - gofmt, Effective Go
-            - Funcs <50 lines
-
-            ## Naming
-            - MixedCaps; exported=descriptive
-            - Interfaces: Reader/Writer/Closer
-            - Receivers: 1-2 char, consistent
-
-            ## Docs
-            - Export IDs only; start w/ name; complete sentences
-
-            ## Errors
-            - Return not panic
-            - Wrap: `fmt.Errorf("op: %w", err)`
-            - Check immediately; sentinel sparingly
-        distilled_by: claude-code
     testing:
         tags:
-            - golang
-            - testing
-            - tdd
+        - golang
+        - testing
+        - tdd
         content: |
             # Go Testing Practices
 
@@ -266,65 +161,11 @@ fragments:
             - Mock external deps
         distilled_by: claude-code
 skills:
-    code-review:
-        description: Go-specific code review
-        tags:
-            - golang
-            - review
-        content: |
-            Review this Go code focusing on:
-            - Idiomatic Go patterns
-            - Error handling
-            - Concurrency safety
-            - Interface usage
-            - Test coverage
-
-            Code:
-            {{code}}
-        content_hash: sha256:3116a55516d3539d1c29ebd38c0b1f3f9fa575af282a81653109bab7a999fc68
-        distilled: |-
-            Review Go code for:
-            - Idiomatic patterns
-            - Error handling
-            - Concurrency safety
-            - Interface usage
-            - Test coverage
-
-            Code:
-            {{code}}
-        distilled_by: claude-code
-    refactor:
-        description: Suggest Go refactoring improvements
-        tags:
-            - golang
-            - refactoring
-        content: |
-            Analyze this Go code and suggest refactoring improvements:
-            - Extract small focused functions
-            - Improve naming
-            - Better error handling
-            - Reduce complexity
-            - Add missing documentation
-
-            Code:
-            {{code}}
-        content_hash: sha256:78d147b3c1719e4fd8c76f67339bbbc0556874e1012e5c600159a7152b68f2f0
-        distilled: |-
-            Analyze Go code for refactoring:
-            - Extract focused funcs
-            - Improve names
-            - Better error handling
-            - Reduce complexity
-            - Add docs
-
-            Code:
-            {{code}}
-        distilled_by: claude-code
     tooling:
         description: Tools the Go development content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:
-            - tooling
-            - golang
+        - tooling
+        - golang
         content: |
             CLIs this bundle's practices assume, beyond the Go toolchain
             itself (testify/gomock arrive as go.mod dependencies — only the
@@ -339,41 +180,33 @@ skills:
             - mockgen: gomock generation (go.uber.org/mock/mockgen).
 profiles:
     go-developer:
-        description: "Go developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles)."
+        description: 'Go developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles).'
         tags:
-            - golang
-            - development
-            - backend
+        - golang
+        - development
+        - backend
         parents:
-            - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
+        - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
         bundles:
-            - https://github.com/ctxloom/ctxloom-default@bundles/go-ai-practices
-            - https://github.com/ctxloom/ctxloom-default@bundles/12-factor
-            - https://github.com/ctxloom/ctxloom-default@bundles/default
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/containers
+        - https://github.com/ctxloom/ctxloom-default@bundles/go-ai-practices
+        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/containers
     go-code-reviewer:
-        description: "Go code reviewer: every review lens (general via cr-all + go specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis."
+        description: 'Go code reviewer: every review lens (general via cr-all + go specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis.'
         tags:
-            - golang
-            - review
-            - code-quality
+        - golang
+        - review
+        - code-quality
         parents:
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
         bundles:
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-correctness#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-language-idioms#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-maintainability#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/golang
-            - https://github.com/ctxloom/ctxloom-default@bundles/default
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
+        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development

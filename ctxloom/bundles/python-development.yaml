@@ -1,43 +1,35 @@
 version: 1.0.0
 tags:
-    - python
-    - development
+- python
+- development
 author: ctxloom
 description: Python developer and reviewer profile compositions (personal); language practices live upstream in ctxloom-default.
 profiles:
     python-developer:
-        description: "Python developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles)."
+        description: 'Python developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles).'
         tags:
-            - python
-            - development
+        - python
+        - development
         parents:
-            - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
+        - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
         bundles:
-            - https://github.com/ctxloom/ctxloom-default@bundles/python-development
-            - https://github.com/ctxloom/ctxloom-default@bundles/12-factor
-            - https://github.com/ctxloom/ctxloom-default@bundles/default
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/containers
+        - https://github.com/ctxloom/ctxloom-default@bundles/python-development
+        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/containers
     python-code-reviewer:
-        description: "Python code reviewer: every review lens (general via cr-all + python specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis."
+        description: 'Python code reviewer: every review lens (general via cr-all + python specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis.'
         tags:
-            - python
-            - review
-            - code-quality
+        - python
+        - review
+        - code-quality
         parents:
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
         bundles:
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-correctness#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-language-idioms#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-maintainability#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/python
-            - https://github.com/ctxloom/ctxloom-default@bundles/default
-            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
+        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices

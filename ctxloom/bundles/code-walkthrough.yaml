@@ -1,88 +1,15 @@
 version: 1.0.0
 tags:
-    - review
-    - workflow
-    - collaboration
+- review
+- workflow
+- collaboration
 author: ctxloom
 description: Interactive code walkthrough pattern for reviewing and refining code with human oversight
 fragments:
-    questioning-patterns:
-        tags:
-            - review
-            - quality
-        content: |-
-            # Questioning Unusual Code
-
-            ## When to Ask Questions
-
-            The AI should proactively ask about code that seems:
-
-            - **Inconsistent**: Different patterns used for similar operations
-            - **Surprising defaults**: Values that might not be what users expect
-            - **Missing configuration**: Hardcoded values that should be configurable
-            - **Implicit requirements**: Things that must be set but aren't enforced
-            - **Potential footguns**: Easy mistakes that could lead to bugs
-
-            ## Question Format
-
-            ```markdown
-            **Questions:**
-
-            1. **[Brief label]** — Why does X do Y? Should it instead do Z?
-
-            2. **[Another label]** — This defaults to A, but B seems more appropriate because...
-
-            ---
-
-            Any of these worth addressing before we continue?
-            ```
-
-            ## Examples
-
-            - "Hardcoded MergeCommutative — shouldn't merge strategy be configurable?"
-            - "Default sequence is 0 — could be a footgun for updates where caller forgets to set it"
-            - "root is Optional but routing requires it — when would None be valid?"
-
-            ## Outcome
-
-            Questions should lead to one of:
-            - **Fix it now**: Make the change before proceeding
-            - **Document it**: Add a comment explaining why it's intentional
-            - **Defer it**: Note for later if out of scope
-            - **Dismiss it**: Human explains why it's fine as-is
-        content_hash: sha256:128704c5a8ab82bca0c0a93c08dc9b3f2cf95c7154746cbd13f15751e2c6a806
-        distilled: |-
-            # Questioning Unusual Code
-
-            ## When to Ask
-            Proactively question code that seems:
-            - **Inconsistent**: Different patterns for similar ops
-            - **Surprising defaults**: Unexpected values
-            - **Missing config**: Hardcoded values needing configurability
-            - **Implicit requirements**: Unenforced must-haves
-            - **Footguns**: Easy mistakes causing bugs
-
-            ## Format
-            ```markdown
-            **Questions:**
-            1. **[Label]** — Why X does Y? Should it do Z?
-            2. **[Label]** — Default A, but B seems better because...
-            ---
-            Worth addressing before continuing?
-            ```
-
-            ## Examples
-            - "Hardcoded MergeCommutative — merge strategy configurable?"
-            - "Default sequence 0 — footgun if caller forgets to set?"
-            - "root Optional but routing requires it — when is None valid?"
-
-            ## Outcomes
-            - **Fix now** | **Document why** | **Defer** | **Dismiss**
-        distilled_by: claude-3-opus
     walkthrough-pattern:
         tags:
-            - review
-            - interaction
+        - review
+        - interaction
         content: |-
             # Code Walkthrough Pattern
 
@@ -186,8 +113,8 @@ fragments:
         distilled_by: claude-3-opus
     walkthrough-status-tracking:
         tags:
-            - review
-            - documentation
+        - review
+        - documentation
         content: |-
             # Status Document Pattern
 
