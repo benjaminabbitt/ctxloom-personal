@@ -337,3 +337,43 @@ skills:
             - godog: the Gherkin acceptance runner
               (github.com/cucumber/godog/cmd/godog).
             - mockgen: gomock generation (go.uber.org/mock/mockgen).
+profiles:
+    go-developer:
+        description: "Go developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles)."
+        tags:
+            - golang
+            - development
+            - backend
+        parents:
+            - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/go-ai-practices
+            - https://github.com/ctxloom/ctxloom-default@bundles/12-factor
+            - https://github.com/ctxloom/ctxloom-default@bundles/default
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/containers
+    go-code-reviewer:
+        description: "Go code reviewer: every review lens (general via cr-all + go specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis."
+        tags:
+            - golang
+            - review
+            - code-quality
+        parents:
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-correctness#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-language-idioms#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-maintainability#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-performance#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-reliability#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-review-testing#fragments/golang
+            - https://github.com/ctxloom/ctxloom-default@bundles/default
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development

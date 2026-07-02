@@ -239,3 +239,12 @@ fragments:
 
       Writing code for "the old way"? Stop. Delete it. Only the new way exists.
     distilled_by: claude-code
+profiles:
+    prototype:
+        description: "Prototyping profile for greenfield development — no backwards compatibility, reductive approach. Folded from the retired top-level profile."
+        tags:
+            - prototype
+            - greenfield
+            - rapid
+        bundles:
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/prototyping

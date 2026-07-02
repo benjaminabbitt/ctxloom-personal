@@ -1,0 +1,25 @@
+version: 1.0.0
+tags:
+    - typescript
+    - web
+    - development
+author: ctxloom
+description: TypeScript web developer profile composition (personal); language practices live upstream in ctxloom-default.
+profiles:
+    typescript-web-developer:
+        description: "TypeScript web developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles)."
+        tags:
+            - typescript
+            - web
+            - frontend
+            - react
+        parents:
+            - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
+        bundles:
+            - https://github.com/ctxloom/ctxloom-default@bundles/typescript-development
+            - https://github.com/ctxloom/ctxloom-default@bundles/12-factor
+            - https://github.com/ctxloom/ctxloom-default@bundles/default
+            - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just

@@ -182,3 +182,13 @@ fragments:
             - Worktree outside `<repo>/` → must be sibling of `main`
             - Reuse deleted worktree dir without `git worktree prune` first
         distilled_by: claude-haiku-4-5-20251001
+profiles:
+    ben-developer:
+        description: "Ben's personal developer profile — language-agnostic tooling preferences. Folded from the retired top-level profile."
+        tags:
+            - personal
+            - development
+        bundles:
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
+            - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/source-organization
