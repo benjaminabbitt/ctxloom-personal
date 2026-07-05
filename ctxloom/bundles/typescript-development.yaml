@@ -4,7 +4,7 @@ tags:
 - web
 - development
 author: ctxloom
-description: TypeScript web developer profile composition (personal); language practices live upstream in ctxloom-default.
+description: TypeScript web developer and reviewer profile compositions (personal); language practices live upstream in ctxloom-default.
 profiles:
     typescript-web-developer:
         description: 'TypeScript web developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles).'
@@ -22,3 +22,17 @@ profiles:
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
+    typescript-web-code-reviewer:
+        description: 'TypeScript web code reviewer: every review lens (general via cr-all + typescript/web specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis.'
+        tags:
+        - typescript
+        - web
+        - review
+        - code-quality
+        parents:
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
+        bundles:
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
+        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
+        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
