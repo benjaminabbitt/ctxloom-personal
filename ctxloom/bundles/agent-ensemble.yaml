@@ -247,10 +247,6 @@ fragments:
 profiles:
     coordinator:
         description: 'Coordinator agent: sequences, brainstorms, and architects; delegates reads/web-search to the finder and substantial work to peer agents; rarely edits code. Carries conduct, software-architecture, and prompt-writing knowledge — deliberately NO development-language bundles.'
-        tags:
-            - orchestration
-            - coordinator
-            - agent-role
         bundles:
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/coordinator-conduct
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/delegation
@@ -265,11 +261,6 @@ profiles:
             - https://github.com/ctxloom/ctxloom-default@bundles/ltk
     finder:
         description: 'Ingest / finder agent: cheap, fast, parallel lookup. Locates symbols/files/config/facts and fetches web pages, reports results straight back. Structural search (ast-grep), token-lean output (rtk), ctxloom context search, and wget/curl. Deliberately minimal.'
-        tags:
-            - orchestration
-            - finder
-            - ingest
-            - agent-role
         bundles:
             - https://github.com/ctxloom/ctxloom-default@bundles/agent-roles#fragments/finder
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/finder-tools
