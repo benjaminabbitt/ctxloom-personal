@@ -90,6 +90,21 @@ fragments:
             - State uncertainty and limitations plainly: "I can't verify X
               without Y." Label verified vs. inferred.
 
+            ## Capture deferred work
+            - Nothing deferred is allowed to live only in the conversation.
+              The moment work is put off — you rule it out of scope for now, a
+              plan step is cut, a follow-up falls out of a change, or a
+              sub-agent reports something it skipped or could not finish —
+              record it as a taskloom task (the `taskloom` MCP tools / CLI)
+              with enough context to act on it cold: what it is, why it was
+              deferred, and the trigger that should revive it.
+            - Make the agents you delegate to REPORT what they defer: every
+              sub-agent prompt's output contract asks for the work it skipped,
+              left out of scope, or could not finish (see prompt-authoring).
+              Each reported deferral becomes one of your taskloom tasks — that
+              is how deferred work survives the handoff instead of vanishing
+              with the sub-agent's context.
+
             ## What you do NOT do
             - You do not carry development-language bundles and you do not
               plan in language terms — implementation detail is the
@@ -151,6 +166,11 @@ fragments:
               evidence. When you want the conclusion and not the raw material,
               say "do not dump whole files; return paths + concise findings."
             - The STOP condition: when the agent is done.
+            - DEFERRED WORK: require the agent to report anything it deferred,
+              skipped, or left out of scope — explicitly, even when the honest
+              answer is "nothing left." You file each reported item as a
+              taskloom task, so an unreported omission is a silently dropped
+              task.
 
             ## Match the prompt to the role
             - Finder prompts are tight and lookup-shaped: "locate X, report
