@@ -1,0 +1,164 @@
+version: 1.0.0
+tags:
+- writing
+- docs
+- documentation
+- truthfulness
+author: ctxloom
+description: 'Writing documentation that is true and that leads with why: claim discipline against the code, the inverted-pyramid opening, and an adversarial verification pass that checks a docs tree against its implementation.'
+fragments:
+  lead-with-why:
+    tags:
+    - writing
+    - docs
+    - structure
+    notes: Standard held by the author across every hand-written page of the ctxloom docs site; the Session Memory page is the exemplar. Promoted here from a personal note so it survives outside one person's head. Pairs with the humanizer bundle's `formatting` fragment, which governs prose-vs-bullets; this one governs order.
+    content: |-
+      # Lead with why
+
+      Every hand-written docs page opens with the pain and the payoff. Mechanism comes last. A reader who stops after the first paragraph should still know whether this page is for them.
+
+      ## The order
+
+      **Impactful → useful → detail.** Never the reverse.
+
+      1. **The pain.** What goes wrong without this. Name it concretely — the failing command, the lost work, the wasted tokens. Not "context management is important."
+      2. **The payoff.** What you get instead, in one sentence a reader can repeat to a colleague.
+      3. **The shape.** How it works, at the altitude of a diagram or a three-step flow.
+      4. **The detail.** Flags, keys, schemas, edge cases. This is where reference material lives, and it is the part most readers will skip — which is fine, because they got what they came for above it.
+
+      The instinct to define your terms before using them is the enemy here. A page that opens with "A fragment is a unit of context" has told the reader nothing about why they should care. Open with the problem fragments solve; the definition can wait three paragraphs, and by then the reader wants it.
+
+      ## What this rules out
+
+      - Opening with a definition, a taxonomy, or a "Concepts" preamble.
+      - Opening with installation or syntax. Nobody installs a thing they aren't yet sold on.
+      - Burying the motivating example below the reference table.
+      - A "Why?" section placed *after* the "How?" section. If you find yourself writing one, it belongs at the top and it isn't a section, it's the opening.
+
+      ## Exempt
+
+      Generated reference (CLI pages, schema dumps, tool listings). Those exist to be indexed and grepped, not read start to finish. Do not retrofit narrative onto them — and do not hand-edit them at all.
+    content_hash: ''
+  claims-against-code:
+    tags:
+    - writing
+    - docs
+    - truthfulness
+    - verification
+    notes: 'Every rule here is derived from a real defect found in a multi-agent audit of the ctxloom website (2026-07-12), not from priors about how docs go wrong. The failure modes are ranked by how much damage they did: silent no-ops beat hard errors, because the user has nothing to search for.'
+    content: |-
+      # Claims against code
+
+      A docs page is a set of falsifiable claims. Every command, flag, config key, path, default, and described behavior is a promise that the code will do a specific thing. You do not get to write one from memory.
+
+      ## The rule
+
+      **Before you assert it, read the code that implements it.** Not the doc that describes it, not the commit message, not the name of the function. The implementation. A symbol name is a hypothesis; the body is evidence.
+
+      When you cannot read it, say so in the draft: mark the claim and go find out. An unmarked guess is indistinguishable from a verified fact to every reader who comes after you, including you in a month.
+
+      ## The failure modes that actually happen
+
+      Ranked by damage, worst first. The ordering is not intuitive — the quiet failures are the expensive ones.
+
+      **1. The silently-ignored key.** You document a config key that was renamed or retired. The decoder is not strict, so it does not error — it ignores the key and the user gets a working program with no effect and nothing to search for. This is worse than a crash by a wide margin: a crash names itself. Whenever you document a config key, confirm the struct field still exists *and* confirm what happens to an unknown key.
+
+      **2. The promise the code discards.** You document a warning, a validation, or a fallback that the code computes and then throws away — a check wired to a no-op sink, a required field nobody enforces. Grep for the call site, not the definition. A function that builds an error message proves nothing; find who receives it.
+
+      **3. The feature behind a build tag.** You describe a capability that exists in the source and is compiled out of the binary your users actually install. Check which build the default install path delivers before you put a capability on the front page.
+
+      **4. The wrong argument kind.** You pass a bundle name to a flag that takes a fragment name, a remote alias to a parser that only accepts canonical URLs, a local short name to a lookup that only indexes remote keys. These are the most-copied errors because examples propagate: one wrong invocation on the landing page reappears on five other pages. Run the example.
+
+      **5. The omitted step.** The flow you document works, and produces nothing, because you left out the step that authorizes it — the review, the trust decision, the hook install. Walk the flow as a stranger with an empty machine, not as the person who already ran the setup.
+
+      **6. The stale absolute.** "Automatically", "always", "never", "isolated", "verified", "only". Each one is a claim with a blast radius. Every absolute needs a specific line of code behind it, and most of them, when you go look, turn out to be conditional.
+
+      ## Security claims
+
+      Hold these to a higher bar than anything else on the page, in both directions.
+
+      **Never overclaim.** If you write "sandboxed", "can't touch", "verified", or "signed", the code must actually enforce it — fail *closed*, not warn and proceed. Check the escape hatches: what happens when the checksum file is missing, when the key is absent, when the tool isn't installed? A verification that degrades to a warning is not verification, and describing it as automatic is how a user ends up trusting a binary nobody checked.
+
+      **Never underclaim either.** Describing a cryptographic guarantee as a weaker one is its own kind of lie — it teaches the reader to distrust a mechanism that would have protected them, and invites someone to "simplify" it away. Describe what is actually enforced.
+
+      ## Generated pages
+
+      Some reference pages are generated from the code (CLI help, schemas, tool registrations). Two consequences:
+
+      - **Never hand-edit them.** The next regeneration reverts you, and CI probably fails on the drift.
+      - **They are authoritative for surface, not for truth.** A generated page faithfully propagates whatever its source says. If the schema has drifted from the struct, the generated page is confidently wrong and no amount of proofreading the page will find it. When a generated page and the code disagree, the bug is upstream — fix the source, not the prose.
+
+      ## Aspirational tense
+
+      Never describe an unshipped feature in the present tense. If it is designed but not built, it does not go on the site. "Will" is not a fix — a roadmap item in a docs page reads as shipped to every reader who is skimming, which is all of them.
+    content_hash: ''
+skills:
+  verify-docs:
+    description: Adversarially fact-check a documentation tree against the code that implements it, and report tiered findings with file:line evidence.
+    tags:
+    - docs
+    - verification
+    - truthfulness
+    content: |-
+      Fact-check the documentation at {{TARGET}} against the code that implements it.
+
+      Your job is to REFUTE claims, not to confirm them. Assume the docs have drifted and go find where. A page that looks fine has not been checked; it has been read.
+
+      ## Establish the oracles first
+
+      Before checking anything, pin down, in this order of authority:
+
+      1. **The implementation.** The source tree, at a named commit. Record the commit — a finding against the wrong base is noise.
+      2. **Generated reference**, if any (CLI help from the arg parser, schema dumps, tool registrations). These are authoritative for what the *surface* is. Treat a flag that appears in narrative prose but not in generated reference as a red flag to chase into the source. But remember: a generated page only reflects its generator's input, so if that input has drifted, the page is confidently wrong.
+      3. **A current binary**, if you can get one, for read-only checks (`--help`, list commands). Confirm it is built from the commit you are checking — a stale binary will happily confirm a stale doc.
+
+      Never trust a summary of the code, including one given to you in this prompt.
+
+      ## Split the work
+
+      One agent per small group of pages (two or three). Give each the same oracles and the same tiers. Independent agents catch more than one agent making N passes, and they will not talk each other into a shared wrong assumption.
+
+      ## Tiers
+
+      Label every finding:
+
+      - **FALSE** — a command, flag, key, path, default, or behavior that contradicts the code.
+      - **STALE** — true once; renamed, moved, retired, or inverted since.
+      - **UNSUPPORTED** — a capability asserted with no implementation you can find, or an absolute ("automatically", "always", "isolated", "verified") the code does not guarantee.
+      - **MISSING** — for two-way diffs (schema keys, env vars, registered tools): the real thing the doc never mentions.
+
+      ## Where to push hardest
+
+      - **Every fenced code block is a claim under test.** A copy-pasteable command that fails is the most damaging falsehood a docs page can carry, and examples propagate — one wrong invocation on a landing page reappears everywhere.
+      - **Two-way diff anything enumerable.** Config keys, env vars, MCP tools, subcommands: documented-but-absent *and* real-but-undocumented. One direction is half a check.
+      - **Security and trust claims.** Overclaiming is the worst defect on any site. If the doc implies a check fails closed and the code only warns, that is a top-priority finding. Underclaiming — describing a strong guarantee as a weak one — is also a finding.
+      - **Silent failures over loud ones.** A key that is ignored rather than rejected, a warning computed and discarded, a flag inert in the mode it is documented in. These cost users the most because there is nothing to search for.
+
+      ## Output
+
+      Per page, a list of findings. Each one carries:
+
+      - the tier
+      - the exact quoted claim and its line number
+      - why it is wrong, with code evidence as `file:line`
+      - the corrected statement
+
+      A page with no findings must say so explicitly, and list what was checked — otherwise "no findings" is indistinguishable from "did not look."
+
+      Close with what you could not verify and why. Separate **doc bugs** (fix the prose) from **code bugs** (fixing the prose would enshrine the defect) — they go to different people.
+
+      Report only. Fix nothing.
+    content_hash: ''
+profiles:
+  website-author:
+    description: 'Authoring documentation and website copy: human voice (no AI tells), claims verified against the implementation, pages that lead with why.'
+    tags:
+    - writing
+    - docs
+    - website
+    bundles:
+    - https://github.com/benjaminabbitt/ctxloom-personal@bundles/humanizer
+    - https://github.com/benjaminabbitt/ctxloom-personal@bundles/docs-authoring
+    - https://github.com/ctxloom/ctxloom-default@bundles/default#fragments/communication
+    - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general#fragments/version-source-of-truth

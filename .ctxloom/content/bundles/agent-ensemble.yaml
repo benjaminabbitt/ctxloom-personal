@@ -344,9 +344,14 @@ fragments:
             ## Code and context lookup
             - Structural code search → `ast-grep` (tree-sitter AST patterns)
               when you want to match by code shape, not text.
-            - Context library, prior sessions, fragments → the ctxloom search
-              tools (`search_content`, `search_library`) — the contextual
-              finder surface.
+            - Installed fragments, skills, profiles → `search_content`.
+              Installable bundles on the remotes → `search_library`. Both
+              search the CONTENT LIBRARY by name/tag/description — neither
+              searches past sessions, and `search_content` does not even
+              match fragment bodies.
+            - Past sessions ("what did we decide about X") → claude-mem's
+              `search`, not the ctxloom search tools. See the session-memory
+              fragment.
             - Keep command output token-lean: prefer `rtk`-wrapped
               invocations so large outputs come back token-optimized.
 
@@ -366,6 +371,144 @@ fragments:
             deferrals in the report text — even "nothing deferred." If an
             agent_recv wait times out, treat that as "wrap up now": write the
             FINAL report and deferrals and finish, don't keep waiting.
+    beads-tasks:
+        tags:
+            - tooling
+            - tasks
+        content: |-
+            # Task tracking with beads (`bd`)
+
+            Persistent, agent-facing issue tracking. Tasks live in `.beads/`
+            in the repo and survive across sessions and across agents. Use
+            `bd` for all task CRUD — never keep task state in the
+            conversation, where it dies with the context window.
+
+            Prefer the CLI over the `beads-mcp` server: the beads docs
+            recommend CLI + hooks wherever a shell is available, because the
+            MCP tool surface costs tokens you don't need to spend.
+
+            ## The verbs you need
+
+            ```bash
+            bd create "Title of the task" -p 0     # -p = priority
+            bd ready                               # unblocked, actionable work
+            bd list --json                         # everything, machine-readable
+            bd show <id> --json                    # one issue — returns an ARRAY
+            bd update <id> --status in_progress
+            bd close <id> "why it is done"
+            bd dep add <issue-id> <depends-on-id>  # former is blocked by latter
+            ```
+
+            `bd show <id> --json` emits an array, not an object. Read it with
+            `jq '.[0]'`.
+
+            Statuses: `open`, `in_progress`, `blocked`, `deferred`, `closed`,
+            `pinned`, `hooked`.
+
+            `bd ready` already excludes in-progress, blocked, deferred and
+            hooked work, and beads auto-unblocks an issue when its blocker
+            closes. Express real ordering as a dependency rather than as prose
+            in a description — the graph does the bookkeeping for you.
+
+            ## Deferred work must carry a revive condition
+
+            Nothing deferred may live only in the conversation. The moment work
+            is put off — ruled out of scope, cut from a plan, or reported by a
+            sub-agent as skipped — it becomes a beads issue.
+
+            beads defers natively, and its `--until` takes a TIME:
+
+            ```bash
+            bd defer <id> --reason "blocked on the v2 API" --until +2w
+            ```
+
+            A date is not always the right trigger. When what should revive the
+            work is a CONDITION, record the condition in beads' `metadata`
+            under the `ctxloom` namespace:
+
+            ```bash
+            bd defer <id> --reason "needs the signing CLI"
+            bd update <id> --set-metadata ctxloom='{"trigger":"ctxloom sign ships"}'
+            bd show <id> --json | jq '.[0].metadata.ctxloom.trigger'
+            ```
+
+            `metadata` is beads' sanctioned extension point — arbitrary JSON,
+            no schema. Namespace under `ctxloom`; `bd:` and `_` are reserved by
+            beads itself.
+
+            At session start, review deferred issues and surface any whose
+            trigger has fired. A trigger nobody re-reads is just a comment.
+
+            ## Anti-patterns
+
+            - Task state in the conversation. It dies with the window.
+            - A `deferred` issue with neither `--until` nor a
+              `ctxloom.trigger` — that is not deferred, it is forgotten.
+            - "Do X before Y" as prose when `bd dep add` expresses it and
+              `bd ready` enforces it.
+            - `jq '.'` on `bd show --json`. It is an array.
+    session-memory-search:
+        tags:
+            - tooling
+            - memory
+        content: |-
+            # Searching past sessions (claude-mem)
+
+            Searchable memory ACROSS past sessions. claude-mem captures session
+            activity through lifecycle hooks and serves it back over MCP.
+            Capture is passive — you never call anything to store memory, and
+            there is no documented "remember this" tool.
+
+            Reach for it when you need "what did we decide about X", "have we
+            hit this error before", "what was I working on last week" — the
+            questions ctxloom's own session tools cannot answer.
+
+            ## Retrieval
+
+            Three MCP tools, served under `mcp-search`:
+
+            - `search(query, limit, offset, type, obs_type, project,
+              dateStart, dateEnd, orderBy)` — full-text + semantic search over
+              stored observations. Start here.
+            - `timeline(anchor, query, depth_before, depth_after, project)` —
+              what happened around a point, once `search` gives you an anchor.
+            - `get_observations(ids, orderBy, limit, project)` — fetch specific
+              observations once you know which ones you want.
+
+            Search, then widen with `timeline`, then pull detail with
+            `get_observations`. Don't open with a broad `search` at a high
+            `limit` — that re-fills the context window you are protecting.
+            Scope with `project` and `dateStart`/`dateEnd` when you can; an
+            unscoped query across every project you've touched returns noise.
+
+            ## Know which tool answers which question
+
+            ctxloom's `load_session`, `get_previous_session` and
+            `recover_session` retrieve a KNOWN session — by harp name, by id,
+            or by recency. They do NOT search by content. claude-mem answers
+            the other question: WHICH session was it? Use claude-mem to find
+            it, ctxloom to load it.
+
+            The ctxloom `search_content` / `search_library` tools search the
+            content LIBRARY (fragments, skills, profiles, installable
+            bundles) — not sessions. Don't send session questions there.
+
+            ## What it costs
+
+            Compression is a real LLM call per observation (Haiku by default,
+            configurable). Session content therefore LEAVES the machine to
+            whichever provider is configured — treat that as a privacy
+            boundary, not a local-only store. The vector index (Chroma) is
+            local.
+
+            ## Anti-patterns
+
+            - Asking claude-mem about the CURRENT session. Scroll up, or use
+              ctxloom's session tools.
+            - Broad unscoped searches that dump dozens of observations.
+            - Treating a memory hit as current. An observation records what was
+              true when written; if it names a file, flag, or command, verify
+              the thing still exists before acting on it.
 profiles:
     coordinator:
         description: 'Coordinator agent: sequences, brainstorms, and architects; delegates reads/web-search to the finder and substantial work to child agents; rarely edits code. Carries conduct, software-architecture, and prompt-writing knowledge — deliberately NO development-language bundles.'
