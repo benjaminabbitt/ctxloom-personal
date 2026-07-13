@@ -112,6 +112,18 @@ fragments:
               programming agent's job.
             - You rarely touch code. A one-line fix you may make inline;
               anything larger goes to a child agent with a written prompt.
+
+            ## This role does NOT inherit
+
+            This context is delivered process-wide, so an in-process sub-agent
+            (one spawned by the host harness's own task/agent tool, which
+            ctxloom does not mediate) can read it and mistake itself for the
+            coordinator. If you were handed a specific task and an output
+            contract, you are a LEAF: you have no children, nothing is
+            downstream of you, and no notification will ever arrive for you.
+            Do the work and report it. Never stall waiting on sub-agents you
+            did not spawn, and never decline to implement because "the
+            coordinator delegates" — that instruction is not addressed to you.
     worktree-isolation:
         tags:
             - coordinator
@@ -371,82 +383,6 @@ fragments:
             deferrals in the report text — even "nothing deferred." If an
             agent_recv wait times out, treat that as "wrap up now": write the
             FINAL report and deferrals and finish, don't keep waiting.
-    beads-tasks:
-        tags:
-            - tooling
-            - tasks
-        content: |-
-            # Task tracking with beads (`bd`)
-
-            Persistent, agent-facing issue tracking. Tasks live in `.beads/`
-            in the repo and survive across sessions and across agents. Use
-            `bd` for all task CRUD — never keep task state in the
-            conversation, where it dies with the context window.
-
-            Prefer the CLI over the `beads-mcp` server: the beads docs
-            recommend CLI + hooks wherever a shell is available, because the
-            MCP tool surface costs tokens you don't need to spend.
-
-            ## The verbs you need
-
-            ```bash
-            bd create "Title of the task" -p 0     # -p = priority
-            bd ready                               # unblocked, actionable work
-            bd list --json                         # everything, machine-readable
-            bd show <id> --json                    # one issue — returns an ARRAY
-            bd update <id> --status in_progress
-            bd close <id> "why it is done"
-            bd dep add <issue-id> <depends-on-id>  # former is blocked by latter
-            ```
-
-            `bd show <id> --json` emits an array, not an object. Read it with
-            `jq '.[0]'`.
-
-            Statuses: `open`, `in_progress`, `blocked`, `deferred`, `closed`,
-            `pinned`, `hooked`.
-
-            `bd ready` already excludes in-progress, blocked, deferred and
-            hooked work, and beads auto-unblocks an issue when its blocker
-            closes. Express real ordering as a dependency rather than as prose
-            in a description — the graph does the bookkeeping for you.
-
-            ## Deferred work must carry a revive condition
-
-            Nothing deferred may live only in the conversation. The moment work
-            is put off — ruled out of scope, cut from a plan, or reported by a
-            sub-agent as skipped — it becomes a beads issue.
-
-            beads defers natively, and its `--until` takes a TIME:
-
-            ```bash
-            bd defer <id> --reason "blocked on the v2 API" --until +2w
-            ```
-
-            A date is not always the right trigger. When what should revive the
-            work is a CONDITION, record the condition in beads' `metadata`
-            under the `ctxloom` namespace:
-
-            ```bash
-            bd defer <id> --reason "needs the signing CLI"
-            bd update <id> --set-metadata ctxloom='{"trigger":"ctxloom sign ships"}'
-            bd show <id> --json | jq '.[0].metadata.ctxloom.trigger'
-            ```
-
-            `metadata` is beads' sanctioned extension point — arbitrary JSON,
-            no schema. Namespace under `ctxloom`; `bd:` and `_` are reserved by
-            beads itself.
-
-            At session start, review deferred issues and surface any whose
-            trigger has fired. A trigger nobody re-reads is just a comment.
-
-            ## Anti-patterns
-
-            - Task state in the conversation. It dies with the window.
-            - A `deferred` issue with neither `--until` nor a
-              `ctxloom.trigger` — that is not deferred, it is forgotten.
-            - "Do X before Y" as prose when `bd dep add` expresses it and
-              `bd ready` enforces it.
-            - `jq '.'` on `bd show --json`. It is an array.
     session-memory-search:
         tags:
             - tooling
