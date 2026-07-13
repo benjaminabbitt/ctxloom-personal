@@ -453,6 +453,8 @@ profiles:
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/delegation
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/coordination-tools
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/worktree-isolation
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/source-organization#fragments/worktree-lifecycle
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/source-organization#fragments/source-organization
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/prompt-authoring
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/planning-and-brainstorming
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/sequential-thinking-usage
