@@ -270,7 +270,7 @@ tags:
     - tooling
     - task-runner
 version: 1.0.0
-skills:
+commands:
     tooling:
         description: Tools this bundle's content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:

@@ -110,7 +110,7 @@ fragments:
 
             Name test functions TestFunctionName_Scenario_ExpectedResult; use descriptive subtest names.
         distilled_by: claude-code
-skills:
+commands:
     tooling:
         description: Tools the Go development content needs where agents run (applied via `ctxloom tooling`, user-approved)
         tags:

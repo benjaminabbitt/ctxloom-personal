@@ -152,7 +152,7 @@ fragments:
 
             Generated reference (CLI pages, schema dumps, tool listings)—indexed and grepped, not read start-to-finish. Never hand-edit.
         distilled_by: claude-haiku-4-5-20251001
-skills:
+commands:
     verify-docs:
         description: Adversarially fact-check a documentation tree against the code that implements it, and report tiered findings with file:line evidence.
         tags:

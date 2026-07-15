@@ -346,7 +346,7 @@ fragments:
       - What it is, install, use, one honest example; sections when content demands, not template habit
       - No "comprehensive documentation" self-labels; no roadmap/acknowledgements boilerplate in small repos
     distilled_by: claude-code
-skills:
+commands:
   humanize:
     description: Audit text for AI-writing tells and rewrite it
     tags:
