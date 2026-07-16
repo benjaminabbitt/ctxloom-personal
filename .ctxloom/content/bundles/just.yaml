@@ -5,6 +5,11 @@ author: ctxloom
 description: just command runner for language-agnostic task automation
 fragments:
     just:
+        # This fragment documents justfile's own {{...}} syntax. The literal
+        # examples below are wrapped in Mustache Set-Delimiter escapes
+        # ({{=<% %>=}} ... <%={{ }}=%>) so `{{TOP}}` / `{{ARGS}}` /
+        # `{{justfile_directory()}}` survive rendering byte-for-byte instead
+        # of being parsed as (undefined, silently-blanked) ctxloom variables.
         content: |
             # just: Command Runner
 
@@ -18,8 +23,11 @@ fragments:
             TOP := `git rev-parse --show-toplevel`
             ```
 
+            {{=<% %>=}}
             All directory paths in the file are expressed relative to `TOP`. Non-negotiable. A justfile that hard-codes relative paths or relies on `{{justfile_directory()}}` breaks the moment a recipe is invoked from a subdirectory or composed by a parent justfile.
+            <%={{ }}=%>
 
+            {{=<% %>=}}
             ```just
             TOP := `git rev-parse --show-toplevel`
 
@@ -29,11 +37,13 @@ fragments:
             generate:
                 protoc -I {{TOP}}/proto --go_out={{TOP}}/gen {{TOP}}/proto/*.proto
             ```
+            <%={{ }}=%>
 
             ## Local justfiles, composed at the root
 
             Place a justfile next to the code it manages. Compose them at the root using `mod`:
 
+            {{=<% %>=}}
             ```just
             # /justfile (root)
             TOP := `git rev-parse --show-toplevel`
@@ -42,6 +52,7 @@ fragments:
             mod api   "{{TOP}}/api/justfile"
             mod infra "{{TOP}}/infra/justfile"
             ```
+            <%={{ }}=%>
 
             Each submodule defines its own `TOP` (resolved the same way) and owns its own recipes. From the root: `just web build`. From inside `web/`: `just build`. Same recipes, no duplication.
 
@@ -57,6 +68,7 @@ fragments:
 
             Prefer `[unix]` / `[windows]` recipe attributes over parallel platform justfiles. Reserve parallel files (`justfile.nix`, `justfile.windows` via the `platform_justfile` import pattern) for cases where the recipe shape itself differs.
 
+            {{=<% %>=}}
             ```just
             [unix]
             clean:
@@ -66,15 +78,19 @@ fragments:
             clean:
                 Remove-Item -Recurse -Force {{TOP}}\target
             ```
+            <%={{ }}=%>
 
             ## Anti-Patterns
 
             - Hard-coded relative paths (`./src/...`, `../proto/...`): break under composition.
+            {{=<% %>=}}
             - `{{justfile_directory()}}` as a stand-in for `TOP`: scoped to the local file, not the composing parent.
+            <%={{ }}=%>
             - A monolithic root justfile.
 
             For container-delegated recipes (host invokes a container, container runs the build), see the `just-container-overlay` fragment.
-        content_hash: sha256:6da70ba9fb9e7b6c57600fd4c62b9e11d1dca30461eb2acb357fd5ff5eed0988
+        content_hash: sha256:8ccb04fc2e563156119b788b250b4b587cb002fb593557ca8b05d00f3608a182
+        # Same {{...}}-escaping rationale as `content` above.
         distilled: |-
             # just: Command Runner
 
@@ -88,19 +104,24 @@ fragments:
             TOP := `git rev-parse --show-toplevel`
             ```
 
+            {{=<% %>=}}
             All paths relative to `TOP`. Non-negotiable. Hard-coded relative paths or `{{justfile_directory()}}` break when invoked from subdirs or composed by parent justfiles.
+            <%={{ }}=%>
 
+            {{=<% %>=}}
             ```just
             TOP := `git rev-parse --show-toplevel`
 
             build:
                 cargo build --manifest-path {{TOP}}/Cargo.toml --release
             ```
+            <%={{ }}=%>
 
             ## Local justfiles, composed at root
 
             Place justfile next to code it manages. Compose via `mod`:
 
+            {{=<% %>=}}
             ```just
             # /justfile (root)
             TOP := `git rev-parse --show-toplevel`
@@ -108,6 +129,7 @@ fragments:
             mod web   "{{TOP}}/web/justfile"
             mod api   "{{TOP}}/api/justfile"
             ```
+            <%={{ }}=%>
 
             Each submodule defines own `TOP`, owns own recipes. Root: `just web build`. Inside `web/`: `just build`. DO NOT use monolithic root justfile.
 
@@ -121,6 +143,7 @@ fragments:
 
             Prefer `[unix]` / `[windows]` attributes over parallel platform justfiles. Reserve parallel files (`platform_justfile` import) for differing recipe shapes.
 
+            {{=<% %>=}}
             ```just
             [unix]
             clean:
@@ -130,11 +153,14 @@ fragments:
             clean:
                 Remove-Item -Recurse -Force {{TOP}}\target
             ```
+            <%={{ }}=%>
 
             ## Anti-Patterns
 
             - Hard-coded relative paths (`./src/...`): break under composition.
+            {{=<% %>=}}
             - `{{justfile_directory()}}` as `TOP` stand-in: scoped to local file, not composing parent.
+            <%={{ }}=%>
             - Monolithic root justfile.
 
             For container-delegated recipes, see `just-container-overlay` fragment.
@@ -147,6 +173,10 @@ fragments:
             - top
             - composition
     just-container-overlay:
+        # Same {{...}}-escaping rationale as the `just` fragment above: the
+        # literal justfile examples below are wrapped in Mustache
+        # Set-Delimiter escapes so `{{TOP}}` / `{{ARGS}}` survive rendering
+        # instead of being parsed as undefined ctxloom variables.
         content: |
             # just: Container Overlay Pattern
 
@@ -154,6 +184,7 @@ fragments:
 
             ## The setup
 
+            {{=<% %>=}}
             ```just
             # Host /justfile
             TOP := `git rev-parse --show-toplevel`
@@ -167,7 +198,9 @@ fragments:
             build: (_run "build")
             test:  (_run "test")
             ```
+            <%={{ }}=%>
 
+            {{=<% %>=}}
             ```just
             # /justfile.container
             TOP := `git rev-parse --show-toplevel`
@@ -178,10 +211,13 @@ fragments:
             test:
                 cargo test --manifest-path {{TOP}}/Cargo.toml
             ```
+            <%={{ }}=%>
 
             ## Why this works
 
+            {{=<% %>=}}
             The load-bearing line is `-v {{TOP}}/justfile.container:/workspace/justfile:ro`. The bind mount obscures `justfile` inside the container with `justfile.container`. Inside the container, `just build` resolves to the container's `build` recipe (which runs the actual cargo command). On the host, `just build` resolves to the delegation that spawns the container.
+            <%={{ }}=%>
 
             ## Concerns separated
 
@@ -200,7 +236,8 @@ fragments:
             - Container justfile that re-invokes `docker run`: docker-in-docker by accident.
             - Mounting the container justfile over the host's read-write rather than `:ro`: the container build accidentally edits the host file.
             - Recipe-argument escaping ceremony: just's `+ARGS` preserves multi-word args through the delegation without `$$`-escaping. Use it.
-        content_hash: sha256:f3414a9345fec0393d1b93227f302f0a416de46949b323ef44f23123bb97db45
+        content_hash: sha256:611f64e564b634c6671fddfce0a8900226972ddb8b1f36c867e12547248d9fc1
+        # Same {{...}}-escaping rationale as `content` above.
         distilled: |-
             # just-container-overlay
 
@@ -210,6 +247,7 @@ fragments:
 
             ## Setup
 
+            {{=<% %>=}}
             ```just
             # Host /justfile
             TOP := `git rev-parse --show-toplevel`
@@ -223,7 +261,9 @@ fragments:
             build: (_run "build")
             test:  (_run "test")
             ```
+            <%={{ }}=%>
 
+            {{=<% %>=}}
             ```just
             # /justfile.container
             TOP := `git rev-parse --show-toplevel`
@@ -234,10 +274,13 @@ fragments:
             test:
                 cargo test --manifest-path {{TOP}}/Cargo.toml
             ```
+            <%={{ }}=%>
 
             ## Why it works
 
+            {{=<% %>=}}
             Load-bearing: `-v {{TOP}}/justfile.container:/workspace/justfile:ro`. Bind mount obscures host `justfile` with `justfile.container` inside container. Inside: `just build` → container recipe (cargo). On host: `just build` → delegation spawning container.
+            <%={{ }}=%>
 
             ## Separation
 
