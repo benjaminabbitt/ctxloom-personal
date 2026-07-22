@@ -1,54 +1,76 @@
 version: 1.0.0
 tags:
-- workflow
-- prototyping
-- greenfield
+    - workflow
+    - prototyping
+    - greenfield
 author: ctxloom
 description: Practices for rapid prototyping and greenfield development
 fragments:
-    reductive:
-        tags:
-        - code
-        - quality
-        - refactoring
-        content: |-
-            # Reductive Development
+    preexisting-ownership:
+        content: |
+            # "Pre-existing" Is Not a Disposition
 
-            For greenfield/prototype projects where aggressive cleanup is acceptable; on production systems with external consumers, use judgment about backwards compatibility.
+            That a failure is pre-existing describes its HISTORY. It says nothing about what happens next. It is an observation, not a decision, and it must never be used as a reason to move on.
 
-            Before starting any significant task, reduce the codebase first.
+            We own the tree. A red we did not cause is still a red we ship.
 
-            ## Pre-Task Reduction
+            ## Two valid responses
 
-            1. **Pause before implementing** - do not start the task immediately
-            2. **Scan for duplication** - duplicate functions/methods, similar patterns to consolidate, copy-pasted logic to extract, multiple implementations of one concept
-            3. **Identify reduction opportunities** - dead code, unused imports/variables/parameters, over-engineered abstractions, delegate-only wrappers, compatibility shims for removed features
-            4. **Reduce first** - clean up what you find before starting the actual task
-            5. **Then proceed** on the smaller, cleaner codebase
+            1. **Fix it.**
+            2. **File a task** — with enough context to act on cold: what fails, how to reproduce it, what you ruled out.
 
-            ## Reduction Rules
+            "Noted, pre-existing, continuing" is not one of them. Neither is mentioning it once in a report nobody re-reads.
 
-            - **Preserve coverage**: do not reduce code in ways that meaningfully reduce test coverage
-            - **Keep tests passing**: all reductions must leave the suite green
-            - **Small is better**: smaller codebases are easier to understand, modify, maintain
-            - **Delete over deprecate**: remove unused code entirely rather than marking it deprecated
+            ## Verify before claiming it
 
-            ## What Counts as Significant
+            "Pre-existing" is asserted far more often than it is checked. Before saying it:
 
-            Apply for: new features, bug fixes requiring more than a few lines, refactoring tasks, any change touching multiple files.
+            - `git log -S '<symbol>'` — when was this test or code actually introduced?
+            - `git log -- <path>` — was this file touched by the current work, or by anything landed today?
 
-            Skip for: typo fixes, comment updates, single-line changes, documentation-only changes.
-        content_hash: sha256:b82c3a5f0f2d8d16f29d66cdb0957fe17cc91d83a2e83f52d26a993b711ea1a3
+            A failure in a test added hours ago is not pre-existing, however unfamiliar it looks. Check first; the answer is often the opposite of the assumption.
+
+            ## The trap
+
+            An intermittent failure, in a package your change did not touch, reads as somebody else's problem. That is exactly when it gets waved through — and exactly how it reaches CI, where it reads the same way again and gets dismissed a second time by someone else.
+
+            Default the other way: **a red you cannot explain is yours until you have evidence otherwise.**
+
+            ## Why this earns its own rule
+
+            "Pre-existing" is a comfortable label. It converts an unexplained failure into someone else's backlog item without anyone deciding to do that. Triage gets skipped, the finding is lost, and the report still reads as diligent — which is what makes it dangerous rather than merely lazy.
+
+            Observed twice in one day on the same defect: two independent agents each labelled a failing test "pre-existing and unrelated." It had been introduced hours earlier by our own commit, and it was a real capture-integrity bug. Both reports were careful, thorough, and wrong in the same place.
+        content_hash: sha256:1df290328d43666cca381d86fb3de34a13f2ae1d1cb393c5a62f184183696ebb
         distilled: |-
-            # Reductive Development
+            # "Pre-existing" Is Not a Disposition
 
-            (Greenfield/prototype scope; use backwards-compat judgment on production systems.) Before any significant task — new feature, multi-line bug fix, refactor, multi-file change; skip for typos/comments/single-line/docs-only — pause and reduce first: scan for duplication (duplicate functions, copy-pasted logic, multiple implementations of one concept) and reduction targets (dead code, unused imports/params, over-engineered abstractions, delegate-only wrappers, compat shims), clean those up, then do the task. Rules: preserve test coverage, keep tests green, delete over deprecate.
-        distilled_by: claude-code
+            "Pre-existing" = HISTORY, not decision. Own all shipped failures.
+
+            ## Valid responses
+            1. **Fix it**
+            2. **File task** — sufficient context: failure, reproduction, ruled-out causes
+
+            NOT: "Noted, pre-existing" or unread-report mentions.
+
+            ## Verify before claiming
+            - `git log -S '<symbol>'` — when introduced?
+            - `git log -- <path>` — current/today's work touch this?
+
+            Failures in recent tests ≠ pre-existing. Verify; assumption often inverted.
+
+            ## Default rule
+            **Unexplained red: yours until proven otherwise.**
+
+            Intermittent failures in untouched packages appear external, wave through unvetted. Omitting verification defaults failures to someone else's backlog. Defects skip triage, reach CI, dismissed again.
+
+            Example: Two agents labeled same test "pre-existing/unrelated"—actually introduced hours earlier by their commit (real capture-integrity bug).
+        distilled_by: claude-haiku-4-5-20251001
     prototype:
         tags:
-        - pattern
-        - prototype
-        - greenfield
+            - pattern
+            - prototype
+            - greenfield
         content: |-
             # Prototype Mode
 
@@ -177,12 +199,50 @@ fragments:
 
             Writing code for "the old way"? Stop. Delete it. Only the new way exists.
         distilled_by: claude-code
+    reductive:
+        tags:
+            - code
+            - quality
+            - refactoring
+        content: |-
+            # Reductive Development
+
+            For greenfield/prototype projects where aggressive cleanup is acceptable; on production systems with external consumers, use judgment about backwards compatibility.
+
+            Before starting any significant task, reduce the codebase first.
+
+            ## Pre-Task Reduction
+
+            1. **Pause before implementing** - do not start the task immediately
+            2. **Scan for duplication** - duplicate functions/methods, similar patterns to consolidate, copy-pasted logic to extract, multiple implementations of one concept
+            3. **Identify reduction opportunities** - dead code, unused imports/variables/parameters, over-engineered abstractions, delegate-only wrappers, compatibility shims for removed features
+            4. **Reduce first** - clean up what you find before starting the actual task
+            5. **Then proceed** on the smaller, cleaner codebase
+
+            ## Reduction Rules
+
+            - **Preserve coverage**: do not reduce code in ways that meaningfully reduce test coverage
+            - **Keep tests passing**: all reductions must leave the suite green
+            - **Small is better**: smaller codebases are easier to understand, modify, maintain
+            - **Delete over deprecate**: remove unused code entirely rather than marking it deprecated
+
+            ## What Counts as Significant
+
+            Apply for: new features, bug fixes requiring more than a few lines, refactoring tasks, any change touching multiple files.
+
+            Skip for: typo fixes, comment updates, single-line changes, documentation-only changes.
+        content_hash: sha256:b82c3a5f0f2d8d16f29d66cdb0957fe17cc91d83a2e83f52d26a993b711ea1a3
+        distilled: |-
+            # Reductive Development
+
+            (Greenfield/prototype scope; use backwards-compat judgment on production systems.) Before any significant task — new feature, multi-line bug fix, refactor, multi-file change; skip for typos/comments/single-line/docs-only — pause and reduce first: scan for duplication (duplicate functions, copy-pasted logic, multiple implementations of one concept) and reduction targets (dead code, unused imports/params, over-engineered abstractions, delegate-only wrappers, compat shims), clean those up, then do the task. Rules: preserve test coverage, keep tests green, delete over deprecate.
+        distilled_by: claude-code
 profiles:
     prototype:
         description: Prototyping profile for greenfield development — no backwards compatibility, reductive approach. Folded from the retired top-level profile.
         tags:
-        - prototype
-        - greenfield
-        - rapid
+            - prototype
+            - greenfield
+            - rapid
         bundles:
-        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/prototyping
+            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/prototyping
