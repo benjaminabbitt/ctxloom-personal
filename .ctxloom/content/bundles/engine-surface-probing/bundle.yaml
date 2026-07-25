@@ -1,0 +1,16 @@
+version: 1.0.0
+tags:
+    - isolation
+    - engines
+    - reverse-engineering
+    - containers
+description: Reverse-engineer a vendor LLM CLI's file surfaces (reads, writes, tool calls) in a container, and interpret the result
+skills:
+    probe-engine-surfaces:
+        files:
+            SKILL.md:
+                sha256: sha256:a89e9db03e68ddc4b0398ccc65adec30f8ef6657b849b22d74fafc15f11cf799
+                mode: "0644"
+            references/methodology.md:
+                sha256: sha256:d092eb783b12be929d4ce067d6def12d7723f96b1f8e548ee1213829356917ef
+                mode: "0664"
