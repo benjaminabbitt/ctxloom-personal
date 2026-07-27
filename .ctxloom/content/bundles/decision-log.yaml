@@ -61,13 +61,49 @@ fragments:
             ```markdown
             ## <short imperative title>
             - **Date:** <YYYY-MM-DD>
-            - **Decision:** what was chosen, stated plainly.
-            - **Why:** the reasoning that actually drove it, including the
-              evidence (`file:line`, a measurement, a doc) it rested on.
-            - **Rejected:** the options not taken and what each would have cost.
-            - **Revisit if:** the condition that should reopen this. Omit only
-              when the decision is genuinely permanent.
+            - **Decided by:** user | agent
+            - **Chosen:** <option name>
+
+            ### Options considered
+            <one block per option, INCLUDING the chosen one>
+
+            **<option name>** — chosen | rejected
+            - **For:** the genuine case in its favour.
+            - **Against:** its real costs and risks.
+            - **Evidence:** what this rested on (`file:line`, a measurement, a
+              doc, or "assumed, not verified").
+
+            ### Rationale
+            Why the chosen option beat the others — the specific consideration
+            that decided it, not a restatement of its merits.
+
+            ### Revisit if
+            The condition that should reopen this. Omit only when genuinely
+            permanent.
             ```
+
+            ## Every option gets a real case, not just the winner
+
+            Write the FOR and AGAINST for each option, the rejected ones
+            included. This is the part that makes the log worth keeping, and
+            the part that decays first.
+
+            - A rejected option recorded only as "rejected because slow" is
+              unusable later: the reader cannot tell whether it was a weak idea
+              or a good idea beaten by a constraint that has since gone away.
+              Most reopened decisions reopen because a constraint moved, and you
+              can only notice that if the constraint was written down against
+              the option it killed.
+            - State each rejected option's case at its STRONGEST — the version
+              its advocate would recognise. An entry that strawmans the losers
+              makes the winner look inevitable and hides the fact that it was a
+              close call. If it WAS close, say so.
+            - Give the chosen option an **Against** too. Every real choice has
+              costs; an option with no downsides recorded is a sign the entry
+              was written to justify rather than to inform.
+            - If an option was dismissed without serious evaluation, record that
+              honestly ("not evaluated — no time") rather than inventing a
+              rationale. That is itself useful signal later.
 
             Record who decided when it matters — a decision the user made
             directly is not the same as one you inferred, and a later session
