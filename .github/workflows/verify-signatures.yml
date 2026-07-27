@@ -1,0 +1,26 @@
+name: verify-signatures
+
+# Every bundle here is consumed by agents in other repos, which trust this
+# repo's publisher key and apply its content WITHOUT review. A bundle that is
+# unsigned, stale-signed, or signed by the wrong key is therefore not a cosmetic
+# problem: ctxloom withholds it, and any downstream profile inheriting from it
+# degrades silently on the consumer's next `remote upgrade`. Catch it here, on
+# the commit that causes it, rather than in whatever session happens to upgrade
+# first.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-signatures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ssh-keygen -Y verify is preinstalled on GitHub runners; no setup step
+      # and no third-party action is needed to check an SSHSIG.
+      - name: Verify every bundle is signed by the personal publishing key
+        env:
+          SIGN_IDENTITY: ben@abbitt.me
+        run: ./.github/verify-signatures.sh
