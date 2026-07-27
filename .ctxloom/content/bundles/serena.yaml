@@ -1,0 +1,118 @@
+version: 1.0.0
+description: 'Serena: LSP-backed symbolic code intelligence (MCP)'
+author: benjaminabbitt
+tags:
+    - mcp
+    - code-intelligence
+    - lsp
+notes: |
+    Serena exposes a language server (LSP) to the agent as symbol-level tools:
+    get_symbols_overview, find_symbol, find_referencing_symbols,
+    replace_symbol_body, insert_before/after_symbol. The pitch is token
+    efficiency — read one symbol body instead of a whole file, and edit by
+    symbol identity instead of by line match.
+
+    Serena is configured almost entirely through START-UP FLAGS on
+    `serena start-mcp-server`, not through a config file the agent can consult
+    later. That makes the MCP command line the whole configuration surface, and
+    it is why this bundle ships an `agent-setup` contribution: the choices below
+    have to be made at registration time or not at all.
+installation: |
+    ## Serena
+
+    Requires the `serena` binary on PATH (uv tool install serena-agent, or see
+    https://github.com/oraios/serena). Verify with `serena --version`.
+
+    Serena starts a language server per project, so first activation on a large
+    repo takes a while. Go projects need `gopls` available.
+
+    CAVEAT: an agent bound to `runtime: container` will not see a host-installed
+    serena. Either install serena into the agent image or keep serena on
+    host-runtime agents only.
+mcp:
+    serena:
+        command: serena
+        args:
+            - start-mcp-server
+            - --context
+            - claude-code
+            - --project-from-cwd
+            - --open-web-dashboard
+            - "false"
+        note: |
+            --context claude-code excludes serena's redundant file tools
+            (read_file, create_text_file, find_file, execute_shell_command) and
+            injects a prompt directing the agent to prefer symbolic tools over
+            native Read/Edit on code files.
+
+            --project-from-cwd is serena's documented mode for CLI agents: it
+            resolves the project from the working directory (.serena/project.yml,
+            then .git, then cwd), so one registration follows the agent into
+            worktrees instead of pinning a single absolute path.
+
+            Memory and onboarding are left at serena's defaults, so serena
+            maintains its own store under .serena/memories/.
+        installation: |
+            Serena's --context prompt asserts authority over tool choice: under
+            `claude-code` it instructs the agent that native Read is FORBIDDEN
+            for discovery and native Edit is FORBIDDEN on code files. Register
+            this server only if that is the behavior you want. The context is
+            fixed in the command line above and cannot be changed at run time —
+            editing it means editing this bundle and re-running `ctxloom trust`.
+commands:
+    agent-setup:
+        description: Setup-interview contribution for the serena MCP server
+        tags:
+            - setup
+            - mcp
+        no_distill: true
+        content: |
+            ## Serena (MCP code intelligence) — setup
+
+            This project has the `serena` bundle installed. Serena is
+            configured ENTIRELY by start-up flags on `serena start-mcp-server`,
+            recorded in the bundle's `mcp:` block. There is no runtime setting
+            the agent can change later, so any choice not made here is made by
+            default and is invisible afterwards.
+
+            If serena is being registered or reconfigured, put these to the
+            user. Do not assume defaults — each one changes agent behavior.
+
+            1. **Context** (`--context`). Determines which tools serena exposes
+               and what behavioral prompt it injects.
+               - `claude-code` — drops serena's redundant file tools and
+                 instructs the agent that native Read is forbidden for
+                 discovery and native Edit is forbidden on code files. This is
+                 what makes serena actually get used; it also overrides the
+                 project's own guidance on tool choice.
+               - `agent` — neutral, no behavioral mandate. Serena's tools are
+                 available but the agent will keep defaulting to Read/Grep.
+               - `ide`, `codex`, `antigravity` and others exist; `serena
+                 context list` enumerates them. Registration is per-server, so
+                 a project driving several engines picks ONE.
+
+            2. **Memory and onboarding** (`--mode no-memories`,
+               `--mode no-onboarding`). Serena runs an onboarding pass and
+               keeps its own notes under `.serena/memories/*.md`. Ask whether
+               that should be on: it is a persistent context store sitting
+               alongside ctxloom's session memory and taskloom, and nothing
+               reconciles the three. Disabling both leaves serena as a pure
+               code-intelligence layer.
+
+            3. **Other modes** (`--mode`). `planning`, `editing`,
+               `interactive`, `one-shot`; `serena mode list` enumerates them.
+               Repeatable, and they override the project/global defaults.
+
+            4. **Project resolution**. `--project-from-cwd` is serena's
+               documented mode for CLI agents and is the right default here —
+               it follows the agent into worktrees. Use `--project <path>` only
+               to pin one fixed checkout.
+
+            5. **Container reach**. If any agent in this project is bound to
+               `runtime: container`, confirm serena exists inside that image.
+               A host-installed serena is invisible to a containerized agent
+               and the server will simply fail to start.
+
+            Record the answers by editing the `mcp.serena.args` list in
+            `.ctxloom/content/bundles/serena.yaml`, then re-run `ctxloom trust`
+            so the changed executable surface is acknowledged.
