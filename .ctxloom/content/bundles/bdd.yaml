@@ -1,0 +1,122 @@
+version: 1.0.0
+tags:
+    - bdd
+    - gherkin
+    - testing
+    - organization
+author: benjaminabbitt
+description: Behaviour-driven spec authoring and test organization — Gherkin as business-readable specification, and where tests live relative to the code they cover.
+notes: |
+    Moved here from ctxloom-default's `testing` bundle. Gherkin authoring and
+    test layout are METHODOLOGY choices, not universal testing practice: a
+    project can test rigorously without writing Gherkin, and test placement is
+    a convention a team adopts rather than a capability. ctxloom-default keeps
+    what generalises — TDD, mutation testing, coverage — and the opinionated
+    half lives here, where it is offered rather than assumed.
+fragments:
+    gherkin:
+        tags:
+        - testing
+        - bdd
+        - gherkin
+        - acceptance
+        content: |-
+            # Gherkin Authoring
+
+            Gherkin is business-readable specification, not test code. Describe **what** the system does and **why** it matters — never **how**.
+
+            **The litmus test:** "Will this wording change if the implementation changes?" If yes, abstract to behavior.
+
+            ## Feature Preambles
+
+            Open features with context explaining:
+            - **What** this capability enables
+            - **Why** it matters to the business
+            - **What breaks** if it doesn't work
+
+            ```gherkin
+            Feature: Player fund reservation
+
+              Players must reserve funds when joining a table. This ensures:
+              - Players can cover their buy-in before sitting down
+              - Funds are locked and cannot be double-spent across tables
+
+              Without fund reservation, players could join multiple tables with
+              the same bankroll, creating settlement disputes.
+            ```
+        content_hash: sha256:1104515e9ee211e437914bfdb45ac18796d1cd8f8bcdd99ee32f03f1501f3aeb
+        distilled: |-
+            # Gherkin
+
+            Business-readable spec, not test code: what and why, never how. Litmus test: "Will this wording change if the implementation changes?" — if yes, abstract to behavior.
+
+            Every feature opens with a preamble stating what the capability enables, why it matters to the business, and what breaks without it.
+        distilled_by: claude-code
+    test-organization:
+        tags:
+        - testing
+        - organization
+        - colocation
+        - patterns
+        content: |-
+            # Test Organization
+
+            Tests belong next to the code they test — same directory, separate file, clearly named (`.test.rs`, `_test.go`). Not inline (contra the Rust default), not in a parallel tree.
+
+            ```
+            src/
+            ├── user_service.rs           # Production code only
+            ├── user_service.test.rs      # Tests only
+            └── mod.rs
+            ```
+
+            ## Rust Mechanics
+
+            ```rust
+            // correlation.rs — production code only
+            pub struct Correlation { /* ... */ }
+
+            // mod.rs
+            pub mod correlation;
+
+            #[cfg(test)]
+            #[path = "correlation.test.rs"]
+            mod correlation_tests;
+            ```
+
+            In release builds the test module doesn't exist — not compiled, not linked, not present.
+
+            ## Test Type by Location
+
+            | Test Type | What It Tests | Where It Lives |
+            |-----------|--------------|----------------|
+            | Unit | Pure logic, no dependencies | Adjacent `.test` file |
+            | BIT | Single implementation against interface | Adjacent `.test` file |
+            | Integration | Multiple components interacting | `tests/` directory |
+            | E2E | Full system behavior | Separate test project |
+
+            **BIT** = Behavioral Interface Test. Tests that an implementation fulfills its interface's behavioral contract.
+
+            ## When Separation Makes Sense
+
+            - **Integration tests** exercising multiple modules → `tests/` directory
+            - **E2E tests** spinning up the whole system → separate test project
+            - **Shared fixtures** → `src/test_utils/`, not a parallel tree
+
+            Don't separate without reason. Colocation is the default.
+        content_hash: sha256:da002e5995f86a8e9eea936d2a4f56e94806e1c464e6c29f8153c28e2e2c6f75
+        distilled: |-
+            # Test Organization
+
+            Tests live next to the code — same directory, separate clearly-named file (`.test.rs`, `_test.go`); not inline (contra the Rust default), not a parallel tree.
+
+            Rust wiring (test module vanishes from release builds):
+
+            ```rust
+            #[cfg(test)]
+            #[path = "correlation.test.rs"]
+            mod correlation_tests;
+            ```
+
+            Location by type: unit and BIT (Behavioral Interface Test — implementation against its interface's behavioral contract) in the adjacent `.test` file; integration (multiple components) in `tests/`; E2E in a separate test project; shared fixtures in `src/test_utils/`, not a parallel tree. Colocation is the default — don't separate without reason.
+        distilled_by: claude-code
