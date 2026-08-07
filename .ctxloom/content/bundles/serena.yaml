@@ -2,6 +2,7 @@ version: 1.0.0
 description: 'Serena: LSP-backed symbolic code intelligence (MCP)'
 author: benjaminabbitt
 tags:
+    - default
     - mcp
     - code-intelligence
     - lsp
