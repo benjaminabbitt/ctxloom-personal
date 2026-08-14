@@ -258,5 +258,5 @@ profiles:
         bundles:
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/humanizer
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/docs-authoring
-            - https://github.com/ctxloom/ctxloom-default@bundles/default#fragments/communication
+            - https://github.com/ctxloom/ctxloom-default@bundles/conduct#fragments/communication
             - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general#fragments/version-source-of-truth

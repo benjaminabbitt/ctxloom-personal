@@ -597,7 +597,7 @@ profiles:
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/planning-and-brainstorming
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/design-review-checkpoints
             - https://github.com/benjaminabbitt/ctxloom-personal@bundles/agent-ensemble#fragments/sequential-thinking-usage
-            - https://github.com/ctxloom/ctxloom-default@bundles/default
+            - https://github.com/ctxloom/ctxloom-default@bundles/conduct
             - https://github.com/ctxloom/ctxloom-default@bundles/sequential-thinking
             - https://github.com/ctxloom/ctxloom-default@bundles/code-review-structural#fragments/general
             - https://github.com/ctxloom/ctxloom-default@bundles/ai-coding-general#fragments/is-this-a-standard

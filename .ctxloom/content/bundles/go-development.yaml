@@ -139,7 +139,7 @@ profiles:
         - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
         bundles:
         - https://github.com/ctxloom/ctxloom-default@bundles/go-ai-practices
-        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/conduct
         - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
@@ -156,7 +156,7 @@ profiles:
         - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
         bundles:
         - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
-        - https://github.com/ctxloom/ctxloom-default@bundles/default
+        - https://github.com/ctxloom/ctxloom-default@bundles/conduct
         - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
         - https://github.com/benjaminabbitt/ctxloom-personal@bundles/go-development
