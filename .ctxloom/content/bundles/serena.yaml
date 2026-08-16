@@ -30,6 +30,57 @@ installation: |
     CAVEAT: an agent bound to `runtime: container` will not see a host-installed
     serena. Either install serena into the agent image or keep serena on
     host-runtime agents only.
+fragments:
+    serena:
+        tags:
+            - code-intelligence
+            - tools
+        content: |
+            # serena: address code by symbol, not by file and line
+
+            Serena puts a language server behind MCP tools that name SYMBOLS.
+            Prefer them over Read/Grep/Edit whenever the question or the change
+            is about a symbol.
+
+            ## Reach for these first
+
+            - `get_symbols_overview` — what is in this file? The first call on
+              an unfamiliar one.
+            - `find_symbol` — locate a definition by name path (`Type/method`).
+              `include_body: true` reads ONE symbol instead of a whole file.
+            - `find_referencing_symbols` — every caller of a symbol. That is the
+              blast-radius question, and grep answers it with false positives
+              and misses aliased or qualified uses.
+            - `replace_symbol_body`, `insert_before_symbol`,
+              `insert_after_symbol`, `rename_symbol`, `safe_delete_symbol` —
+              edit by identity. `safe_delete_symbol` refuses while references
+              remain, which a string edit cannot check.
+
+            ## Why this is stated here
+
+            Serena's own registration injects an INDIRECTION — "call
+            `initial_instructions` before starting a coding task". An agent that
+            skips that call never learns the tools exist, and skipping it is the
+            normal outcome rather than the exception. This says it inline so the
+            guidance does not depend on a tool call nobody makes.
+
+            ## Where they do not help
+
+            Non-code files (YAML, Markdown, JSON), whole-file reads you actually
+            need, and languages with no server configured. Read and Edit stay
+            correct there, as does a line-oriented edit INSIDE a symbol body
+            once you have located it.
+
+            ## Delegating
+
+            Name the symbol tools in sub-agent briefs. An implementer told to
+            "read before you write" reaches for Read unless told otherwise.
+
+            ## Containers
+
+            An agent bound to `runtime: container` cannot see a host-installed
+            serena. Either install serena in the image, or keep serena on
+            host-runtime agents.
 mcp:
     serena:
         command: serena
