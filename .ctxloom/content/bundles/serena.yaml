@@ -91,7 +91,7 @@ mcp:
             - --project-from-cwd
             - --open-web-dashboard
             - "false"
-        note: |
+        notes: |
             --context claude-code excludes serena's redundant file tools
             (read_file, create_text_file, find_file, execute_shell_command) and
             injects a prompt directing the agent to prefer symbolic tools over
