@@ -1,3 +1,4 @@
+name: decision-log
 version: 1.0.0
 description: Log session decisions to decisions.md in the harp session directory
 author: benjaminabbitt
