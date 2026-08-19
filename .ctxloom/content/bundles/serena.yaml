@@ -77,6 +77,33 @@ fragments:
             Name the symbol tools in sub-agent briefs. An implementer told to
             "read before you write" reaches for Read unless told otherwise.
 
+            ## NOT for an agent working in a WORKTREE
+
+            The server resolves its project ONCE, at start-up, from the cwd of
+            the session that launched it. It is a long-lived process, and an
+            in-process sub-agent inherits the parent's connection rather than
+            getting its own. So every symbol call an agent makes is answered
+            against the COORDINATOR's checkout, whatever directory that agent
+            believes it is working in.
+
+            For a worktree-isolated agent this is wrong in both directions, and
+            silently:
+
+            - EDITS land in the coordinator's checkout. The agent's own worktree
+              is untouched, so the change is both missing where it belongs and
+              present where nobody asked for it.
+            - READS answer about the wrong tree. A symbol that exists only in
+              the worktree is reported as not found; one deleted there is
+              reported as present.
+
+            The failure has no error. A delete can report OK while writing
+            nothing the agent can see, so an agent that trusts the result
+            reports success having changed nothing.
+
+            **A brief that assigns a worktree must therefore tell the agent to
+            use Read/Edit and plain search, not serena.** Symbol tools are for
+            an agent working in the same checkout the server was started in.
+
             ## Containers
 
             An agent bound to `runtime: container` cannot see a host-installed
@@ -98,10 +125,18 @@ mcp:
             injects a prompt directing the agent to prefer symbolic tools over
             native Read/Edit on code files.
 
-            --project-from-cwd is serena's documented mode for CLI agents: it
-            resolves the project from the working directory (.serena/project.yml,
-            then .git, then cwd), so one registration follows the agent into
-            worktrees instead of pinning a single absolute path.
+            --project-from-cwd resolves the project from the working
+            directory (.serena/project.yml, then .git, then cwd) instead of
+            pinning one absolute path into this bundle, which is what makes a
+            single registration usable across checkouts.
+
+            It resolves ONCE, when the server starts, from the cwd of the
+            session that launched it. It does NOT follow an agent into a
+            worktree: the server is long-lived, and an in-process sub-agent
+            inherits the parent's connection rather than starting its own. Any
+            agent working somewhere else gets answers about the launching
+            checkout, silently, for reads and writes alike. See the fragment's
+            worktree section.
 
             Memory and onboarding are left at serena's defaults, so serena
             maintains its own store under .serena/memories/.
@@ -156,10 +191,13 @@ commands:
                `interactive`, `one-shot`; `serena mode list` enumerates them.
                Repeatable, and they override the project/global defaults.
 
-            4. **Project resolution**. `--project-from-cwd` is serena's
-               documented mode for CLI agents and is the right default here —
-               it follows the agent into worktrees. Use `--project <path>` only
-               to pin one fixed checkout.
+            4. **Project resolution**. `--project-from-cwd` keeps an absolute
+               path out of the bundle, resolving from the cwd of whichever
+               session starts the server. It resolves ONCE at start-up and does
+               not follow an agent into a worktree — an agent working in a
+               different checkout is answered about the launching one, for
+               reads as well as edits. Use `--project <path>` only to pin one
+               fixed checkout deliberately.
 
             5. **Container reach**. If any agent in this project is bound to
                `runtime: container`, confirm serena exists inside that image.
