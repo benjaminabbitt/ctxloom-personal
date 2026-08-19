@@ -9,12 +9,11 @@ Thumbs.db
 .idea/
 .vscode/
 
-# ctxloom private working state (rebuildable/local — cache, fetched pieces, sessions, ephemeral scratch, project id)
-.ctxloom/cache/
-.ctxloom/pieces/
-.ctxloom/sessions/
-.ctxloom/ephemeral/
-.ctxloom/project-id
+# ctxloom's private-state rules live in .ctxloom/.gitignore, which ctxloom owns
+# and rewrites wholesale. Keeping them here let two retired patterns (pieces/,
+# ephemeral/ — paths nothing writes) outlive the list they came from, while
+# state/ and *.lock never arrived. A nested file has no user-authored lines to
+# preserve, so it can be rewritten to match rather than appended to.
 
 # ctxloom harness backups
 *.ctxloom.bak
