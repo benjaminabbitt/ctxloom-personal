@@ -12,15 +12,15 @@ profiles:
         - python
         - development
         parents:
-        - https://github.com/ctxloom/ctxloom-default@bundles/ai-developer#profiles/developer
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-developer#profiles/developer
         bundles:
-        - https://github.com/ctxloom/ctxloom-default@bundles/python-development
-        - https://github.com/ctxloom/ctxloom-default@bundles/conduct
-        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
-        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
-        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/developer-mindset
-        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
-        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/containers
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/python-development
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-quality
+        - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/core-practices
+        - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/developer-mindset
+        - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/just
+        - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/containers
     python-code-reviewer:
         description: 'Python code reviewer: every review lens (general via cr-all + python specifics) with personal review standards. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis.'
         tags:
@@ -28,9 +28,9 @@ profiles:
         - review
         - code-quality
         parents:
-        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#profiles/cr-all
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#profiles/cr-all
         bundles:
-        - https://github.com/ctxloom/ctxloom-default@bundles/code-review-base#fragments/thorough
-        - https://github.com/ctxloom/ctxloom-default@bundles/conduct
-        - https://github.com/ctxloom/ctxloom-default@bundles/code-quality
-        - https://github.com/benjaminabbitt/ctxloom-personal@bundles/core-practices
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-base#fragments/thorough
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
+        - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-quality
+        - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/core-practices

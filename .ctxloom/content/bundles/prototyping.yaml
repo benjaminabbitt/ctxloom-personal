@@ -246,4 +246,4 @@ profiles:
             - greenfield
             - rapid
         bundles:
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/prototyping
+            - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/prototyping

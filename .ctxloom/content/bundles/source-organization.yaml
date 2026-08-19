@@ -202,6 +202,6 @@ profiles:
             - personal
             - development
         bundles:
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/just
-            - https://github.com/ctxloom/ctxloom-default@bundles/ast-grep
-            - https://github.com/benjaminabbitt/ctxloom-personal@bundles/source-organization
+            - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/just
+            - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ast-grep
+            - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/source-organization
