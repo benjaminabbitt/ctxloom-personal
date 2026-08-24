@@ -1,4 +1,5 @@
 # ctxloom-content-digest/1
-7de8ada3084bd09ab282459341cd4143c3a439ebb979a7fbc1f47ee8a3ba6223  bundle.yaml
-d6f8af1e79f8b69f491d5c6ba0fb44aace4722d5514d1c5002dd880ca660126e  bundle.yaml.sig
+1569fa4375ba1f60f231bbb436d7428cc1dfe4e13cf215696f54a5df8665b4a5  bundle.yaml
+de14edaf58de7909de0c6401cda6c7d969ba6f6a525e3398955c3badf1c448d8  bundle.yaml.sig
 65ccf5a9f42ae11dedac4519a34fe9b46ec79e77ed5de1671d72d02366cdd8e5  skills/good-night/SKILL.md
+56d09b9bb6e199a6bc982cd0cc6625e7116a990d9757be19408a93d72d97029d  skills/prompt-human/SKILL.md
