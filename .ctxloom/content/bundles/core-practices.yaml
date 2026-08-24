@@ -1,4 +1,3 @@
-name: core-practices
 version: 1.0.0
 tags:
 - practices
@@ -7,80 +6,129 @@ tags:
 author: ctxloom
 description: Core development practices for code quality, documentation, and problem solving
 fragments:
-    documentation:
-        tags:
-        - documentation
-        - workflow
-        content: |-
-            # Documentation Guidelines
+  unchecked-bindings:
+    tags:
+    - practices
+    - documentation
+    - comments
+    - coupling
+    - maintenance
+    content: "# Do not build bindings you cannot check\n\nNaming one thing from another creates a BINDING:\
+      \ a coupling that has to be\nmaintained for as long as both sides exist. Some bindings earn that.\
+      \ Most do\nnot, and the ones that do the most damage are the ones nothing enforces.\n\nThe decisive\
+      \ question is not \"is this true?\" — you would not write it otherwise.\nIt is: **when this stops\
+      \ being true, what catches it?**\n\n    CHECKED    a symbol reference in code; a generated table;\
+      \ an asserted count.\n               Breaks loudly, at the moment it breaks, in front of whoever\n\
+      \               broke it.\n\n    UNCHECKED  prose, comments, docs, READMEs, config annotations.\
+      \ Nothing\n               compiles them and no test reads them. When they go false they\n      \
+      \         do not go red — they quietly start lying, and they keep their\n               authority\
+      \ while doing it.\n\nAn unchecked binding needs a very good reason. The default is not to create\
+      \ one.\n\n## Prefer no binding at all\n\nMost of the time the coupling is unnecessary, because the\
+      \ fact is DERIVABLE.\nSay what the relationship IS, not what the contents currently ARE:\n\n- \"\
+      the skill(s) it carries\" — not their names\n- \"its members\", \"the formats it covers\", \"each\
+      \ leg in turn\"\n- plural-agnostic, count-agnostic, role-descriptive\n\nThis costs nothing to write,\
+      \ and it cannot rot. A reader who wants the list can\nproduce it in seconds; they cannot recover\
+      \ a stale list without doing exactly\nthat anyway. Restating derivable state is a maintenance contract\
+      \ paid forever\nto save someone a lookup they can do for free.\n\n## Stress it before you write\
+      \ it\n\nIf you are about to name something specific, imagine the target changing in the\nthree ordinary\
+      \ ways:\n\n- it **gains** a member\n- it **loses** one\n- it is **renamed**\n\nDoes your sentence\
+      \ go false? If yes, and nothing would catch it, you are writing\na liability. Rephrase it, or do\
+      \ not write it.\n\n## The shapes this takes\n\nEvery one of these was true when written. That is\
+      \ the point: nothing separates a\nstale one from a live one except going and checking — the work\
+      \ the binding was\nsupposed to save.\n\n- naming the members of something: a member is added, the\
+      \ list is now wrong\n- a census or line count: drifts on the next commit\n- a listed set of supported\
+      \ formats or backends: one is dropped\n- \"unlike X, this one ...\" — X is deleted, and the sentence\
+      \ now contrasts with\n  nothing\n- \"see X, the live example\" — X is deleted\n- a rule hand-copied\
+      \ into several places: one copy is retired and the others\n  keep asserting it. This is the expensive\
+      \ one. A retired rule left copies\n  behind, one of which named a formula as the entire defense\
+      \ against an attack\n  — so an auditor checking that defense would have verified a rule the code\
+      \ had\n  stopped using, and concluded it held.\n\n## If you must bind, make it checked\n\nIn descending\
+      \ order of preference:\n\n1. **Generate it.** A table produced from the source cannot drift.\n2.\
+      \ **Assert it.** A test that fails when the count or the set changes turns an\n   unchecked binding\
+      \ into a checked one.\n3. **Cite by SYMBOL** — a function, type, or exact string someone can grep.\n\
+      \   A stale symbol fails loudly the moment anyone looks; a stale line number\n   silently points\
+      \ at unrelated code and gets believed.\n\n\"I will keep it updated\" is not a mechanism. It is the\
+      \ absence of one, and it\nhas never held.\n\n## What DOES earn an unchecked binding\n\nThree things,\
+      \ and they are all judgment a reader cannot derive:\n\n1. **A WHY.** A rationale, a constraint,\
+      \ a rejected alternative, a trap. \"This\n   is a local copy, and that is not a preference: the\
+      \ remote fetcher resolves a\n   ref to a single file, so a directory-form bundle cannot be fetched\
+      \ at all.\"\n   Nobody can compute that. It is the entire value of the comment.\n2. **An invariant\
+      \ that genuinely depends on that exact thing** — then cite it by\n   symbol, per above.\n3. **A\
+      \ pointer somebody could not find alone**: where the authority lives, which\n   of two similar mechanisms\
+      \ governs, what to search for.\n\nIf what you are writing is none of these, it is decoration with\
+      \ a maintenance\nbill attached.\n\n## When you find one already stale, delete it\n\nPrefer deleting\
+      \ an unmaintained list or census over correcting it. Correcting\none entry makes every remaining\
+      \ entry look verified, which is worse than the\nhonest signal that nobody is maintaining any of\
+      \ it.\n"
+  documentation:
+    tags:
+    - documentation
+    - workflow
+    content: '# Documentation Guidelines
 
-            ## Ask First Before Creating
 
-            - Markdown files (*.md) - REFACTORING.md, architecture docs, etc.
-            - Planning or strategy documents
-            - Project tracking files
-            - Meta-documentation
+      ## Ask First Before Creating
 
-            **Exception:** README updates permitted when adding new features.
 
-            ## Don't Document Progress in Code
+      - Markdown files (*.md) - REFACTORING.md, architecture docs, etc.
 
-            - No "reorganized code to..." or "refactored X to Y" comments
-            - No changelog-style comments in code
-            - Version control handles this - use commit messages instead
+      - Planning or strategy documents
 
-            ## Don't Include Change History in Files
+      - Project tracking files
 
-            - No "Updated on...", "Changed from...", or "Previously this was..." annotations
-            - No revision history within data/content
-            - History belongs in version control, not in the data itself
-        content_hash: sha256:9c4ca97e008558656b963f70d2940bc2780c8bb7ce7174fa12582a833bceab00
-        distilled: |-
-            # Documentation Guidelines
+      - Meta-documentation
 
-            Ask first before creating any *.md file, planning/strategy document, tracking file, or meta-documentation (exception: README updates when adding features). No progress notes in code ("refactored X to Y", changelog-style comments) and no change history in files ("Updated on...", "Previously this was..."); history belongs in version control and commit messages.
-        distilled_by: claude-code
-    strings:
-        tags:
-        - code
-        - strings
-        - errors
-        content: |-
-            # String Handling
 
-            ## No String-Based Flow Control
+      **Exception:** README updates permitted when adding new features.
 
-            Never use string approximations (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly instructed. Use typed errors or error codes instead.
 
-            ```go
-            // Wrong
-            if strings.Contains(err.Error(), "connection refused") {
-                retry()
-            }
+      ## Don''t Document Progress in Code
 
-            // Right
-            if errors.Is(err, ErrConnectionRefused) {
-                retry()
-            }
-            ```
 
-            ## Error Messages as Constants
+      - No "reorganized code to..." or "refactored X to Y" comments
 
-            All error messages must be defined as constants and reused in test assertions. No magic strings.
+      - No changelog-style comments in code
 
-            ```go
-            // errors.go
-            var ErrUserNotFound = errors.New("user not found")
+      - Version control handles this - use commit messages instead
 
-            // service.go
-            return ErrUserNotFound
 
-            // service_test.go
-            assert.ErrorIs(t, err, ErrUserNotFound)
-            ```
-        content_hash: sha256:5278e4fbf6ebf5b7bfe478c7ab3579c6297d3a1b7e73a49bce9b4ce88ac3cd3b
-        distilled: |-
-            # String Handling
+      ## Don''t Include Change History in Files
 
-            Never branch on string approximations of messages (startswith/contains/substring) unless explicitly instructed — use typed errors or error codes (`errors.Is(err, ErrConnectionRefused)`, not `strings.Contains(err.Error(), ...)`). Define all error messages as constants/sentinel errors and reuse them in test assertions — no magic strings.
-        distilled_by: claude-code
+
+      - No "Updated on...", "Changed from...", or "Previously this was..." annotations
+
+      - No revision history within data/content
+
+      - History belongs in version control, not in the data itself'
+    content_hash: sha256:9c4ca97e008558656b963f70d2940bc2780c8bb7ce7174fa12582a833bceab00
+    distilled: '# Documentation Guidelines
+
+
+      Ask first before creating any *.md file, planning/strategy document, tracking file, or meta-documentation
+      (exception: README updates when adding features). No progress notes in code ("refactored X to Y",
+      changelog-style comments) and no change history in files ("Updated on...", "Previously this was...");
+      history belongs in version control and commit messages.'
+    distilled_by: claude-code
+  strings:
+    tags:
+    - code
+    - strings
+    - errors
+    content: "# String Handling\n\n## No String-Based Flow Control\n\nNever use string approximations\
+      \ (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly\
+      \ instructed. Use typed errors or error codes instead.\n\n```go\n// Wrong\nif strings.Contains(err.Error(),\
+      \ \"connection refused\") {\n    retry()\n}\n\n// Right\nif errors.Is(err, ErrConnectionRefused)\
+      \ {\n    retry()\n}\n```\n\n## Error Messages as Constants\n\nAll error messages must be defined\
+      \ as constants and reused in test assertions. No magic strings.\n\n```go\n// errors.go\nvar ErrUserNotFound\
+      \ = errors.New(\"user not found\")\n\n// service.go\nreturn ErrUserNotFound\n\n// service_test.go\n\
+      assert.ErrorIs(t, err, ErrUserNotFound)\n```"
+    content_hash: sha256:5278e4fbf6ebf5b7bfe478c7ab3579c6297d3a1b7e73a49bce9b4ce88ac3cd3b
+    distilled: '# String Handling
+
+
+      Never branch on string approximations of messages (startswith/contains/substring) unless explicitly
+      instructed — use typed errors or error codes (`errors.Is(err, ErrConnectionRefused)`, not `strings.Contains(err.Error(),
+      ...)`). Define all error messages as constants/sentinel errors and reuse them in test assertions
+      — no magic strings.'
+    distilled_by: claude-code
+name: core-practices
