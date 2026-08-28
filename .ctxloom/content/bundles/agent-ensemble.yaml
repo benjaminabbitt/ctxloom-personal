@@ -31,6 +31,19 @@ fragments:
         tags:
             - coordinator
             - conduct
+        notes: |
+            Why: the role definition the rest of this bundle hangs off. It
+            exists because a coordinator that implements spends its scarce
+            context on file contents and diffs, loses the thread it alone
+            holds, and makes design decisions nobody reviewed. The "does NOT
+            inherit" section defends against a failure the role's own
+            process-wide delivery creates: a leaf sub-agent reads this text,
+            concludes it should delegate rather than implement, and stalls
+            waiting for children it never spawned and notifications that will
+            never arrive.
+            Deliberately unpremised: this is the reader's standing identity,
+            not guidance for a moment — there is no action for a premise to
+            fire on, so it is always loaded.
         content: |-
             # Role: Coordinator
 
