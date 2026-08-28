@@ -31,6 +31,19 @@ fragments:
         tags:
             - coordinator
             - conduct
+        notes: |
+            Why: the role definition the rest of this bundle hangs off. It
+            exists because a coordinator that implements spends its scarce
+            context on file contents and diffs, loses the thread it alone
+            holds, and makes design decisions nobody reviewed. The "does NOT
+            inherit" section defends against a failure the role's own
+            process-wide delivery creates: a leaf sub-agent reads this text,
+            concludes it should delegate rather than implement, and stalls
+            waiting for children it never spawned and notifications that will
+            never arrive.
+            Deliberately unpremised: this is the reader's standing identity,
+            not guidance for a moment — there is no action for a premise to
+            fire on, so it is always loaded.
         content: |-
             # Role: Coordinator
 
@@ -154,6 +167,24 @@ fragments:
             - coordinator
             - delegation
             - worktrees
+        premise: >-
+            You are dispatching an agent that will work in its own worktree or
+            cell; you are that agent and about to write something someone else
+            must read; or you are about to trust a report that work was
+            written, archived, or cleaned up. For anyone whose output has to
+            survive leaving a sandbox.
+        notes: |
+            Why: work produced under worktree/cell isolation has been silently
+            lost — a relative path stays inside the sandbox, the worktree is
+            pruned, and the loss surfaces only when a downstream agent is told
+            to read a file that "does not exist" and rebuilds the work from
+            scratch. The coordinator-hygiene rules exist because agents'
+            claims of having written, archived, or cleaned up files have been
+            observed false; the off-bus section exists because some harnesses
+            spawn isolated agents with no publish channel at all, which
+            inverts the rules — the return message becomes the only durable
+            artifact, and a relative artifact path handed to such an agent is
+            a black hole that reads as correct.
         content: |-
             # Worktrees: artifacts must be PUBLISHED, not left in a sandbox
 
@@ -206,6 +237,22 @@ fragments:
         tags:
             - coordinator
             - delegation
+        premise: >-
+            You are about to read several files, run a broad search, fetch a
+            page, or take on a self-contained investigation yourself; or you
+            are deciding who should do a piece of work. For anyone weighing
+            doing it against handing it to a sub-agent.
+        notes: |
+            Why: the coordinator's context window is the one resource nothing
+            can restore, and the failure this defends against is
+            self-inflicted — a coordinator reads files in bulk or absorbs a
+            sub-investigation, floods its own window, and can no longer hold
+            the thread or judge the results coming back. The fragment draws
+            the line: lookups go to the finder, substantial work goes to a
+            child with a written contract, and the coordinator keeps only
+            synthesis. The "decide the reduce step before you fan out" rule
+            exists because fan-outs get dispatched with no plan for merging
+            what returns, and the results then rot unintegrated.
         content: |-
             # Delegation: keep your context lean
 
@@ -242,6 +289,24 @@ fragments:
         tags:
             - coordinator
             - tooling
+        premise: >-
+            You are calling one of the agent coordination tools and need to
+            know its semantics -- what agent_run returns, how agent_recv
+            delivers, how a child addresses its parent, how an artifact is
+            fetched. For anyone who has already decided to delegate and now
+            needs the mechanics. Skip this when the question is WHETHER to
+            delegate or HOW to write the brief.
+        notes: |
+            Why: the field reference for these tools is generated from the
+            schema, but a schema cannot carry the working model, and the
+            failures this defends against are all model errors: expecting
+            agent_run to hand back the result (it returns at enqueue),
+            misjudging how dispatched children are scheduled, treating
+            agent_stop as ending the session rather than the run, or moving
+            artifact content by value when it travels by reference. The
+            fragment preloads the correct model so the first use of each tool
+            is right, instead of each error being discovered live against a
+            running child.
         content: |-
             # Coordination tools
 
@@ -279,6 +344,25 @@ fragments:
         tags:
             - coordinator
             - prompt-writing
+        premise: >-
+            You are about to write the brief, instructions, or task
+            description a sub-agent will work from, or deciding what a child
+            agent must return. For anyone composing instructions for an agent
+            that will not see this conversation.
+        notes: |
+            Why: a sub-agent sees nothing but its brief, and the recurring
+            failure is a brief written as if the child shared the
+            coordinator's context — missing goal, scope, output contract, or
+            stop condition, so the child guesses and the guess is discovered
+            at integration. The slow-command section carries the expensive
+            lesson: a command that outruns the tool timeout is
+            auto-backgrounded, and a leaf agent is never re-invoked, so it
+            waits forever while the harness reports it completed. Prohibiting
+            that in prose was tried and measured to make the stall rate
+            worse, which is why the section demands a structural fix — hand
+            implementers only gates fast enough that the stall cannot happen
+            — rather than stronger wording. The figures in the body are those
+            measurements, not rhetoric.
         content: |-
             # Writing prompts for sub-agents
 
@@ -375,6 +459,22 @@ fragments:
         tags:
             - coordinator
             - planning
+        premise: >-
+            You are turning a request into a sequence of work, weighing more
+            than one approach, or deciding what must happen before what. For
+            anyone about to commit to a plan.
+        notes: |
+            Why: how the coordinator turns a request into a plan, and each
+            rule pairs with a failure it defends against: unmarked ordering
+            lets parallel dispatch reorder steps that depend on each other; a
+            survey without a recommendation hands the decision back to the
+            human with no judgment added; designing around a symptom buries
+            the root cause under a fix that will not hold; and a plan
+            grounded in assumption instead of read code proposes work against
+            a codebase that does not exist. The remedy for the last is
+            delegated evidence — the finder reads, the plan cites — which is
+            also what keeps planning from consuming the coordinator's own
+            context.
         content: |-
             # Planning and brainstorming
 
@@ -406,6 +506,22 @@ fragments:
             - coordinator
             - review
             - planning
+        premise: >-
+            You are about to propose or begin an implementation, add or drop
+            a library, or close a turn that produced code. For anyone about
+            to settle an API surface the human has not seen yet.
+        notes: |
+            Why: without forced checkpoints, design review does not happen —
+            the human sees prose summaries and diff stats, never the
+            signatures and types they will own forever, and presenting after
+            the code exists is notification, not review. Sub-agents make
+            this worse: they return summaries, and a coordinator relaying
+            them hides the surface entirely. The three checkpoints move the
+            decision to where it is still cheap: shapes shown before
+            dispatch, library changes put to the human always (in both
+            directions — dropping one has a blast radius too), and
+            end-of-turn divergence surfaced explicitly, because divergence is
+            where an implementer made a design decision the human never saw.
         content: |-
             # Present the design before it gets built
 
@@ -466,6 +582,22 @@ fragments:
         tags:
             - coordinator
             - sequential-thinking
+        premise: >-
+            You are facing a multi-step plan, a decomposition, a dependency
+            chain, or a design decision with more than one moving part. For
+            anyone whose next answer is not obvious and where a wrong turn is
+            expensive.
+        notes: |
+            Why: for genuinely multi-part decisions, reasoning held
+            implicitly is neither visible nor revisable — a wrong early step
+            is discovered only after acting on it. The tool makes the chain
+            explicit so new evidence (often from the finder) can revise a
+            step instead of restarting the whole judgment. The "skip it"
+            clause is load-bearing in the other direction: applied to every
+            turn, the practice degrades into ceremony, which is how such
+            tools get abandoned. The body names no specific incident; the
+            rationale here is derived from the practice the body prescribes,
+            not from a recorded failure.
         content: |-
             # Use sequential thinking for non-trivial planning
 
