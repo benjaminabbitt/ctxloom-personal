@@ -16,6 +16,21 @@ fragments:
             - git
             - worktree
             - layout
+        premise: "You are about to choose where a repository or worktree lives on disk, or what to name one. For anyone creating a checkout, a worktree directory, or a branch slug."
+        notes: |-
+            The convention answers two concrete pains rather than a taste for
+            tidiness. First: most tooling — shell prompts, editor and tmux titles,
+            container names, error messages — shows only a directory's leaf, so a
+            checkout whose leaf is "main" is anonymous, and with several repos open
+            it is anonymous several times over; the retired <repo>/main layout that
+            the installation text migrates away from produced exactly this. Second: a
+            worktree inside or beside the repository is a second full copy of the
+            codebase sitting inside whatever builds, indexers, recursive greps, and
+            container mounts consider their working set — every one of those tools
+            was observed picking the copy up. The single shared worktree root is
+            what makes one ls of it the machine-wide ledger of open work, which is
+            the property the worktree-lifecycle fragment's "done means gone" rule
+            depends on.
         installation: |-
             This bundle is a workspace layout convention. There are no harness rules to add — the convention is enforced by where you clone repos and where you place worktrees.
 
@@ -95,6 +110,23 @@ fragments:
             - worktree
             - workflow
             - version-control
+        premise: "You are about to create, merge, remove, or prune a worktree, delete a branch, judge whether a piece of work is finished, or recover work from a worktree that no longer exists. For anyone whose next action changes which worktrees or branches exist."
+        notes: |-
+            Every rule here defends against one of the two ways worktrees actually
+            fail. Loss: uncommitted bytes in a working tree are the only state that a
+            forced removal, a harness auto-clean, or a /tmp wipe can destroy — hence
+            commit-at-every-checkpoint as the sole loss defense, the ban on --force
+            (the one command in the set that can destroy work), and the recovery
+            ladder that works precisely because committed work survives every
+            deletion path. Accumulation: a merged-but-not-removed worktree is
+            indistinguishable from live work, so nobody deletes anything and the set
+            stops being a ledger — hence done = merged + removed + branch-deleted,
+            and one-worktree-per-merge, which exists because a fan-out that cuts a
+            branch per agent creates merges that never happen. The harness section is
+            there because engine-cut worktrees were repeatedly observed arriving on
+            stale bases (branching from origin/HEAD misses every unpushed commit) and
+            in wipeable locations; planning for those defaults proved cheaper than
+            trusting any harness to get them right.
         content: |
             # Worktree Lifecycle
 

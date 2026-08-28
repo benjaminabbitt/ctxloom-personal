@@ -13,6 +13,19 @@ fragments:
     - comments
     - coupling
     - maintenance
+    premise: "You are about to write or update a comment, docstring, README, doc page, commit message, or config annotation describing code, files, or behaviour that live elsewhere; or you are acting on such a statement someone else wrote. For anyone whose next write is prose the code can later contradict silently."
+    notes: |-
+      Written against a specific decay mode: prose that restates something the code
+      can change — a member list, a count, a supported set, a contrast with a
+      sibling — is correct on the day it is written and has no mechanism to ever be
+      corrected again. It does not go red when it goes false; it keeps its authority
+      while lying. The expensive incident that earned the rule is recorded in the
+      body: a retired rule left hand-copies of itself behind, one of which named a
+      formula as the entire defense against an attack, so an auditor verifying that
+      defense would have confirmed a rule the code had stopped using. The stance the
+      fragment takes — describe derivable facts by relationship rather than content,
+      and make anything load-bearing generated, asserted, or cited by symbol — is
+      the smallest discipline that makes drift either impossible or loud.
     content: "# Do not build bindings you cannot check\n\nNaming one thing from another creates a BINDING:\
       \ a coupling that has to be\nmaintained for as long as both sides exist. Some bindings earn that.\
       \ Most do\nnot, and the ones that do the most damage are the ones nothing enforces.\n\nThe decisive\
@@ -64,6 +77,17 @@ fragments:
     tags:
     - documentation
     - workflow
+    premise: "You are about to create a markdown file, a plan, a tracking or meta document, or to write a comment recording what changed or when. For anyone whose next write is documentation rather than code."
+    notes: |-
+      Exists because generated documentation is the cheapest thing to produce and
+      the most expensive to keep honest: assistants default to leaving
+      REFACTORING.md-style artifacts, plans, and progress commentary behind every
+      task, and each one is a file a human must later read, doubt, and delete. The
+      change-history half defends the same boundary from the other side: prose that
+      records what changed duplicates what version control already holds, and
+      unlike version control it never updates itself, so it reads as authoritative
+      for exactly as long as it is wrong. The ask-first rule keeps the decision to
+      create a document a human one rather than a side effect of doing a task.
     content: '# Documentation Guidelines
 
 
