@@ -459,6 +459,22 @@ fragments:
         tags:
             - coordinator
             - planning
+        premise: >-
+            You are turning a request into a sequence of work, weighing more
+            than one approach, or deciding what must happen before what. For
+            anyone about to commit to a plan.
+        notes: |
+            Why: how the coordinator turns a request into a plan, and each
+            rule pairs with a failure it defends against: unmarked ordering
+            lets parallel dispatch reorder steps that depend on each other; a
+            survey without a recommendation hands the decision back to the
+            human with no judgment added; designing around a symptom buries
+            the root cause under a fix that will not hold; and a plan
+            grounded in assumption instead of read code proposes work against
+            a codebase that does not exist. The remedy for the last is
+            delegated evidence — the finder reads, the plan cites — which is
+            also what keeps planning from consuming the coordinator's own
+            context.
         content: |-
             # Planning and brainstorming
 
