@@ -344,6 +344,25 @@ fragments:
         tags:
             - coordinator
             - prompt-writing
+        premise: >-
+            You are about to write the brief, instructions, or task
+            description a sub-agent will work from, or deciding what a child
+            agent must return. For anyone composing instructions for an agent
+            that will not see this conversation.
+        notes: |
+            Why: a sub-agent sees nothing but its brief, and the recurring
+            failure is a brief written as if the child shared the
+            coordinator's context — missing goal, scope, output contract, or
+            stop condition, so the child guesses and the guess is discovered
+            at integration. The slow-command section carries the expensive
+            lesson: a command that outruns the tool timeout is
+            auto-backgrounded, and a leaf agent is never re-invoked, so it
+            waits forever while the harness reports it completed. Prohibiting
+            that in prose was tried and measured to make the stall rate
+            worse, which is why the section demands a structural fix — hand
+            implementers only gates fast enough that the stall cannot happen
+            — rather than stronger wording. The figures in the body are those
+            measurements, not rhetoric.
         content: |-
             # Writing prompts for sub-agents
 
