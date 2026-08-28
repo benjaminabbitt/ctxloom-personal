@@ -237,6 +237,22 @@ fragments:
         tags:
             - coordinator
             - delegation
+        premise: >-
+            You are about to read several files, run a broad search, fetch a
+            page, or take on a self-contained investigation yourself; or you
+            are deciding who should do a piece of work. For anyone weighing
+            doing it against handing it to a sub-agent.
+        notes: |
+            Why: the coordinator's context window is the one resource nothing
+            can restore, and the failure this defends against is
+            self-inflicted — a coordinator reads files in bulk or absorbs a
+            sub-investigation, floods its own window, and can no longer hold
+            the thread or judge the results coming back. The fragment draws
+            the line: lookups go to the finder, substantial work goes to a
+            child with a written contract, and the coordinator keeps only
+            synthesis. The "decide the reduce step before you fan out" rule
+            exists because fan-outs get dispatched with no plan for merging
+            what returns, and the results then rot unintegrated.
         content: |-
             # Delegation: keep your context lean
 
