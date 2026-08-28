@@ -13,19 +13,40 @@ fragments:
     - comments
     - coupling
     - maintenance
-    premise: "You are about to write or update a comment, docstring, README, doc page, commit message, or config annotation describing code, files, or behaviour that live elsewhere; or you are acting on such a statement someone else wrote. For anyone whose next write is prose the code can later contradict silently."
-    notes: |-
-      Written against a specific decay mode: prose that restates something the code
+    premise: You are about to write or update a comment, docstring, README, doc page, commit message,
+      or config annotation describing code, files, or behaviour that live elsewhere — including one that
+      records what changed or when; or you are acting on such a statement someone else wrote. For anyone
+      whose next write is prose the code can later contradict silently.
+    notes: 'Written against a specific decay mode: prose that restates something the code
+
       can change — a member list, a count, a supported set, a contrast with a
+
       sibling — is correct on the day it is written and has no mechanism to ever be
+
       corrected again. It does not go red when it goes false; it keeps its authority
+
       while lying. The expensive incident that earned the rule is recorded in the
+
       body: a retired rule left hand-copies of itself behind, one of which named a
+
       formula as the entire defense against an attack, so an auditor verifying that
+
       defense would have confirmed a rule the code had stopped using. The stance the
+
       fragment takes — describe derivable facts by relationship rather than content,
+
       and make anything load-bearing generated, asserted, or cited by symbol — is
+
       the smallest discipline that makes drift either impossible or loud.
+
+
+      It also absorbs the change-history rule that once sat in the documentation
+
+      fragment: a "Previously this was" annotation is this same decay in the past
+
+      tense, unchecked prose competing with a record that is accurate and updates
+
+      itself.'
     content: "# Do not build bindings you cannot check\n\nNaming one thing from another creates a BINDING:\
       \ a coupling that has to be\nmaintained for as long as both sides exist. Some bindings earn that.\
       \ Most do\nnot, and the ones that do the most damage are the ones nothing enforces.\n\nThe decisive\
@@ -69,7 +90,15 @@ fragments:
       \ that genuinely depends on that exact thing** — then cite it by\n   symbol, per above.\n3. **A\
       \ pointer somebody could not find alone**: where the authority lives, which\n   of two similar mechanisms\
       \ governs, what to search for.\n\nIf what you are writing is none of these, it is decoration with\
-      \ a maintenance\nbill attached.\n\n## When you find one already stale, delete it\n\nPrefer deleting\
+      \ a maintenance\nbill attached.\n\n## History is the same mistake in the past tense\n\nA \"refactored\
+      \ X to Y\" comment, an \"Updated on ...\", a \"Previously this was ...\",\na revision log kept inside\
+      \ a data file — each binds prose to a state the code no\nlonger has, and nothing checks it either.\
+      \ This one is worse than a stale list,\nbecause version control already holds the same fact, holds\
+      \ it accurately, and\nupdates itself. Two records of one history is one too many, and the unchecked\n\
+      one is the one people read.\n\nTest it against the three exceptions above and it earns none of them:\
+      \ it is not\na WHY, it is not an invariant, and it is not a pointer — the pointer already\nexists\
+      \ and it is the log. Put the reason in the commit message, where the\nexplanation stays attached\
+      \ to the change it explains.\n\n## When you find one already stale, delete it\n\nPrefer deleting\
       \ an unmaintained list or census over correcting it. Correcting\none entry makes every remaining\
       \ entry look verified, which is worse than the\nhonest signal that nobody is maintaining any of\
       \ it.\n"
@@ -77,17 +106,23 @@ fragments:
     tags:
     - documentation
     - workflow
-    premise: "You are about to create a markdown file, a plan, a tracking or meta document, or to write a comment recording what changed or when. For anyone whose next write is documentation rather than code."
-    notes: |-
-      Exists because generated documentation is the cheapest thing to produce and
+    premise: You are about to create a markdown file, a plan, a tracking document, or a meta-document.
+      For anyone whose next write is a NEW DOCUMENT rather than code.
+    notes: 'Exists because generated documentation is the cheapest thing to produce and
+
       the most expensive to keep honest: assistants default to leaving
+
       REFACTORING.md-style artifacts, plans, and progress commentary behind every
+
       task, and each one is a file a human must later read, doubt, and delete. The
-      change-history half defends the same boundary from the other side: prose that
-      records what changed duplicates what version control already holds, and
-      unlike version control it never updates itself, so it reads as authoritative
-      for exactly as long as it is wrong. The ask-first rule keeps the decision to
-      create a document a human one rather than a side effect of doing a task.
+
+      ask-first rule keeps the decision to create a document a human one rather than
+
+      a side effect of doing a task. The scope is deliberately only that decision:
+
+      prose that records what changed is the same defect as any other unchecked
+
+      binding and lives with that material, not here.'
     content: '# Documentation Guidelines
 
 
@@ -103,36 +138,8 @@ fragments:
       - Meta-documentation
 
 
-      **Exception:** README updates permitted when adding new features.
-
-
-      ## Don''t Document Progress in Code
-
-
-      - No "reorganized code to..." or "refactored X to Y" comments
-
-      - No changelog-style comments in code
-
-      - Version control handles this - use commit messages instead
-
-
-      ## Don''t Include Change History in Files
-
-
-      - No "Updated on...", "Changed from...", or "Previously this was..." annotations
-
-      - No revision history within data/content
-
-      - History belongs in version control, not in the data itself'
-    content_hash: sha256:9c4ca97e008558656b963f70d2940bc2780c8bb7ce7174fa12582a833bceab00
-    distilled: '# Documentation Guidelines
-
-
-      Ask first before creating any *.md file, planning/strategy document, tracking file, or meta-documentation
-      (exception: README updates when adding features). No progress notes in code ("refactored X to Y",
-      changelog-style comments) and no change history in files ("Updated on...", "Previously this was...");
-      history belongs in version control and commit messages.'
-    distilled_by: claude-code
+      **Exception:** README updates permitted when adding new features.'
+    content_hash: sha256:f18d39468edda136a81e5aba41710ed363a2afaad12ffef980160c714f2d7470
   strings:
     tags:
     - code
