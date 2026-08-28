@@ -8,6 +8,21 @@ author: ctxloom
 description: Practices for rapid prototyping and greenfield development
 fragments:
     preexisting-ownership:
+        premise: "A test, gate, or check is failing and you are deciding whose problem it is, or about to attribute it to something other than your own change. For anyone about to write or think 'pre-existing', 'unrelated', 'flaky', or 'not mine'."
+        notes: |-
+            The origin is the incident the body records: two independent agents, on the
+            same day, each labelled the same failing test "pre-existing and unrelated"
+            in careful, plausible reports — it had been introduced hours earlier by
+            their own commit, and it was a real bug. The rule earned a fragment
+            because the label is self-sealing: a report that says "pre-existing"
+            reads as diligence, so no reviewer reopens it, and the defect rides
+            through triage twice — once locally, once in CI, dismissed the same way
+            each time by different people. The git-log verification steps are the
+            whole defense: they cost seconds, and the assumption they test is, in
+            observed practice, often inverted. The ownership default (an unexplained
+            red is yours until proven otherwise) exists because with several agents
+            in a tree, any weaker default routes every ambiguous failure to a backlog
+            nobody owns.
         content: |
             # "Pre-existing" Is Not a Disposition
 
@@ -72,6 +87,20 @@ fragments:
             - pattern
             - prototype
             - greenfield
+        premise: "You are about to change or replace something that existing code, data, callers, or users depend on — a name, a signature, a format, an API, a config key, a behaviour — or your plan mentions compatibility, migration, deprecation, a shim, a fallback, or supporting both old and new. For anyone deciding how much of what already exists must keep working."
+        notes: |-
+            Exists because compatibility is the default reflex, not a decision: an
+            assistant asked to change a name, a signature, or a format will preserve
+            the old path unprompted — a wrapper, a fallback, a "handle both" branch —
+            each one small, each one permanent. In a prototype nothing external
+            depends on the old shape yet, so every shim is pure cost: it doubles the
+            surface a reader must understand, and it survives into the era when
+            something finally does depend on it. The fragment's absolutism — delete,
+            rebuild, fix everything that breaks, with an explicit list of forbidden
+            patterns — is deliberate: a rule with exceptions gets its exception
+            invoked on every change, because preserving the old path is always the
+            locally easier move. The forbidden-patterns list is long because each
+            entry is a disguise the same reflex was observed wearing.
         content: |-
             # Prototype Mode
 
@@ -205,6 +234,18 @@ fragments:
             - code
             - quality
             - refactoring
+        premise: "You are starting a feature, a refactor, a multi-file change, or a fix longer than one line. For anyone about to add code to a place they have not yet examined for duplication or dead weight."
+        notes: |-
+            A counterweight to the additive default: every task tends to add code,
+            and cleanup never happens on its own because it never becomes anyone's
+            task. Binding reduction to the START of significant work is the whole
+            mechanism — that is the one moment someone is already reading the area
+            with intent to change it, so duplication and dead weight are visible at
+            no extra cost, and the change then lands on a smaller, cleaner base. The
+            significance threshold exists so the rule does not tax typo-sized edits
+            into ceremony. The greenfield scoping caveat in the opening line is
+            load-bearing, not hedging: the same aggression applied to a production
+            API with external consumers is a breaking change, not a cleanup.
         content: |-
             # Reductive Development
 
