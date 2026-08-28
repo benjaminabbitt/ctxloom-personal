@@ -15,6 +15,19 @@ fragments:
     tags:
       - workflow
       - quality
+    premise: "You are finishing a turn, or you have surfaced something you are not going to fix right now. For anyone about to leave an issue unresolved, or about to report what happened."
+    notes: |-
+      Defends against the most polished failure a work session has: the closing
+      report that mentions every problem and disposes of none. A finding named in a
+      reply feels handled — it was communicated — but nothing downstream reads
+      replies, so the issue is lost the moment the session ends. Hence the
+      fragment's central claim that there are exactly two honest dispositions,
+      fixed or filed-with-context, and "mentioned it" is neither. The
+      status-hygiene half exists for the complementary failure: a task log that is
+      only mostly true is worse than none, because the stale entries read with
+      exactly the same authority as the live ones — a task carrying its completed
+      half looks identical to work never started, and a closed-but-unrecorded fix
+      gets done twice.
     content: |-
       # Closing a turn: fix what you can, file what you cannot
 
