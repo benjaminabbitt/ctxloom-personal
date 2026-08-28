@@ -506,6 +506,22 @@ fragments:
             - coordinator
             - review
             - planning
+        premise: >-
+            You are about to propose or begin an implementation, add or drop
+            a library, or close a turn that produced code. For anyone about
+            to settle an API surface the human has not seen yet.
+        notes: |
+            Why: without forced checkpoints, design review does not happen —
+            the human sees prose summaries and diff stats, never the
+            signatures and types they will own forever, and presenting after
+            the code exists is notification, not review. Sub-agents make
+            this worse: they return summaries, and a coordinator relaying
+            them hides the surface entirely. The three checkpoints move the
+            decision to where it is still cheap: shapes shown before
+            dispatch, library changes put to the human always (in both
+            directions — dropping one has a blast radius too), and
+            end-of-turn divergence surfaced explicitly, because divergence is
+            where an implementer made a design decision the human never saw.
         content: |-
             # Present the design before it gets built
 
