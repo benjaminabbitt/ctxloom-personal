@@ -87,7 +87,6 @@ fragments:
             - pattern
             - prototype
             - greenfield
-        premise: "You are about to change or replace something that existing code, data, callers, or users depend on — a name, a signature, a format, an API, a config key, a behaviour — or your plan mentions compatibility, migration, deprecation, a shim, a fallback, or supporting both old and new. For anyone deciding how much of what already exists must keep working."
         notes: |-
             Exists because compatibility is the default reflex, not a decision: an
             assistant asked to change a name, a signature, or a format will preserve
