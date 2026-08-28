@@ -167,6 +167,24 @@ fragments:
             - coordinator
             - delegation
             - worktrees
+        premise: >-
+            You are dispatching an agent that will work in its own worktree or
+            cell; you are that agent and about to write something someone else
+            must read; or you are about to trust a report that work was
+            written, archived, or cleaned up. For anyone whose output has to
+            survive leaving a sandbox.
+        notes: |
+            Why: work produced under worktree/cell isolation has been silently
+            lost — a relative path stays inside the sandbox, the worktree is
+            pruned, and the loss surfaces only when a downstream agent is told
+            to read a file that "does not exist" and rebuilds the work from
+            scratch. The coordinator-hygiene rules exist because agents'
+            claims of having written, archived, or cleaned up files have been
+            observed false; the off-bus section exists because some harnesses
+            spawn isolated agents with no publish channel at all, which
+            inverts the rules — the return message becomes the only durable
+            artifact, and a relative artifact path handed to such an agent is
+            a black hole that reads as correct.
         content: |-
             # Worktrees: artifacts must be PUBLISHED, not left in a sandbox
 
