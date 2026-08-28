@@ -289,6 +289,24 @@ fragments:
         tags:
             - coordinator
             - tooling
+        premise: >-
+            You are calling one of the agent coordination tools and need to
+            know its semantics -- what agent_run returns, how agent_recv
+            delivers, how a child addresses its parent, how an artifact is
+            fetched. For anyone who has already decided to delegate and now
+            needs the mechanics. Skip this when the question is WHETHER to
+            delegate or HOW to write the brief.
+        notes: |
+            Why: the field reference for these tools is generated from the
+            schema, but a schema cannot carry the working model, and the
+            failures this defends against are all model errors: expecting
+            agent_run to hand back the result (it returns at enqueue),
+            misjudging how dispatched children are scheduled, treating
+            agent_stop as ending the session rather than the run, or moving
+            artifact content by value when it travels by reference. The
+            fragment preloads the correct model so the first use of each tool
+            is right, instead of each error being discovered live against a
+            running child.
         content: |-
             # Coordination tools
 
