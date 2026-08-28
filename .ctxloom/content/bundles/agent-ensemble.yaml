@@ -582,6 +582,22 @@ fragments:
         tags:
             - coordinator
             - sequential-thinking
+        premise: >-
+            You are facing a multi-step plan, a decomposition, a dependency
+            chain, or a design decision with more than one moving part. For
+            anyone whose next answer is not obvious and where a wrong turn is
+            expensive.
+        notes: |
+            Why: for genuinely multi-part decisions, reasoning held
+            implicitly is neither visible nor revisable — a wrong early step
+            is discovered only after acting on it. The tool makes the chain
+            explicit so new evidence (often from the finder) can revise a
+            step instead of restarting the whole judgment. The "skip it"
+            clause is load-bearing in the other direction: applied to every
+            turn, the practice degrades into ceremony, which is how such
+            tools get abandoned. The body names no specific incident; the
+            rationale here is derived from the practice the body prescribes,
+            not from a recorded failure.
         content: |-
             # Use sequential thinking for non-trivial planning
 
