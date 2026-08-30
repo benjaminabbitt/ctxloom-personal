@@ -1,165 +1,269 @@
 version: 1.0.0
 tags:
-- practices
-- workflow
-- quality
+    - practices
+    - workflow
+    - quality
 author: ctxloom
 description: Core development practices for code quality, documentation, and problem solving
 fragments:
-  unchecked-bindings:
-    tags:
-    - practices
-    - documentation
-    - comments
-    - coupling
-    - maintenance
-    premise: You are about to write or update a comment, docstring, README, doc page, commit message,
-      or config annotation describing code, files, or behaviour that live elsewhere — including one that
-      records what changed or when; or you are acting on such a statement someone else wrote. For anyone
-      whose next write is prose the code can later contradict silently.
-    notes: 'Written against a specific decay mode: prose that restates something the code
+    documentation:
+        tags:
+            - documentation
+            - workflow
+        notes: |-
+            Exists because generated documentation is the cheapest thing to produce and
+            the most expensive to keep honest: assistants default to leaving
+            REFACTORING.md-style artifacts, plans, and progress commentary behind every
+            task, and each one is a file a human must later read, doubt, and delete. The
+            ask-first rule keeps the decision to create a document a human one rather than
+            a side effect of doing a task. The scope is deliberately only that decision:
+            prose that records what changed is the same defect as any other unchecked
+            binding and lives with that material, not here.
+        premise: You are about to create a markdown file, a plan, a tracking document, or a meta-document. For anyone whose next write is a NEW DOCUMENT rather than code.
+        content: |-
+            # Documentation Guidelines
 
-      can change — a member list, a count, a supported set, a contrast with a
+            ## Ask First Before Creating
 
-      sibling — is correct on the day it is written and has no mechanism to ever be
+            - Markdown files (*.md) - REFACTORING.md, architecture docs, etc.
+            - Planning or strategy documents
+            - Project tracking files
+            - Meta-documentation
 
-      corrected again. It does not go red when it goes false; it keeps its authority
+            **Exception:** README updates permitted when adding new features.
+        content_hash: sha256:f18d39468edda136a81e5aba41710ed363a2afaad12ffef980160c714f2d7470
+    strings:
+        tags:
+            - code
+            - strings
+            - errors
+        content: |-
+            # String Handling
 
-      while lying. The expensive incident that earned the rule is recorded in the
+            ## No String-Based Flow Control
 
-      body: a retired rule left hand-copies of itself behind, one of which named a
+            Never use string approximations (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly instructed. Use typed errors or error codes instead.
 
-      formula as the entire defense against an attack, so an auditor verifying that
+            ```go
+            // Wrong
+            if strings.Contains(err.Error(), "connection refused") {
+                retry()
+            }
 
-      defense would have confirmed a rule the code had stopped using. The stance the
+            // Right
+            if errors.Is(err, ErrConnectionRefused) {
+                retry()
+            }
+            ```
 
-      fragment takes — describe derivable facts by relationship rather than content,
+            ## Error Messages as Constants
 
-      and make anything load-bearing generated, asserted, or cited by symbol — is
+            All error messages must be defined as constants and reused in test assertions. No magic strings.
 
-      the smallest discipline that makes drift either impossible or loud.
+            ```go
+            // errors.go
+            var ErrUserNotFound = errors.New("user not found")
 
+            // service.go
+            return ErrUserNotFound
 
-      It also absorbs the change-history rule that once sat in the documentation
+            // service_test.go
+            assert.ErrorIs(t, err, ErrUserNotFound)
+            ```
+        content_hash: sha256:5278e4fbf6ebf5b7bfe478c7ab3579c6297d3a1b7e73a49bce9b4ce88ac3cd3b
+        distilled: |-
+            # String Handling
 
-      fragment: a "Previously this was" annotation is this same decay in the past
+            Never branch on string approximations of messages (startswith/contains/substring) unless explicitly instructed — use typed errors or error codes (`errors.Is(err, ErrConnectionRefused)`, not `strings.Contains(err.Error(), ...)`). Define all error messages as constants/sentinel errors and reuse them in test assertions — no magic strings.
+        distilled_by: claude-code
+    unchecked-bindings:
+        tags:
+            - practices
+            - documentation
+            - comments
+            - coupling
+            - maintenance
+        notes: |-
+            Written against a specific decay mode: prose that restates something the code
+            can change — a member list, a count, a supported set, a contrast with a
+            sibling — is correct on the day it is written and has no mechanism to ever be
+            corrected again. It does not go red when it goes false; it keeps its authority
+            while lying. The expensive incident that earned the rule is recorded in the
+            body: a retired rule left hand-copies of itself behind, one of which named a
+            formula as the entire defense against an attack, so an auditor verifying that
+            defense would have confirmed a rule the code had stopped using. The stance the
+            fragment takes — describe derivable facts by relationship rather than content,
+            and make anything load-bearing generated, asserted, or cited by symbol — is
+            the smallest discipline that makes drift either impossible or loud.
 
-      tense, unchecked prose competing with a record that is accurate and updates
+            It also absorbs the change-history rule that once sat in the documentation
+            fragment: a "Previously this was" annotation is this same decay in the past
+            tense, unchecked prose competing with a record that is accurate and updates
+            itself.
+        premise: You are about to write or update a comment, docstring, README, doc page, commit message, or config annotation describing code, files, or behaviour that live elsewhere — including one that records what changed or when; or you are acting on such a statement someone else wrote. For anyone whose next write is prose the code can later contradict silently.
+        content: |
+            # Do not build bindings you cannot check
 
-      itself.'
-    content: "# Do not build bindings you cannot check\n\nNaming one thing from another creates a BINDING:\
-      \ a coupling that has to be\nmaintained for as long as both sides exist. Some bindings earn that.\
-      \ Most do\nnot, and the ones that do the most damage are the ones nothing enforces.\n\nThe decisive\
-      \ question is not \"is this true?\" — you would not write it otherwise.\nIt is: **when this stops\
-      \ being true, what catches it?**\n\n    CHECKED    a symbol reference in code; a generated table;\
-      \ an asserted count.\n               Breaks loudly, at the moment it breaks, in front of whoever\n\
-      \               broke it.\n\n    UNCHECKED  prose, comments, docs, READMEs, config annotations.\
-      \ Nothing\n               compiles them and no test reads them. When they go false they\n      \
-      \         do not go red — they quietly start lying, and they keep their\n               authority\
-      \ while doing it.\n\nAn unchecked binding needs a very good reason. The default is not to create\
-      \ one.\n\n## Prefer no binding at all\n\nMost of the time the coupling is unnecessary, because the\
-      \ fact is DERIVABLE.\nSay what the relationship IS, not what the contents currently ARE:\n\n- \"\
-      the skill(s) it carries\" — not their names\n- \"its members\", \"the formats it covers\", \"each\
-      \ leg in turn\"\n- plural-agnostic, count-agnostic, role-descriptive\n\nThis costs nothing to write,\
-      \ and it cannot rot. A reader who wants the list can\nproduce it in seconds; they cannot recover\
-      \ a stale list without doing exactly\nthat anyway. Restating derivable state is a maintenance contract\
-      \ paid forever\nto save someone a lookup they can do for free.\n\n## Stress it before you write\
-      \ it\n\nIf you are about to name something specific, imagine the target changing in the\nthree ordinary\
-      \ ways:\n\n- it **gains** a member\n- it **loses** one\n- it is **renamed**\n\nDoes your sentence\
-      \ go false? If yes, and nothing would catch it, you are writing\na liability. Rephrase it, or do\
-      \ not write it.\n\n## The shapes this takes\n\nEvery one of these was true when written. That is\
-      \ the point: nothing separates a\nstale one from a live one except going and checking — the work\
-      \ the binding was\nsupposed to save.\n\n- naming the members of something: a member is added, the\
-      \ list is now wrong\n- a census or line count: drifts on the next commit\n- a listed set of supported\
-      \ formats or backends: one is dropped\n- \"unlike X, this one ...\" — X is deleted, and the sentence\
-      \ now contrasts with\n  nothing\n- \"see X, the live example\" — X is deleted\n- a rule hand-copied\
-      \ into several places: one copy is retired and the others\n  keep asserting it. This is the expensive\
-      \ one. A retired rule left copies\n  behind, one of which named a formula as the entire defense\
-      \ against an attack\n  — so an auditor checking that defense would have verified a rule the code\
-      \ had\n  stopped using, and concluded it held.\n\n## If you must bind, make it checked\n\nIn descending\
-      \ order of preference:\n\n1. **Generate it.** A table produced from the source cannot drift.\n2.\
-      \ **Assert it.** A test that fails when the count or the set changes turns an\n   unchecked binding\
-      \ into a checked one.\n3. **Cite by SYMBOL** — a function, type, or exact string someone can grep.\n\
-      \   A stale symbol fails loudly the moment anyone looks; a stale line number\n   silently points\
-      \ at unrelated code and gets believed.\n\n\"I will keep it updated\" is not a mechanism. It is the\
-      \ absence of one, and it\nhas never held.\n\n## What DOES earn an unchecked binding\n\nThree things,\
-      \ and they are all judgment a reader cannot derive:\n\n1. **A WHY.** A rationale, a constraint,\
-      \ a rejected alternative, a trap. \"This\n   is a local copy, and that is not a preference: the\
-      \ remote fetcher resolves a\n   ref to a single file, so a directory-form bundle cannot be fetched\
-      \ at all.\"\n   Nobody can compute that. It is the entire value of the comment.\n2. **An invariant\
-      \ that genuinely depends on that exact thing** — then cite it by\n   symbol, per above.\n3. **A\
-      \ pointer somebody could not find alone**: where the authority lives, which\n   of two similar mechanisms\
-      \ governs, what to search for.\n\nIf what you are writing is none of these, it is decoration with\
-      \ a maintenance\nbill attached.\n\n## History is the same mistake in the past tense\n\nA \"refactored\
-      \ X to Y\" comment, an \"Updated on ...\", a \"Previously this was ...\",\na revision log kept inside\
-      \ a data file — each binds prose to a state the code no\nlonger has, and nothing checks it either.\
-      \ This one is worse than a stale list,\nbecause version control already holds the same fact, holds\
-      \ it accurately, and\nupdates itself. Two records of one history is one too many, and the unchecked\n\
-      one is the one people read.\n\nTest it against the three exceptions above and it earns none of them:\
-      \ it is not\na WHY, it is not an invariant, and it is not a pointer — the pointer already\nexists\
-      \ and it is the log. Put the reason in the commit message, where the\nexplanation stays attached\
-      \ to the change it explains.\n\n## When you find one already stale, delete it\n\nPrefer deleting\
-      \ an unmaintained list or census over correcting it. Correcting\none entry makes every remaining\
-      \ entry look verified, which is worse than the\nhonest signal that nobody is maintaining any of\
-      \ it.\n"
-  documentation:
-    tags:
-    - documentation
-    - workflow
-    premise: You are about to create a markdown file, a plan, a tracking document, or a meta-document.
-      For anyone whose next write is a NEW DOCUMENT rather than code.
-    notes: 'Exists because generated documentation is the cheapest thing to produce and
+            Naming one thing from another creates a BINDING: a coupling that has to be
+            maintained for as long as both sides exist. Some bindings earn that. Most do
+            not, and the ones that do the most damage are the ones nothing enforces.
 
-      the most expensive to keep honest: assistants default to leaving
+            The decisive question is not "is this true?" — you would not write it otherwise.
+            It is: **when this stops being true, what catches it?**
 
-      REFACTORING.md-style artifacts, plans, and progress commentary behind every
+                CHECKED    a symbol reference in code; a generated table; an asserted count.
+                           Breaks loudly, at the moment it breaks, in front of whoever
+                           broke it.
 
-      task, and each one is a file a human must later read, doubt, and delete. The
+                UNCHECKED  prose, comments, docs, READMEs, config annotations. Nothing
+                           compiles them and no test reads them. When they go false they
+                           do not go red — they quietly start lying, and they keep their
+                           authority while doing it.
 
-      ask-first rule keeps the decision to create a document a human one rather than
+            An unchecked binding needs a very good reason. The default is not to create one.
 
-      a side effect of doing a task. The scope is deliberately only that decision:
+            ## Prefer no binding at all
 
-      prose that records what changed is the same defect as any other unchecked
+            Most of the time the coupling is unnecessary, because the fact is DERIVABLE.
+            Say what the relationship IS, not what the contents currently ARE:
 
-      binding and lives with that material, not here.'
-    content: '# Documentation Guidelines
+            - "the skill(s) it carries" — not their names
+            - "its members", "the formats it covers", "each leg in turn"
+            - plural-agnostic, count-agnostic, role-descriptive
 
+            This costs nothing to write, and it cannot rot. A reader who wants the list can
+            produce it in seconds; they cannot recover a stale list without doing exactly
+            that anyway. Restating derivable state is a maintenance contract paid forever
+            to save someone a lookup they can do for free.
 
-      ## Ask First Before Creating
+            ## Stress it before you write it
 
+            If you are about to name something specific, imagine the target changing in the
+            three ordinary ways:
 
-      - Markdown files (*.md) - REFACTORING.md, architecture docs, etc.
+            - it **gains** a member
+            - it **loses** one
+            - it is **renamed**
 
-      - Planning or strategy documents
+            Does your sentence go false? If yes, and nothing would catch it, you are writing
+            a liability. Rephrase it, or do not write it.
 
-      - Project tracking files
+            ## The shapes this takes
 
-      - Meta-documentation
+            Every one of these was true when written. That is the point: nothing separates a
+            stale one from a live one except going and checking — the work the binding was
+            supposed to save.
 
+            - naming the members of something: a member is added, the list is now wrong
+            - a census or line count: drifts on the next commit
+            - a listed set of supported formats or backends: one is dropped
+            - "unlike X, this one ..." — X is deleted, and the sentence now contrasts with
+              nothing
+            - "see X, the live example" — X is deleted
+            - a rule hand-copied into several places: one copy is retired and the others
+              keep asserting it. This is the expensive one. A retired rule left copies
+              behind, one of which named a formula as the entire defense against an attack
+              — so an auditor checking that defense would have verified a rule the code had
+              stopped using, and concluded it held.
 
-      **Exception:** README updates permitted when adding new features.'
-    content_hash: sha256:f18d39468edda136a81e5aba41710ed363a2afaad12ffef980160c714f2d7470
-  strings:
-    tags:
-    - code
-    - strings
-    - errors
-    content: "# String Handling\n\n## No String-Based Flow Control\n\nNever use string approximations\
-      \ (`startswith`, `endswith`, `contains`, substring matching) for program flow control unless explicitly\
-      \ instructed. Use typed errors or error codes instead.\n\n```go\n// Wrong\nif strings.Contains(err.Error(),\
-      \ \"connection refused\") {\n    retry()\n}\n\n// Right\nif errors.Is(err, ErrConnectionRefused)\
-      \ {\n    retry()\n}\n```\n\n## Error Messages as Constants\n\nAll error messages must be defined\
-      \ as constants and reused in test assertions. No magic strings.\n\n```go\n// errors.go\nvar ErrUserNotFound\
-      \ = errors.New(\"user not found\")\n\n// service.go\nreturn ErrUserNotFound\n\n// service_test.go\n\
-      assert.ErrorIs(t, err, ErrUserNotFound)\n```"
-    content_hash: sha256:5278e4fbf6ebf5b7bfe478c7ab3579c6297d3a1b7e73a49bce9b4ce88ac3cd3b
-    distilled: '# String Handling
+            ## If you must bind, make it checked
 
+            In descending order of preference:
 
-      Never branch on string approximations of messages (startswith/contains/substring) unless explicitly
-      instructed — use typed errors or error codes (`errors.Is(err, ErrConnectionRefused)`, not `strings.Contains(err.Error(),
-      ...)`). Define all error messages as constants/sentinel errors and reuse them in test assertions
-      — no magic strings.'
-    distilled_by: claude-code
+            1. **Generate it.** A table produced from the source cannot drift.
+            2. **Assert it.** A test that fails when the count or the set changes turns an
+               unchecked binding into a checked one.
+            3. **Cite by SYMBOL** — a function, type, or exact string someone can grep.
+               A stale symbol fails loudly the moment anyone looks; a stale line number
+               silently points at unrelated code and gets believed.
+
+            "I will keep it updated" is not a mechanism. It is the absence of one, and it
+            has never held.
+
+            ## What DOES earn an unchecked binding
+
+            Three things, and they are all judgment a reader cannot derive:
+
+            1. **A WHY.** A rationale, a constraint, a rejected alternative, a trap. "This
+               is a local copy, and that is not a preference: the remote fetcher resolves a
+               ref to a single file, so a directory-form bundle cannot be fetched at all."
+               Nobody can compute that. It is the entire value of the comment.
+            2. **An invariant that genuinely depends on that exact thing** — then cite it by
+               symbol, per above.
+            3. **A pointer somebody could not find alone**: where the authority lives, which
+               of two similar mechanisms governs, what to search for.
+
+            If what you are writing is none of these, it is decoration with a maintenance
+            bill attached.
+
+            ## History is the same mistake in the past tense
+
+            A "refactored X to Y" comment, an "Updated on ...", a "Previously this was ...",
+            a revision log kept inside a data file — each binds prose to a state the code no
+            longer has, and nothing checks it either. This one is worse than a stale list,
+            because version control already holds the same fact, holds it accurately, and
+            updates itself. Two records of one history is one too many, and the unchecked
+            one is the one people read.
+
+            Test it against the three exceptions above and it earns none of them: it is not
+            a WHY, it is not an invariant, and it is not a pointer — the pointer already
+            exists and it is the log. Put the reason in the commit message, where the
+            explanation stays attached to the change it explains.
+
+            ## When you find one already stale, delete it
+
+            Prefer deleting an unmaintained list or census over correcting it. Correcting
+            one entry makes every remaining entry look verified, which is worse than the
+            honest signal that nobody is maintaining any of it.
+    workstream-closeout:
+        tags:
+            - workflow
+            - quality
+            - practices
+        content: |-
+            # Ask for close-out when a WORKSTREAM ends
+
+            Nothing fires a close-out check for you. There is no turn-end hook, and its
+            absence is deliberate rather than an oversight: a turn is the wrong unit. One
+            workstream spans many turns, and the debt it accrues — an unrun gate, a task
+            left half-true, a comment the change falsified — is only visible once the
+            whole thing is done. A per-turn prompt fires constantly, says nothing useful,
+            and gets tuned out; the one time it mattered, it looks like all the others.
+
+            So the reminder is YOUR job, and it is addressed to the user.
+
+            ## When a workstream has ended
+
+            - a feature, fix or refactor is complete AND its gate is green
+            - a branch is ready to merge, or has just merged
+            - a multi-step plan reaches its last step
+            - an investigation reaches a verdict, including "this claim is false"
+            - the user turns to unrelated work, which ends the previous stream whether or
+              not it reached a tidy stopping point
+
+            NOT: every file edited, every test passing, every question answered. If you
+            would have to argue that it counts, it does not.
+
+            ## What to do
+
+            Say the workstream looks complete, name what it actually covered, and ASK the
+            user to authorize the `closeout` skill. Lead with the recommendation and the
+            reason, not a bare question — "that is the refactor done and the suite green;
+            worth running closeout before we move on?" beats "shall I close out?".
+
+            Do not invoke it silently. Close-out costs a real gate run, and the user may
+            want to bank the work, keep going while context is hot, or judge that the
+            stream was too small to warrant it. That is their call, and it is cheap for
+            them to make once at the end.
+
+            If they decline, do not re-ask on the next turn. Ask again at the next genuine
+            workstream boundary.
+
+            ## Do not restate the contract here
+
+            What close-out actually REQUIRES lives in the `closeout` skill. Do not
+            summarise it, quote it, or "helpfully" list a couple of its steps in passing.
+            A rule copied into two places drifts, and the stale copy keeps its authority
+            while lying — which is how a retired rule goes on being enforced. Point at the
+            skill; let it speak for itself.
 name: core-practices
