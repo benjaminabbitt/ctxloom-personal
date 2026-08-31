@@ -32,8 +32,8 @@ fragments:
 
             ## Two valid responses
 
-            1. **Fix it.**
-            2. **File a task** — with enough context to act on cold: what fails, how to reproduce it, what you ruled out.
+            1. **Fix it.** Preferred, and the bar is a test rather than an estimate: if you have already root-caused it, the fix touches code you have already read, and the fast gates settle it, do it now.
+            2. **Raise it with the human** — with enough context to judge cold: what fails, how to reproduce it, what you ruled out. You do not file the task yourself; they decide whether it becomes a row.
 
             "Noted, pre-existing, continuing" is not one of them. Neither is mentioning it once in a report nobody re-reads.
 
@@ -64,8 +64,8 @@ fragments:
             "Pre-existing" = HISTORY, not decision. Own all shipped failures.
 
             ## Valid responses
-            1. **Fix it**
-            2. **File task** — sufficient context: failure, reproduction, ruled-out causes
+            1. **Fix it** — preferred; already root-caused + code already read + fast gates settle it = do it now
+            2. **Raise it with the human** — sufficient context: failure, reproduction, ruled-out causes. You do not file it yourself; they decide if it becomes a task
 
             NOT: "Noted, pre-existing" or unread-report mentions.
 

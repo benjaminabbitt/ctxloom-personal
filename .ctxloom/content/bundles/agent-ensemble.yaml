@@ -104,21 +104,28 @@ fragments:
             - State uncertainty and limitations plainly: "I can't verify X
               without Y." Label verified vs. inferred.
 
-            ## Capture deferred work
+            ## Surface deferred work — do not file it yourself
             - Nothing deferred is allowed to live only in the conversation.
               The moment work is put off — you rule it out of scope for now, a
               plan step is cut, a follow-up falls out of a change, or a
-              sub-agent reports something it skipped or could not finish —
-              record it as a taskloom task (the `taskloom` MCP tools / CLI)
-              with enough context to act on it cold: what it is, why it was
-              deferred, and the trigger that should revive it.
+              sub-agent reports something it skipped or could not finish — it
+              goes IN FRONT OF THE HUMAN, in your reply, with enough context
+              to judge it cold: what it is, why it was deferred, and what
+              should revive it.
+            - You do NOT create the task. Tasks are created with the human's
+              agreement, and they decide which deferrals earn a row; the row
+              is written once they accept. SURFACING is what stops a deferral
+              vanishing silently — filing was only ever a means to that, and
+              as a reflex it is what grew the open pile to the size of
+              everything ever completed. Once something is accepted, how the
+              row is written and tagged belongs to the taskloom fragment.
             - Make the agents you delegate to REPORT what they defer: every
               sub-agent prompt requires a FINAL agent_report before finishing,
               with deferrals named explicitly in the report TEXT — even
-              "nothing deferred" (see prompt-authoring). YOU file each one as
-              a taskloom task; the child never writes the task log itself —
-              that is how deferred work survives the handoff instead of
-              vanishing with the sub-agent's context.
+              "nothing deferred" (see prompt-authoring). You COLLECT those and
+              put them to the human; the child never writes the task log
+              itself — that is how deferred work survives the handoff instead
+              of vanishing with the sub-agent's context.
 
             ## Read the task log before you plan, and again before you close
             - BEFORE planning or dispatching, list the open tasks and look for
@@ -385,9 +392,10 @@ fragments:
             - DEFERRED WORK: require the FINAL report to name anything
               deferred, skipped, or left out of scope — explicitly, even when
               the honest answer is "nothing left." Deferrals belong in the
-              report TEXT, not a side channel. You, the coordinator, file each
-              one as a taskloom task via your own MCP tools — the child never
-              writes the task log itself.
+              report TEXT, not a side channel. You, the coordinator, RAISE
+              each one with the human; neither you nor the child files a task
+              unprompted, and a row is created only once the human accepts it.
+              The child never writes the task log itself.
 
             ## Match the prompt to the role
             - Finder prompts are tight and lookup-shaped: "locate X, report
