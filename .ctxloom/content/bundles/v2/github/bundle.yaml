@@ -1,0 +1,11 @@
+version: 1.0.0
+tags:
+    - github
+    - ci-cd
+    - release
+    - automation
+    - just
+    - git
+author: ctxloom
+description: GitHub Actions CI/CD pipeline with mutation testing, auto version bump, and release automation
+name: github

@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - isolation
+    - engines
+    - reverse-engineering
+    - containers
+description: Reverse-engineer a vendor LLM CLI's file surfaces (reads, writes, tool calls) in a container, and interpret the result
+name: engine-surface-probing

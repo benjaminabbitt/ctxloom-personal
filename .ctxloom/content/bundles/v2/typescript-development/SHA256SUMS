@@ -1,0 +1,5 @@
+# ctxloom-content-digest/1
+13af4342a32ba3bf66703077dbbbeeae4e8415ed67cd03d54ff4e7fa47c30ff8  bundle.yaml
+5146c0e239cc3577f2b4164bea7770408883e1471157c0de2ee7e53893b44b89  bundle.yaml.sig
+23f997b0072d10306e268e8b44d58692cb4807e4fefc92e46f5afe475d9cd0c6  profiles/typescript-web-code-reviewer.yaml
+d27d889ed85907d07df661786ff47e69b2d2ae9c031e84fb18688b2928b9df86  profiles/typescript-web-developer.yaml

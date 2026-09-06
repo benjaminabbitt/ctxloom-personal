@@ -1,0 +1,7 @@
+description: Prototyping profile for greenfield development — no backwards compatibility, reductive approach. Folded from the retired top-level profile.
+tags:
+  - prototype
+  - greenfield
+  - rapid
+bundles:
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/prototyping

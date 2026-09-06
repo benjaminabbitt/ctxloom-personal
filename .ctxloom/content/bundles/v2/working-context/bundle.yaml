@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - workflow
+    - organization
+    - llm
+    - context
+author: ctxloom
+description: Working context directory pattern for LLM-generated session artifacts
+name: working-context

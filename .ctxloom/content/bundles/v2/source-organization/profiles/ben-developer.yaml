@@ -1,0 +1,8 @@
+description: Ben's personal developer profile — language-agnostic tooling preferences. Folded from the retired top-level profile.
+tags:
+  - personal
+  - development
+bundles:
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/just
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ast-grep
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/source-organization

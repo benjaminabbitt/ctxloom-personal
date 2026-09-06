@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - writing
+    - docs
+    - documentation
+    - truthfulness
+author: ctxloom
+description: 'Writing documentation that is true and that leads with why: claim discipline against the code, the inverted-pyramid opening, and an adversarial verification pass that checks a docs tree against its implementation.'
+name: docs-authoring

@@ -1,0 +1,103 @@
+---
+tags:
+  - process
+  - decisions
+no_distill: true
+---
+# Log decisions as you make them
+
+Keep a `decisions.md` in the CURRENT SESSION DIRECTORY — the harp
+directory that also holds this session's `*.plan.md` files
+(`~/.ctxloom/sessions/<harp>/decisions.md`). Append to it the moment
+a decision is settled, not at the end of the session: a session that
+ends abruptly loses everything not yet written, and end-of-session
+summarizing is exactly when reasoning gets compressed into
+uselessness.
+
+## What counts as a decision
+
+Log it when a question had more than one defensible answer and one
+was chosen:
+
+- A fork the user resolved (which approach, which library, which
+  scope).
+- A trade-off accepted deliberately — including one you argued
+  against and the user overrode.
+- A constraint discovered that removed an option ("cannot do X,
+  because Y").
+- A default deliberately NOT taken.
+- Something ruled out of scope. (Also file it in taskloom if it is
+  work someone should pick up later; the two are not redundant —
+  the task says what to do, the decision says why it was parked.)
+
+Do NOT log routine execution: which file you edited, that a test
+passed, that you ran a command. If reversing it would cost nothing
+and surprise no one, it is not a decision.
+
+## Format
+
+Append an entry per decision. Keep each one standalone-complete —
+assume the reader has none of this session's context:
+
+```markdown
+## <short imperative title>
+- **Date:** <YYYY-MM-DD>
+- **Decided by:** user | agent
+- **Chosen:** <option name>
+
+### Options considered
+<one block per option, INCLUDING the chosen one>
+
+**<option name>** — chosen | rejected
+- **For:** the genuine case in its favour.
+- **Against:** its real costs and risks.
+- **Evidence:** what this rested on (`file:line`, a measurement, a
+  doc, or "assumed, not verified").
+
+### Rationale
+Why the chosen option beat the others — the specific consideration
+that decided it, not a restatement of its merits.
+
+### Revisit if
+The condition that should reopen this. Omit only when genuinely
+permanent.
+```
+
+## Every option gets a real case, not just the winner
+
+Write the FOR and AGAINST for each option, the rejected ones
+included. This is the part that makes the log worth keeping, and
+the part that decays first.
+
+- A rejected option recorded only as "rejected because slow" is
+  unusable later: the reader cannot tell whether it was a weak idea
+  or a good idea beaten by a constraint that has since gone away.
+  Most reopened decisions reopen because a constraint moved, and you
+  can only notice that if the constraint was written down against
+  the option it killed.
+- State each rejected option's case at its STRONGEST — the version
+  its advocate would recognise. An entry that strawmans the losers
+  makes the winner look inevitable and hides the fact that it was a
+  close call. If it WAS close, say so.
+- Give the chosen option an **Against** too. Every real choice has
+  costs; an option with no downsides recorded is a sign the entry
+  was written to justify rather than to inform.
+- If an option was dismissed without serious evaluation, record that
+  honestly ("not evaluated — no time") rather than inventing a
+  rationale. That is itself useful signal later.
+
+Record who decided when it matters — a decision the user made
+directly is not the same as one you inferred, and a later session
+must not silently overturn the former.
+
+## Honesty rules
+
+- Log the decision that was ACTUALLY made, including the expedient
+  one. A decision log that only contains defensible choices is
+  worthless, because the entries you would most want later are the
+  ones under time pressure.
+- When a decision is reversed, append a NEW entry that references
+  the old one. Never edit or delete the original — the fact that it
+  was believed, and then stopped being true, is the useful part.
+- If a decision rests on something you have not verified, say so in
+  the entry ("assumed, not measured").

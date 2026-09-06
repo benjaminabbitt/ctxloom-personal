@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - modern-forage
+    - regional-food
+    - research
+    - reddit
+author: ben-abbitt-me
+description: Modern Forage research workflow — process a Reddit thread for new entries, evaluate against the containment test, produce cited decisions
+name: modern-forage

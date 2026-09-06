@@ -1,0 +1,7 @@
+version: 1.0.0
+tags:
+    - rust
+    - development
+author: ctxloom
+description: Rust developer and reviewer profile compositions (personal); language practices live upstream in ctxloom-default.
+name: rust-development

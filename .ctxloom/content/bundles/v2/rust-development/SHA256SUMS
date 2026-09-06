@@ -1,0 +1,5 @@
+# ctxloom-content-digest/1
+9f021c2c3adb00cc78b938574556d26f96ea8554c7e123a350d6a0a481e14c5f  bundle.yaml
+7ac26c3e5e70fd1ec820abfe07a06b2de939845d961e6fc8d18162de04fa6c56  bundle.yaml.sig
+2b30fa0c135987e7288137ba06fb69ee3a5853c5ad796492dfb7f99594677540  profiles/rust-code-reviewer.yaml
+c32867cf7be5663056d1cd27e90e17a21ef2201b067932f863b50bc0b145c679  profiles/rust-developer.yaml

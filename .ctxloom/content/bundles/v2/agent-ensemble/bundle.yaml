@@ -1,0 +1,28 @@
+version: 1.0.0
+tags:
+    - agent-ensemble
+    - orchestration
+    - coordinator
+    - finder
+author: ben-abbitt-me
+description: Personal agent ensemble — the coordinator (sequence/brainstorm/architect/delegate) and the ingest-finder (cheap parallel lookup) roles, and the conduct fragments that shape them. The programming and code-review roles are the per-language `*-developer` / `*-code-reviewer` profiles (see notes).
+notes: |
+    The ensemble has four roles. This bundle defines the two that were
+    missing; the other two already exist as per-language profiles:
+
+    - coordinator  → the `coordinator` profile below (host, top model).
+      Sequences, brainstorms, architects, writes sub-agent prompts, and
+      delegates. Rarely edits code; carries NO development-language bundles.
+    - ingest/finder → the `finder` profile below (host, fast model).
+      Cheap, parallel lookup + web fetch; reports results straight back.
+    - programming  → the per-language `*-developer` profiles
+      (e.g. `go-development#profiles/go-developer`), which inherit the
+      upstream `ai-developer#profiles/developer` root. Add the `reprise`
+      bundle here for duplicate-drift discipline.
+    - code review  → the per-language `*-code-reviewer` profiles
+      (e.g. `go-development#profiles/go-code-reviewer`), which inherit the
+      upstream `code-review-base#profiles/cr-all` root; reduce parallel
+      per-lens members with `code-review-base#profiles/cr-synthesis`.
+
+    Wire each role into a project's `.ctxloom/config.yaml` `agents:` map.
+name: agent-ensemble

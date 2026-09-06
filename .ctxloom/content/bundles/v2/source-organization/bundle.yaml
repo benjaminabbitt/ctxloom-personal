@@ -1,0 +1,11 @@
+version: 1.0.0
+tags:
+    - source-organization
+    - git
+    - worktree
+    - workflow
+    - layout
+    - version-control
+author: ctxloom
+description: 'Source tree organization and worktree discipline: the primary checkout''s leaf directory names the project, worktrees live outside every repo under one shared root, and a work unit is not done until it is merged, removed, and its branch deleted'
+name: source-organization

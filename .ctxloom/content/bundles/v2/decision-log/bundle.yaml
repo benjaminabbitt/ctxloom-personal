@@ -1,0 +1,19 @@
+version: 1.0.0
+tags:
+    - process
+    - sessions
+    - decisions
+author: benjaminabbitt
+description: Log session decisions to decisions.md in the harp session directory
+notes: |
+    Companion to plan files and taskloom. Those two already cover "what we are
+    going to do" (*.plan.md, auto-stamped with the session harp) and "what is
+    still outstanding" (taskloom tasks). Neither captures "what we settled, and
+    why" — the fork that got resolved, the option that lost, the constraint that
+    made it lose.
+
+    That reasoning is the most expensive thing a session produces and the first
+    thing lost when the context window rolls. It is also what a later session
+    needs in order to avoid relitigating a settled question, or to notice that
+    the premise a decision rested on has since changed.
+name: decision-log

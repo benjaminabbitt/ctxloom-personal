@@ -1,0 +1,5 @@
+# ctxloom-content-digest/1
+22c911cd3265ca82ee8230f1e847fabb259e604e77154ed5bc90cf5bebefaaaa  bundle.yaml
+3c36ddeaa5ada1a85735ab91fd9988e45e228d6ab82af4957751bc2ac52b4bcd  bundle.yaml.sig
+9c8a11e0985b9272d65b0eff8dab3e51333e53c8500ed66bf535d41959992d35  fragments/devcontainer.distilled.md
+8a0fd7bbc23c2c06db046ba16a3c498037ac38d39e301d0cf0b5e187bdffd7de  fragments/devcontainer.md

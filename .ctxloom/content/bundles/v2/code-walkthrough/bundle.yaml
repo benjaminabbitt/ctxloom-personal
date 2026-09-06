@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - review
+    - workflow
+    - collaboration
+author: ctxloom
+description: Interactive code walkthrough pattern for reviewing and refining code with human oversight
+name: code-walkthrough

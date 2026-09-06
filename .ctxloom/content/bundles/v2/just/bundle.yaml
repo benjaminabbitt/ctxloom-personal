@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - just
+    - tooling
+    - task-runner
+author: ctxloom
+description: just command runner for language-agnostic task automation
+name: just

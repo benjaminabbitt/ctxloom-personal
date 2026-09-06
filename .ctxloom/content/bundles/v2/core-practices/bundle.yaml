@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - practices
+    - workflow
+    - quality
+author: ctxloom
+description: Core development practices for code quality, documentation, and problem solving
+name: core-practices

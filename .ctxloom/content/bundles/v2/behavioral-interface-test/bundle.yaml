@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - testing
+    - patterns
+    - interfaces
+    - bit
+author: ctxloom
+description: Behavioral Interface Testing (BIT) pattern for verifying implementation contracts
+name: behavioral-interface-test

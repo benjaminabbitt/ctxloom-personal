@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - writing
+    - style
+    - voice
+    - humanizer
+author: ctxloom
+description: 'Make agent-authored text read as human-written: voice and register, banned vocabulary and templates, sentence and document structure, and genre rules for commits, PRs, comments, and docs.'
+name: humanizer

@@ -1,0 +1,9 @@
+version: 1.0.0
+tags:
+    - session
+    - memory
+    - recovery
+    - clear
+author: ctxloom
+description: Bring back context from an earlier session — recover what /clear wiped from the current session, pick up the session immediately before this one, or load a specific named prior session. Replaces the retired /recover slash command and run --session/--tasks-from startup flags.
+name: resume

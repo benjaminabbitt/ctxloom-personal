@@ -1,0 +1,43 @@
+---
+tags:
+  - workflow
+  - organization
+  - gitignore
+content_hash: sha256:6de46f92832429594f2a731b6079bdd5b97293018675a9d1eb8fe6d3cb050ceb
+---
+# Working Context Directory
+
+Maintain a gitignored `_ctx/` directory for LLM-generated working files that don't belong in version control: ephemeral, personal, large, or intermediate artifacts.
+
+## Setup
+
+Add to `.gitignore`:
+```
+# LLM working context
+_ctx/
+```
+
+Create the directory:
+```bash
+mkdir -p _ctx
+```
+
+## What Goes Here
+
+- `_ctx/plans/` — implementation plans, architecture decision drafts, migration/refactoring strategies
+- `_ctx/checklists/` — pre-commit verification steps, PR review checklists, session-specific runbooks, testing matrices
+- `_ctx/status/` — code review progress, multi-session task state, investigation notes, current focus
+- `_ctx/research/` — codebase exploration notes, dependency analysis, performance/bug investigations
+- `_ctx/scratch/` — temporary code experiments, prototype snippets, test data generation, one-off scripts
+- `_ctx/prompts/` — reusable project prompts, context-setting preambles, review templates
+- `_ctx/summaries/` — module/architecture overviews for quick context loading
+
+## Lifecycle
+
+**Create** at session start: status file for multi-step tasks; plan before significant changes.
+
+**Update** during session: mark completed items; capture decisions and rationale; note blockers and questions.
+
+**Clean up** periodically: delete stale files (> 2 weeks old); archive valuable insights to proper docs; move finalized plans to ADRs if appropriate.
+
+Start sessions by reading `_ctx/status/` to restore context; end sessions by updating status with next steps.

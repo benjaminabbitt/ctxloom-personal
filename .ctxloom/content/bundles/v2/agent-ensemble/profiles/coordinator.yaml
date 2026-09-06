@@ -1,0 +1,19 @@
+description: 'Coordinator agent: sequences, brainstorms, and architects; delegates reads/web-search to the finder and substantial work to child agents; rarely edits code. Carries conduct, software-architecture, and prompt-writing knowledge — deliberately NO development-language bundles.'
+bundles:
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/coordinator-conduct
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/delegation
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/coordination-tools
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/worktree-isolation
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/source-organization#fragments/worktree-lifecycle
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/source-organization#fragments/source-organization
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/prompt-authoring
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/planning-and-brainstorming
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/design-review-checkpoints
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/sequential-thinking-usage
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/developer-mindset#fragments/close-the-turn
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/sequential-thinking
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-structural#fragments/general
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/is-this-a-standard
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/context-engineering
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ltk

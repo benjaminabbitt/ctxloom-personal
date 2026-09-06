@@ -1,0 +1,11 @@
+version: 1.0.0
+tags:
+    - golang
+    - development
+    - testing
+author: ctxloom
+description: Go development guidelines and best practices
+notes: |
+    Comprehensive Go development bundle including coding standards,
+    testing patterns, and project organization.
+name: go-development

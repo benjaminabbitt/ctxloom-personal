@@ -1,0 +1,7 @@
+# ctxloom-content-digest/1
+c5dc33cb3cb16f519c004e3a0b41e1bd3bd4ef15eb42a9f437d6d94eb62306c8  bundle.yaml
+ba42365e1dd1ad3d9fb4e4b3feeeb7072df76a5a99c4ef8a77196fc1b767eb8e  bundle.yaml.sig
+246ad97c9f076a0453bd8858259a59965adf62ba86ccf4a260d125f8cc2f22df  fragments/serena.md
+67035ec64f9103d26463f5ceab26455153837963ec2392fd8f22cf18e79debfa  mcp/.serena.meta.yaml
+1624db2cbfccda55ecf1f41c373ce57df8081d3a3182fe6bc539ef1b3d0acf1b  mcp/serena.yaml
+42864a97323ad72a47069089381e7c4bd8d6c2cb2c2e08d17fc0a2bf2f80b691  prompts/agent-setup.md

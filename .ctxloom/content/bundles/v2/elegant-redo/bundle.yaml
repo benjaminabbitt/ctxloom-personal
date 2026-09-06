@@ -1,0 +1,8 @@
+version: 1.0.0
+tags:
+    - workflow
+    - refactoring
+    - quality
+author: ctxloom
+description: Discard an implementation and rebuild it informed by what the first attempt taught, rather than patching a shape that no longer fits the problem.
+name: elegant-redo

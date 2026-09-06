@@ -1,0 +1,28 @@
+notes: |
+  --context claude-code excludes serena's redundant file tools
+  (read_file, create_text_file, find_file, execute_shell_command) and
+  injects a prompt directing the agent to prefer symbolic tools over
+  native Read/Edit on code files.
+
+  --project-from-cwd resolves the project from the working
+  directory (.serena/project.yml, then .git, then cwd) instead of
+  pinning one absolute path into this bundle, which is what makes a
+  single registration usable across checkouts.
+
+  It resolves ONCE, when the server starts, from the cwd of the
+  session that launched it. It does NOT follow an agent into a
+  worktree: the server is long-lived, and an in-process sub-agent
+  inherits the parent's connection rather than starting its own. Any
+  agent working somewhere else gets answers about the launching
+  checkout, silently, for reads and writes alike. See the fragment's
+  worktree section.
+
+  Memory and onboarding are left at serena's defaults, so serena
+  maintains its own store under .serena/memories/.
+installation: |
+  Serena's --context prompt asserts authority over tool choice: under
+  `claude-code` it instructs the agent that native Read is FORBIDDEN
+  for discovery and native Edit is FORBIDDEN on code files. Register
+  this server only if that is the behavior you want. The context is
+  fixed in the command line above and cannot be changed at run time —
+  editing it means editing this bundle and re-running `ctxloom trust`.

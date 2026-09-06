@@ -1,0 +1,5 @@
+# ctxloom-content-digest/1
+7942d6973a22cff77406832815fadd7aa0ebf388cfe3e556272a4b71e1ecd1f6  bundle.yaml
+80169f482fa4d1537cb6ae64069f94d127d31ec35b2c4d196ca603ac0ac9de0c  bundle.yaml.sig
+d9686e5c478a210b2f5e00f0aadf39003ac26e096be391fe5d913a185685627b  profiles/python-code-reviewer.yaml
+134f9bb1350d705bc37a64740c6110bd68fcc56adc1d5a8ba3dff08e051e9e19  profiles/python-developer.yaml

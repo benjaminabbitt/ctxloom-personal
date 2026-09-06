@@ -1,0 +1,71 @@
+---
+tags:
+  - rust
+  - testing
+  - patterns
+content_hash: sha256:416031e4a8106ecb8bddf230f5c9e5f33327aa7fd3c0d67c6bdd5bb41bf62587
+---
+# Rust Test Support File Pattern
+
+Keep test-only code out of production source files while maintaining cohesion and privacy. Inline `#[cfg(test)]` blocks pollute production files; instead use a `#[path]` directive to conditionally include test support from a separate file:
+
+```
+src/module/
+├── foo.rs                 # Production code (clean)
+├── foo_test_support.rs    # Test helpers (separate file)
+├── tests.rs               # Unit tests
+└── mod.rs
+```
+
+### Production file (foo.rs)
+
+```rust
+// Only 4 lines of test boilerplate in production file
+#[cfg(test)]
+#[path = "foo_test_support.rs"]
+pub(crate) mod test_support;
+
+fn production_function() {
+    #[cfg(test)]
+    if needs_test_handling {
+        return test_support::test_handler();
+    }
+    // ... production logic
+}
+```
+
+### Test support file (foo_test_support.rs)
+
+```rust
+//! Test support for foo module.
+//! Only compiled during tests via #[path] include in foo.rs.
+
+pub(crate) fn test_handler() -> HashSet<String> {
+    HashSet::new()
+}
+```
+
+### Unit tests (tests.rs)
+
+```rust
+use super::foo::test_support::test_handler;
+```
+
+## Visibility Guide
+
+| Visibility | Use When |
+|------------|----------|
+| `pub(super)` | Only parent module (foo.rs) needs access |
+| `pub(crate)` | Sibling modules (tests.rs) also need access |
+
+## When to Use
+
+- Production code needs conditional test behavior
+- Test helpers are substantial (>20 lines)
+- You want to minimize context window load when reading production code
+
+## When NOT to Use
+
+- Simple `#[cfg(test)]` constants or small helpers (<10 lines)
+- Test code that doesn't need to be called from production code
+- Use regular `foo.test.rs` pattern for pure unit tests instead

@@ -1,0 +1,7 @@
+# ctxloom-content-digest/1
+ff517d94e5b19536a8f76daf382fd4c3c72237e9a8d20af1400a40f709ed33eb  bundle.yaml
+8f62a77110e26e9f055fbfd6775d95f4a79851c36662e6220731e0578b170405  bundle.yaml.sig
+0788d7a5e8adbd5ba7e3f62f79b4991793f376fd6e2c25c545743fb0a8b954ae  fragments/cicd-just-targets.distilled.md
+6eab9a57637708f222b06dc17bd6a45f9b9f051230c767b728c175603e22c56d  fragments/cicd-just-targets.md
+c2fef5ee4968c7c7efddd7f20b62dfd6f88e20c035346753f90567292fe54cf6  fragments/github-release-master.distilled.md
+ade229c3741d2516c207501815e2e043dd59bbbdea0de881858935b796348943  fragments/github-release-master.md

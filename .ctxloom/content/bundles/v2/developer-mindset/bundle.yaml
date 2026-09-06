@@ -1,0 +1,11 @@
+version: 1.0.0
+tags:
+    - default
+    - workflow
+    - refactoring
+    - quality
+    - mindset
+    - communication
+author: ctxloom
+description: Developer mindset practices for communication, quality validation, and informed reimplementation
+name: developer-mindset

@@ -1,0 +1,16 @@
+version: 1.0.0
+tags:
+    - bdd
+    - gherkin
+    - testing
+    - organization
+author: benjaminabbitt
+description: Behaviour-driven spec authoring and test organization — Gherkin as business-readable specification, and where tests live relative to the code they cover.
+notes: |
+    Moved here from ctxloom-default's `testing` bundle. Gherkin authoring and
+    test layout are METHODOLOGY choices, not universal testing practice: a
+    project can test rigorously without writing Gherkin, and test placement is
+    a convention a team adopts rather than a capability. ctxloom-default keeps
+    what generalises — TDD, mutation testing, coverage — and the opinionated
+    half lives here, where it is offered rather than assumed.
+name: bdd

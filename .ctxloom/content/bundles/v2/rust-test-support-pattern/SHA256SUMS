@@ -1,0 +1,5 @@
+# ctxloom-content-digest/1
+3ee60a30981c89a224c785961d6190add8222995ed66903b2fab91d9325d8250  bundle.yaml
+bd61fad06f547399c24861c1f0af1de09e4f0638f4ab393bd26515d60b9e42f4  bundle.yaml.sig
+8bb77ad7403eb6f3aaad133053677eff98dfc930e834610bc4bf21772f949bf2  fragments/rust-test-support-pattern.distilled.md
+a376ec3af396353a14a3be7807858d0d36ad1f5e6b3620bc8e7a3c5677cfe143  fragments/rust-test-support-pattern.md

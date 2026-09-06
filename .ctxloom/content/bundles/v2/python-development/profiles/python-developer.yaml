@@ -1,0 +1,14 @@
+description: 'Python developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles).'
+parents:
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-developer#profiles/developer
+tags:
+  - python
+  - development
+bundles:
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/python-development
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
+  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-quality
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/core-practices
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/developer-mindset
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/just
+  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/containers
