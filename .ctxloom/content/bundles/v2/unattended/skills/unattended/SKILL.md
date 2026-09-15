@@ -1,6 +1,6 @@
 ---
 name: unattended
-description: Work an admitted queue of tasks autonomously and unattended — overnight or while the human is away — getting as far as is safely feasible and stopping short of any decision that is hard to reverse or that endangers the environment. Use when the human says "good night", "run overnight", "work the queue while I'm out", "grind on this unattended", or hands over a tagged backlog and leaves. Coordinator role.
+description: Work an admitted queue of tasks autonomously and unattended — overnight or while the human is away — getting as far as is safely feasible and stopping short of any decision that is hard to reverse or that endangers the environment. Use when the human says "good night", "run overnight", "work the queue while I'm out", "grind on this unattended", or hands over a tagged backlog and leaves. Orchestrator role.
 ---
 
 # unattended
@@ -60,7 +60,7 @@ how a night gets wasted.
    work is hygiene; committing theirs is data loss with a commit message on it.
 5. **Check for other sessions' in-flight work.** `taskloom list` for In
    Progress items touching your files, and `git worktree list`. Another
-   coordinator may be live in this repo right now. Route around their files;
+   orchestrator may be live in this repo right now. Route around their files;
    note what you avoided.
 6. **Measure your gate commands** (`s=$(date +%s); <cmd>; echo $(( $(date +%s) - s ))`).
    You need these numbers for the sub-agent briefs (see *Dispatching*).
@@ -199,6 +199,11 @@ If you delegate (and you should, for anything context-heavy):
   before believing any claim about what landed. Reports have been wrong.
 - Treat an agent whose result is a sentence about waiting as **alive-but-stuck**,
   not finished. Resume it and tell it to run in the foreground.
+- **The `@live` lane is agent-accessible, bounded** (ruled 2026-09-11). When
+  neither inspection nor the focused runner can settle a claim, an implementer
+  may run `@live` cells on its own judgement: pin the cheap model, at most five
+  cells per row, and name every cell spent in its FINAL report. Unreported
+  spend is the violation, not the spend.
 
 ---
 
