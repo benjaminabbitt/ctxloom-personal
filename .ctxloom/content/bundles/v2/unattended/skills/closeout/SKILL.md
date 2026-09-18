@@ -37,6 +37,14 @@ keeps asserting it, with nothing to say which is current.
 3. **FIX THE DOCS AND COMMENTS YOU FALSIFIED.** → `unchecked-bindings`
    Nothing tests a comment, which is why this is on a checklist and not in CI.
    Cite by symbol; state the invariant, not the history.
+   **UPDATE THE ARCHITECTURE DIAGRAMS, if any exist for what you touched.** A
+   mermaid call, delegation or data-flow graph that names a symbol you added,
+   moved, renamed or deleted is now wrong, and a wrong diagram outranks a
+   missing one: readers trust the picture over the code. Find them
+   (`git grep -l 'mermaid' -- docs` and the area's `docs/architecture/**`),
+   redraw only the nodes and edges your change moved, keep the graph's own
+   vocabulary, and cite symbols and files — never line numbers. If no diagram
+   covers the area, do not draw one here; say so in the report.
 4. **LEAVE THE TASK LOG TRUE.** → `close-the-turn`
    Close what landed, quoting ask against outcome. Cut a partly-satisfied task
    down to what REMAINS. Re-tag what you moved. BEFORE CLOSING, re-read it for
