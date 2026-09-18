@@ -19,8 +19,11 @@ exercise, not an afterthought.
 ## The contract, in one paragraph
 
 Work the admitted queue one item at a time. Each item lands as its own branch,
-gets merged to the integration branch only when the **full** gate suite passes
-on the **integrated** tree, and is recorded as it lands. When an item trips a
+gets merged to the integration branch only when the **merge gate** passes on the
+**integrated** tree, and is recorded as it lands. The acceptance suite is not
+part of the merge gate: it runs at pre-flight and at close-out, and nowhere in
+between — it is the most expensive thing on the box and running it per merge
+turned a night of work into a night of waiting. When an item trips a
 stop condition, file it with enough context to decide cold and **move to the
 next item** — never halt the run. Keep the integration branch green at every
 commit. Push nothing. Leave the machine as you found it. Write the morning
@@ -43,10 +46,14 @@ how a night gets wasted.
    be raised **before they leave**, not at 3am. This is the highest-value
    minute of the whole run: the expensive judgement is *which items are safe
    unattended*, and it is far cheaper made with them present.
-3. **Confirm a green baseline.** Run the full gate suite. Record the exact
-   commands and their exit codes. **If the tree is not green before you start,
-   stop and say so** — you cannot tell your breakage from pre-existing
-   breakage, and you will spend the night chasing someone else's bug.
+3. **Confirm a green baseline.** Run the FULL gate suite — this is one of the
+   two places the acceptance suite runs. Record the exact commands and their
+   exit codes. **If the tree is not green, fix it BEFORE dispatching the batch**
+   — with the human while they are still present, or alone if the failure is
+   already root-caused and a narrow gate settles it. Never dispatch over a red
+   baseline: you cannot tell your breakage from pre-existing breakage, and you
+   will spend the night chasing someone else's bug. If it cannot be fixed, stop
+   and say so.
 4. **Pin the base SHA.** Record it. Every branch you cut starts here.
    **COMMIT FIRST, so the baseline is attributable.** An unattended run that
    starts on a dirty tree cannot tell its own changes from what was already
@@ -155,9 +162,18 @@ For each admitted item, in order:
    **Name every task/finding ID in the commit BODY as well as the subject** —
    any downstream bookkeeping that scans only subject lines will silently lose
    the rest.
-5. **Run the full gate suite on the integrated result**, and read **exit
-   codes** — never grep output for "PASS". An exit 0 from a run that executed
-   nothing is the failure mode that fools everyone.
+5. **Run the MERGE GATE on the integrated result**, and read **exit codes** —
+   never grep output for "PASS". An exit 0 from a run that executed nothing is
+   the failure mode that fools everyone. The merge gate is build, lint,
+   generated-output checks, the unit suite, the architecture gates and the
+   integration tests, plus a FOCUSED acceptance run on the feature files the
+   change touched. Not the acceptance suite. When several branches are ready,
+   merge them together and gate once. A test that is red under the full unit
+   suite and green ten times alone is a load-sensitive race: record it as a
+   candidate row and move on; do not re-run the whole stage to make it pass.
+   TDD stays in force and is UNIT-based: a change writes its unit test first,
+   and updates the unit, flow and acceptance tests it falsifies — it just does
+   not RUN the acceptance suite. That is what pre-flight and close-out are for.
 6. **Green → merge to the integration branch. Red → the revert budget applies.**
 7. **Record the outcome** in taskloom and in the report, immediately. Not
    batched at the end.
@@ -222,7 +238,10 @@ If you delegate (and you should, for anything context-heavy):
 Do **not** admit new work — that is the one judgement the human specifically
 kept for themselves. Instead, **deepen what you already did**:
 
-- re-run the full suite from a clean state and confirm it still passes;
+- run the FULL suite — acceptance included — from a clean state on the
+  integrated tree; this is the second of the two places it runs. If it is red,
+  bisect across the batch's merge commits (each is one branch, so a bisect is a
+  few focused runs) and revert the merge that broke it;
 - add failure-path tests for anything you changed that lacked coverage
   (happy-path suites routinely pass while missing the defect entirely);
 - adversarially re-check your own verdicts: try to **refute** each conclusion
