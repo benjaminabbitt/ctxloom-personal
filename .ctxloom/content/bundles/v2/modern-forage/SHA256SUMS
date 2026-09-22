@@ -1,6 +1,5 @@
 # ctxloom-content-digest/1
 8886bf5ff3221090aa90abd86133907c2fd30870fc00cb5ba5b64f98f789e00e  bundle.yaml
-f54a03aff1ef99a3f3609e03aa9eaf3aff5fca5f2b78297e3bf3dbb687f2e30b  bundle.yaml.sig
 746230762c82b69d83c6a8a12ccbdc68a5e107874217d6225b0579db45160aa1  fragments/containment-criteria.distilled.md
 cb4262b78f8c32994f47b0caaa8a49b6be4d24cab5a3d425f9076416cff7edfb  fragments/containment-criteria.md
 a52d1258bdb9fb46858e59948ed32fe87edc2aa21c450bf536ff198a83840dee  fragments/disposition-rubric.distilled.md

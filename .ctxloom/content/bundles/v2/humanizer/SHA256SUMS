@@ -1,6 +1,5 @@
 # ctxloom-content-digest/1
 5de24b4224c70101c38b0d7567cffe3a852beac3e3b2d86cb81837153770f667  bundle.yaml
-f1cf0f32ea42339de254197bab19eb1be60d7a67701e7b90a0b3e7de1dbddcc7  bundle.yaml.sig
 2d09ab271b9fbe2b61a357f7d5ad608d79dcfd05e8c5ff71398cf4fd166231df  fragments/banned-phrases.distilled.md
 71c523ec8183c1874d5960d763f1b856fcf70c17e8152e234ace53326ccb3617  fragments/banned-phrases.md
 dd4a7979cb444c2af4a69f8fd8f325908802e46342f6e3e42e31b552ae4a59ea  fragments/docs-and-comments.distilled.md

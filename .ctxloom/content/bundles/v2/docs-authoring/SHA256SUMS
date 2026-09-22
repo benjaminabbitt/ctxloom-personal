@@ -1,6 +1,5 @@
 # ctxloom-content-digest/1
 e079644d483f38d0a80bfe50de7d08727d06e060063449fd2dd1270f36506ce9  bundle.yaml
-1239208981145a1c323c220209d7353bf4ec37d001bf800f1474eda8fe29a279  bundle.yaml.sig
 fff82bc4975174d96e5922b24befa4aafb0f25402f9feb8fa4341632aba12e26  fragments/claims-against-code.distilled.md
 1fbc20e46452f3d239a3c2cdf272aff94b3bd0a6b4974359d64f4a552fdf91c8  fragments/claims-against-code.md
 3e728c56b64b8e7536043ecd323a23d4c511a5fdada5c52aabc5192597dcd7e2  fragments/lead-with-why.distilled.md

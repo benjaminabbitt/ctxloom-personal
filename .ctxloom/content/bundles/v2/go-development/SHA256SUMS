@@ -1,6 +1,5 @@
 # ctxloom-content-digest/1
 f0e9d0648e126bfe5ef9822626bf74d2249fe801f9b1527e84952d747399bd01  bundle.yaml
-b1a08a8cbfb76de02722de04b62db315503b044b527bea5ce2e66411c609182f  bundle.yaml.sig
 c289bb5758fe018638282780e212aa35dd7b089c3673c19c0817bf425bff5aad  fragments/golang.distilled.md
 4759abc2039a38d50519a3c6bea42736feedde2678aaa9447a534f679bf05a7f  fragments/golang.md
 b83a1c2e3b89befc736e001b45ebff0524b856100df38aaf2a0202ba56bd8e5c  fragments/testing.distilled.md

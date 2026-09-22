@@ -57,6 +57,35 @@ confirm it — "find a case where this breaks" surfaces more than
 "check that this works." Prefer independent verification over
 self-review.
 
+## The brief itself is a claim. Tell them to attack it.
+
+Adversarial reading is not only for reviewers. An IMPLEMENTER must
+read its own brief that way, because the brief is downstream of a
+task row, a prior investigation, and your summary of both — and any
+of the three can be wrong. Instruct every implementer to establish
+that the defect EXISTS before building the fix, and to verify each
+claim you hand it rather than taking it on faith.
+
+Say the quiet part explicitly, or it will not happen: REACHING "THE
+PREMISE IS FALSE" IS A SUCCESSFUL OUTCOME. So is a test that passes
+on its first run. An agent that believes its job is to produce a
+diff will produce one, and a fix invented for working behaviour is
+worse than no work at all — it is a change nobody can justify later,
+sitting in code that was already correct.
+
+Measured on one night of twelve delegated rows: THREE described
+defects that did not exist. A WaitDelay would have bounded nothing,
+because the wedge it guards needs copy goroutines this runner never
+registers — and the comment explaining it would have been a lie in a
+security-adjacent path. A context-threading "fix" would have flipped
+a contract a test deliberately pinned, orphaning containers. A
+read-back defect had already been working for months. Every one was
+caught by an implementer refusing its instructions; none by review.
+
+The correlation is worth knowing when you write the brief: where the
+instruction to verify was present, agents refuted it. Where it was
+absent, the error survived until someone else happened to look.
+
 ## NEVER put a slow command in an implementer brief
 
 The most common way a sub-agent fails is not a bad edit — it is
@@ -109,3 +138,49 @@ treat a "completed" agent whose result is a sentence about waiting
 as ALIVE-BUT-STUCK; inspect its worktree before retrying or reaping;
 and require commit-after-every-unit, which is what makes a stall
 survivable rather than fatal.
+
+## Make the evidence citable, not narrated
+
+A sub-agent's report is the only thing that survives it, and by
+default every number in that report is unverifiable prose. "build 0,
+lint 0, tests pass" is a claim about a command you did not see, and
+a coordinator relaying it has laundered an assertion into a fact.
+
+So require the work to leave EVIDENCE BEHIND, and require the report
+to cite it:
+
+- Every gate writes its output to a FILE, kept whole. Not a tail,
+  not a grep — the whole thing, because the interesting line is the
+  one nobody predicted.
+- The report cites by FILE AND LINE: "752/755 passed
+  (acceptance.log:5931)", "exit 0 (build.log:12)".
+- Cite the DECISIVE lines — the exit code, the totals, the specific
+  failure. Not the whole log; a citation that points at everything
+  points at nothing.
+
+WHY A LINE NUMBER HERE AND NOWHERE ELSE. This project forbids
+citing source by file:line, because source drifts and a stale line
+number silently points at unrelated code and gets believed. A tool
+OUTPUT FILE is the opposite: it is a frozen record of one run that
+nobody ever edits. It cannot rot, so the objection does not reach
+it. Cite source by symbol; cite evidence by line.
+
+THE FILE MUST OUTLIVE THE AGENT. An agent under worktree or cell
+isolation writes to a sandbox that is DESTROYED when the worktree is
+pruned, so a citation into it is a promise the filesystem breaks —
+and the coordinator, who reaps those worktrees, is the one who
+breaks it. Name an absolute path outside the sandbox, or have the
+agent publish the file as an artifact. A cited path the reader
+cannot open is worse than no citation, because it reads as proof.
+
+WHY THIS IS WORTH THE CEREMONY. Two failures it addresses, both
+observed. In one night a coordinator relayed roughly forty gate
+results and opened NOT ONE log. And an agent was handed a harness
+notification announcing a completed run with content that did not
+exist — a module path and a scenario name it could not find — while
+its suite was still executing; it disregarded the notice and read
+the log instead, which is the only reason its numbers were real. An
+agent that trusts a summary it did not produce will report fiction
+with total confidence, and nothing downstream can tell the
+difference. A cited line is checkable in seconds. An uncited number
+is only ever as good as the chain of agents that passed it along.
