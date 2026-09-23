@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: source-organization
+# version: 1.0.0
 3dd452ba67e4169b7532b86df76cf520626bcc1ca5776b43b64057e7f2bf9f04  bundle.yaml
 b23ca8c6e7457c98648dbd02daa1d6ee15605499b5e7bf34c277cf5d0f734493  fragments/source-organization.distilled.md
 8c8ba5ed4968ad76a4459e9a4c1ac9bc5a402eab305f00c502742f4ceba027ec  fragments/source-organization.md

@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: humanizer
+# version: 1.0.0
 5de24b4224c70101c38b0d7567cffe3a852beac3e3b2d86cb81837153770f667  bundle.yaml
 2d09ab271b9fbe2b61a357f7d5ad608d79dcfd05e8c5ff71398cf4fd166231df  fragments/banned-phrases.distilled.md
 71c523ec8183c1874d5960d763f1b856fcf70c17e8152e234ace53326ccb3617  fragments/banned-phrases.md

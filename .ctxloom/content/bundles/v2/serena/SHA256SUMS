@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: serena
+# version: 1.0.0
 c5dc33cb3cb16f519c004e3a0b41e1bd3bd4ef15eb42a9f437d6d94eb62306c8  bundle.yaml
 246ad97c9f076a0453bd8858259a59965adf62ba86ccf4a260d125f8cc2f22df  fragments/serena.md
 67035ec64f9103d26463f5ceab26455153837963ec2392fd8f22cf18e79debfa  mcp/.serena.meta.yaml

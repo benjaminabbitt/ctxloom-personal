@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: just
+# version: 1.0.0
 d97e34680a06ae407f4f6b5b3f178d7545e81aa327a6f3ca09909cdf83ae377e  bundle.yaml
 14dbde478585c5ddab84a15a6826c22e1ca88a8875d2057bd4c7270548579828  fragments/just-container-overlay.distilled.md
 cf9dc08b30ebd4c8bfa82e27bc7658d41e51df220860fba713490d6f5b22b661  fragments/just-container-overlay.md

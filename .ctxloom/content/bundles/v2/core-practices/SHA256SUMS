@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: core-practices
+# version: 1.0.0
 87b9885c55ecfea06481309cb7a7ce3b8010ca20f5b2b3a42c66c94769402914  bundle.yaml
 e9b37fa5c90065f05e322182bafe525f394fc6e865519c44362be45767ee6745  fragments/documentation.md
 8c7fd69871c427a904572d0bad81c8a791340e60ee9c1ac81df7306140eba2f5  fragments/strings.distilled.md

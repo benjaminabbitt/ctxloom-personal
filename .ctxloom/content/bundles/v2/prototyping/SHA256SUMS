@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: prototyping
+# version: 1.0.0
 bacef0606317da658f912a92968be0d65a3c0ea155c9c43f86f24ba4a8f2a547  bundle.yaml
 f21cc4880008b55c446c83cab0efd9b57e6ab5205ff604472275da3fb0d4303b  fragments/preexisting-ownership.distilled.md
 a60716354c61d3a44eb5069ad39dc93a0635dce07a2c41a109d28a3700e626a8  fragments/preexisting-ownership.md

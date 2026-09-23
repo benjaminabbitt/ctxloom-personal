@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: agent-ensemble
+# version: 1.0.0
 ecfc03005886a2073e71873b80456fcd94f6a3089d79145ad196d3e0d12bd2c1  bundle.yaml
 c47ef8144c5010c8b80178852b05202daea333b71be1f8b4b29f9deaee2f4399  fragments/coordination-tools.md
 3c27ee7b490b3304223b78bb430708ba0f9376e60da0c1bfcbd59acf14e185c6  fragments/coordinator-conduct.md

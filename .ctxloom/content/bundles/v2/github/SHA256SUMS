@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: github
+# version: 1.0.0
 ff517d94e5b19536a8f76daf382fd4c3c72237e9a8d20af1400a40f709ed33eb  bundle.yaml
 0788d7a5e8adbd5ba7e3f62f79b4991793f376fd6e2c25c545743fb0a8b954ae  fragments/cicd-just-targets.distilled.md
 6eab9a57637708f222b06dc17bd6a45f9b9f051230c767b728c175603e22c56d  fragments/cicd-just-targets.md

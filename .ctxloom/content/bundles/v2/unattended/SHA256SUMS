@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: unattended
+# version: 1.0.0
 b5d2a183c8630a9287db62cd44557d436bf4785603192134b7c5d6b29b5b76e8  bundle.yaml
 0df7df814f862f34e1930e73ec3e91cffd07a6c711c0133db63732d238aacb0c  prompts/prompt-human.md
 3b90171f976943bbf0b67f4d68c62b10ad654fd57ad73d3b779b87d4032441aa  skills/admit/SKILL.md

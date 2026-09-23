@@ -1,4 +1,6 @@
-# ctxloom-content-digest/1
+# ctxloom-bundle-manifest/1
+# name: bdd
+# version: 1.0.0
 9bcc7b543ba27f1aa7f546946586c812b3e100ab3620da3eeb1af626f00a68f6  bundle.yaml
 1bf8db8ba9ea0c42680180624852818a57af2d5e7c02dcb1c85a3a5aa27c8e28  fragments/gherkin.distilled.md
 2b0ba67e5bd8f722748d4fc894c2f3ecb91e1b8ac2b74d96526b5e3ba3ef0f2a  fragments/gherkin.md
