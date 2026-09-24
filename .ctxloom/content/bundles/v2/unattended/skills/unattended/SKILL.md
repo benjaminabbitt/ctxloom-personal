@@ -211,6 +211,19 @@ If you delegate (and you should, for anything context-heavy):
   stalled agent survivable rather than fatal.
 - **Give every brief the stop conditions above**, and require it to escalate
   rather than decide. Its escalations become your report's decision list.
+- **Every brief carries the race rule.** A test forces the race it
+  is about: it calls the transition, or injects the interleaving,
+  and never waits for one to happen. A `require.Eventually` over
+  state the test did not synchronise is the tell. A test that is
+  red under the full suite and green alone is not flaky: it is
+  either a racing test or a racing product, and the report names
+  which, with the forcing test that proves it. "Passed on re-run"
+  settles nothing.
+
+  WHY: every load-only red in the coordinator for a month turned
+  out to be one or the other, and each cost a re-run or a waiver
+  until someone forced it; a waiver is exactly how a real
+  regression hides.
 - **Verify everything yourself**: inspect the worktree and the process table
   before believing any claim about what landed. Reports have been wrong.
 - Treat an agent whose result is a sentence about waiting as **alive-but-stuck**,
