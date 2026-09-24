@@ -1,7 +1,7 @@
 # ctxloom-bundle-manifest/1
 # name: unattended
-# version: 1.1.0
-3599d8572bfa5e3e2b442bed7d628c6d2af1d1a37bf5c7934d5d7084a30c455c  bundle.yaml
+# version: 1.1.1
+58f20f82b8b30b224b9f48868b7e9a77b5fd722493405810c5d3c981d521400e  bundle.yaml
 0df7df814f862f34e1930e73ec3e91cffd07a6c711c0133db63732d238aacb0c  prompts/prompt-human.md
 3b90171f976943bbf0b67f4d68c62b10ad654fd57ad73d3b779b87d4032441aa  skills/admit/SKILL.md
 cd3d671881c16d010666b67425013592e784f89ed58241c94b45449e015de27c  skills/closeout/SKILL.md

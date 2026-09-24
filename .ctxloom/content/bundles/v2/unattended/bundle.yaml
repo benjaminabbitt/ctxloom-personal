@@ -1,4 +1,4 @@
-version: 1.1.0
+version: 1.1.1
 tags:
     - default
     - unattended
@@ -31,71 +31,4 @@ notes: |
 
     Pairs with agent-ensemble (orchestrator conduct, delegation, prompt-authoring)
     and with taskloom for the queue itself.
-commands:
-    prompt-human:
-        tags:
-            - default
-            - decisions
-            - human
-            - orchestrator
-        content: |-
-            Invoke the `prompt-human` skill and follow it.
-
-            Sweep for everything blocked on a human decision — this session's deferrals and
-            silent defaults, every agent report's DEFERRALS section, the task log, the
-            plans and design docs' open-decisions sections, and any comment or feature row
-            that poses a question it never answers.
-
-            First VALIDATE each row against the tree: do the symbols it cites still
-            exist, has the fix already landed, was it already ruled, is there a further-along
-            duplicate. A stale row does not look stale, and a ruling taken on a dead premise
-            gets recorded as authoritative. Reaching "already done" is a success — close it
-            and move on.
-
-            Then filter hard. Most of what you find is not theirs: anything a convention or
-            an existing helper already answers, and anything you can settle by reading the
-            code, you settle yourself and mention. Go and read BEFORE you ask — a fork whose
-            answer is in the tree is your homework, not their decision. Be especially wary
-            of any option that proposes a NEW declaration; it is usually a duplicate of
-            state something already computes.
-
-            Put what genuinely remains through the interactive question tool, never prose,
-            one recommendation-first fork per decision, every option carrying its cost.
-
-            Load their context INTO each question. They know this project. What they do not
-            know is WHICH thread this is — name the task, say what it was doing, what state
-            it is in, and what changed to produce the question. Quote the measured fact, and
-            label VERIFIED against INFERRED.
-
-            Then record each ruling and its accepted cost where the work lives, and act on
-            it.
-
-            $ARGUMENTS
-        description: Find everything blocked on a human decision and put each one to the human as an interactive question that loads their context — they know the project, but are running several threads and do not know which one this is.
-skills:
-    admit:
-        files:
-            SKILL.md:
-                sha256: sha256:3b90171f976943bbf0b67f4d68c62b10ad654fd57ad73d3b779b87d4032441aa
-                mode: "0644"
-    closeout:
-        files:
-            SKILL.md:
-                sha256: sha256:cd3d671881c16d010666b67425013592e784f89ed58241c94b45449e015de27c
-                mode: "0644"
-    design-by-test:
-        files:
-            SKILL.md:
-                sha256: sha256:aba270817c6510e4bb64d92d328e3ae2f4f755fed1288d33ae1edcbcc5b1b0e5
-                mode: "0644"
-    prompt-human:
-        files:
-            SKILL.md:
-                sha256: sha256:8faeb5d6da2593bc789ad2d486ad59f957ad137ff22b6a6c8bebb7997f494e1e
-                mode: "0644"
-    unattended:
-        files:
-            SKILL.md:
-                sha256: sha256:dc08985cbd778e7e24dd4d228086ea5e3afa128de118de3cc130ec7646e57482
-                mode: "0664"
 name: unattended
