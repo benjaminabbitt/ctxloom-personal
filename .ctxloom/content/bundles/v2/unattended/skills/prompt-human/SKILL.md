@@ -151,13 +151,34 @@ Not theirs — do it, and mention it:
 Assume zero recall of anything you have not restated. Each question stands
 alone, even if you asked a related one twenty minutes ago.
 
-**Do the research first, and put it in the question.** Before a question is
-written, READ THE CODE behind it — the symbols, the call sites, the tests, the
-doc comments, the task bodies — and carry what you found into the question as a
-few paragraphs, not a line. A question that arrives without that research hands
-the human your homework: they must go and read the code to answer you, which is
-the work they asked you to do. If the research is not done, the question is not
-ready; do the reading, then ask.
+**Do the research first, then lead with WHY — and give a lot of it.** Before a
+question is written, READ THE CODE behind it — the symbols, the call sites, the
+tests, the doc comments, the task bodies, the commit history that introduced
+the thing. A question that arrives without that research hands the human your
+homework. If the research is not done, the question is not ready.
+
+But what you carry INTO the question is the WHY, not the HOW. Several
+paragraphs, not a line; more context is better than less:
+
+- **Why this thing exists** — the need, incident or ruling that created it, and
+  what it protects. Commit messages and task bodies usually say.
+- **Why the question arises now** — what changed, and what is blocked on it.
+- **Why it matters** — what is at stake for the user, the project or the
+  release, and who is affected by each answer.
+- **Why each option would be chosen** — the intent behind it, not its mechanics.
+
+Leave out mechanism — call paths, how the code currently achieves something,
+symbol-by-symbol walk-throughs — except where a single fact decides the
+question. Cite symbols as pointers for later, not as the explanation. The human
+decides direction from purpose and stakes; mechanism is what they would have to
+reconstruct before they could even see the purpose.
+
+**Do not settle architecture inside a question — open it.** When the answer
+leads to design (where code lives, signatures, data shapes, layering), the
+question decides the DIRECTION and intent only. End it by opening the
+architecture discussion: name the design questions each choice raises, so the
+follow-up conversation starts from them. The shapes themselves are presented in
+that follow-up, not packed into an option.
 
 Open by re-establishing WHICH:
 
@@ -195,14 +216,14 @@ Prose questions get skimmed and answered vaguely. Use the interactive question
 tool (`AskUserQuestion` or the harness equivalent), even for a single decision.
 It forces a real fork and records the answer.
 
-**Option #1 is your suggestion.** The first option is a concrete proposal — what
-you would do, specifically enough to act on as written (which symbol moves where,
-which value, which behaviour) — marked as recommended, and grounded in the
+**Option #1 is your suggestion.** The first option is the direction you would
+take, stated plainly with WHY — marked as recommended and grounded in the
 research above. Not a neutral label, and not a survey: a survey with no
-suggestion hands the analysis back to the person who asked you to do it. The
-other options are the real alternatives to it, each with its cost. If you
-genuinely have no preference, say so and say why it is close — and still put the
-one you would pick first.
+suggestion hands the analysis back to the person who asked you to do it. Design
+detail belongs to the architecture follow-up the question opens, not to the
+option text. The other options are the real alternatives, each with its cost. If
+you genuinely have no preference, say so and say why it is close — and still put
+the one you would pick first.
 
 **Every option carries its cost.** An option with no downside means you have not
 understood it yet — find the cost or drop the option.

@@ -27,9 +27,11 @@ of any option that proposes a NEW declaration; it is usually a duplicate of
 state something already computes.
 
 Put what genuinely remains through the interactive question tool, never prose,
-one fork per decision, every option carrying its cost. Each question carries a
-few paragraphs of research from READING THE CODE, and its first option is your
-concrete suggestion.
+one fork per decision, every option carrying its cost. Read the code first,
+then give a lot of context about WHY — why the thing exists, why the question
+arises now, why it matters — not how it works. The first option is your
+suggested direction; a question that leads to design opens the architecture
+discussion rather than settling it.
 
 Load their context INTO each question. They know this project. What they do not
 know is WHICH thread this is — name the task, say what it was doing, what state
