@@ -151,6 +151,14 @@ Not theirs — do it, and mention it:
 Assume zero recall of anything you have not restated. Each question stands
 alone, even if you asked a related one twenty minutes ago.
 
+**Do the research first, and put it in the question.** Before a question is
+written, READ THE CODE behind it — the symbols, the call sites, the tests, the
+doc comments, the task bodies — and carry what you found into the question as a
+few paragraphs, not a line. A question that arrives without that research hands
+the human your homework: they must go and read the code to answer you, which is
+the work they asked you to do. If the research is not done, the question is not
+ready; do the reading, then ask.
+
 Open by re-establishing WHICH:
 
 - which task, branch, file, or subsystem — by name
@@ -187,9 +195,14 @@ Prose questions get skimmed and answered vaguely. Use the interactive question
 tool (`AskUserQuestion` or the harness equivalent), even for a single decision.
 It forces a real fork and records the answer.
 
-**Recommend, do not survey.** Your recommendation goes first, marked. A survey
-with no recommendation hands the analysis back to the person who asked you to do
-it. If you genuinely have no preference, say so and say why it is close.
+**Option #1 is your suggestion.** The first option is a concrete proposal — what
+you would do, specifically enough to act on as written (which symbol moves where,
+which value, which behaviour) — marked as recommended, and grounded in the
+research above. Not a neutral label, and not a survey: a survey with no
+suggestion hands the analysis back to the person who asked you to do it. The
+other options are the real alternatives to it, each with its cost. If you
+genuinely have no preference, say so and say why it is close — and still put the
+one you would pick first.
 
 **Every option carries its cost.** An option with no downside means you have not
 understood it yet — find the cost or drop the option.

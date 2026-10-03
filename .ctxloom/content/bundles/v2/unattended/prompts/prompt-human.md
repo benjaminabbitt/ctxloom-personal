@@ -27,7 +27,9 @@ of any option that proposes a NEW declaration; it is usually a duplicate of
 state something already computes.
 
 Put what genuinely remains through the interactive question tool, never prose,
-one recommendation-first fork per decision, every option carrying its cost.
+one fork per decision, every option carrying its cost. Each question carries a
+few paragraphs of research from READING THE CODE, and its first option is your
+concrete suggestion.
 
 Load their context INTO each question. They know this project. What they do not
 know is WHICH thread this is — name the task, say what it was doing, what state
