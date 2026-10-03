@@ -1,6 +1,6 @@
 ---
 name: closeout
-description: Close out a turn that changed something — verify against the real gate, kill a mutation for every test written or changed, fix falsified comments, leave the task log true, and fix or file what was found. Use when finishing a turn that touched code, tests, docs or the task log; when asked to "close out", "wrap up", "finish this properly"; and at the end of a unit of work. Reports honestly, including "not done" where that is the truth.
+description: Close out a turn that changed something — verify against the real gate, kill a mutation for every test written or changed, fix falsified docs and comments and document added behaviour, leave the task log true, and fix or file what was found. Use when finishing a turn that touched code, tests, docs or the task log; when asked to "close out", "wrap up", "finish this properly"; and at the end of a unit of work. Reports honestly, including "not done" where that is the truth.
 ---
 
 # closeout
@@ -34,9 +34,20 @@ keeps asserting it, with nothing to say which is current.
    A survivor is the most valuable result there is: it names an untested claim
    you just shipped. Scope the mutation to the production code your new or
    changed tests NAME. Changed nothing under test? Say so; do not invent a run.
-3. **FIX THE DOCS AND COMMENTS YOU FALSIFIED.** → `unchecked-bindings`
-   Nothing tests a comment, which is why this is on a checklist and not in CI.
-   Cite by symbol; state the invariant, not the history.
+3. **UPDATE THE DOCUMENTATION: fix what you falsified, document what you
+   added.** → `unchecked-bindings`
+   Nothing tests a comment or a doc, which is why this is on a checklist and
+   not in CI. Two halves, and the second is the one that gets skipped:
+   - **Falsified:** every doc and comment your change made untrue. Cite by
+     symbol; state the invariant, not the history.
+   - **Added or changed behaviour:** a new or changed command, flag, config
+     key, output, error or user-visible behaviour goes into the docs that
+     cover that surface — the user/website docs, the area's architecture doc,
+     the README when it is a feature. Everything still true is not the same as
+     documented: a change can falsify nothing and still leave its own
+     behaviour described nowhere. Regenerate generated docs rather than
+     hand-editing them. Extend an existing page; creating a new doc file is
+     the human's call — ask, and say so in the report if you did not.
    **UPDATE THE ARCHITECTURE DIAGRAMS, if any exist for what you touched.** A
    mermaid call, delegation or data-flow graph that names a symbol you added,
    moved, renamed or deleted is now wrong, and a wrong diagram outranks a
