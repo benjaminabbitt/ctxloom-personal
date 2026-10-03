@@ -236,6 +236,12 @@ If you delegate (and you should, for anything context-heavy):
   stalled agent survivable rather than fatal.
 - **Give every brief the stop conditions above**, and require it to escalate
   rather than decide. Its escalations become your report's decision list.
+- **Handle the additional work implementers report.** A FINAL report's
+  deferrals, "noticed but out of scope" items and follow-ups are work, not
+  notes: dispatch each one that needs no human decision and trips no stop
+  condition, and land it like any item. Only what needs the human goes to the
+  report's decision list. This is not admitting new work — it is finishing
+  the work that was admitted.
 - **Every brief carries the race rule.** A test forces the race it
   is about: it calls the transition, or injects the interleaving,
   and never waits for one to happen. A `require.Eventually` over
@@ -278,10 +284,14 @@ kept for themselves. Instead, **close out**:
 
 - **run the `closeout` skill now, without asking** — it is the run's one full
   gate (every suite, acceptance included, from a clean state on the integrated
-  tree) and its one mutation pass. If the gate is red, re-run the failing leg
-  on the pinned base SHA first: red there is pre-existing, not yours. Otherwise
-  bisect across the batch's merge commits (each is one branch, so a bisect is a
-  few focused runs) and revert the merge that broke it;
+  tree) and its one mutation pass. **A failing leg is fixed when found**,
+  test-first, like a found bug — whether the night broke it or it was already
+  red on the pinned base ("pre-existing" is history, not a disposition). To
+  find the cause, re-run the failing leg on the pinned base SHA, and if it is
+  green there, bisect across the batch's merge commits (each is one branch, so
+  a bisect is a few focused runs). Revert the offending merge only when the
+  revert budget is spent or the fix trips a stop condition — then report it
+  with the reproduction;
 - adversarially re-check your own verdicts: try to **refute** each conclusion
   rather than confirm it, and say plainly where you now think you were wrong;
 - verify that claimed cleanup actually happened — `ls` it, check the process
