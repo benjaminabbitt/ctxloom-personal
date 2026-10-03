@@ -1,4 +1,4 @@
-version: 1.1.1
+version: 1.2.0
 tags:
     - default
     - unattended
@@ -28,6 +28,10 @@ notes: |
       from pre-existing breakage at 3am.
     - "escalate and continue, never halt" — halting on item 3 of 40 wastes the
       night, which is the whole resource being spent.
+    - "build only at merge; full gate and mutation once, at close-out" — the
+      2026-10-02 run spent ~20 min on a full gate per merge batch (4 batches);
+      the reds those gates found were all in suites the close-out gate runs
+      anyway, and implementer mutation runs duplicated close-out's.
 
     Pairs with agent-ensemble (orchestrator conduct, delegation, prompt-authoring)
     and with taskloom for the queue itself.

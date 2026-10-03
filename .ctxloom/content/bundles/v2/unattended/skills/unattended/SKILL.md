@@ -19,15 +19,17 @@ exercise, not an afterthought.
 ## The contract, in one paragraph
 
 Work the admitted queue one item at a time. Each item lands as its own branch,
-gets merged to the integration branch only when the **merge gate** passes on the
-**integrated** tree, and is recorded as it lands. The acceptance suite is not
-part of the merge gate: it runs at pre-flight and at close-out, and nowhere in
-between — it is the most expensive thing on the box and running it per merge
-turned a night of work into a night of waiting. When an item trips a
+is merged to the integration branch once its implementer's own tests and fast
+static gates pass, and is recorded as it lands. The only check at merge is that
+the **integrated tree still builds**. The full gate — every suite, acceptance
+included — and the mutation pass run ONCE, at close-out, which you run
+**automatically** when the queue is exhausted; nowhere in between. Per-merge
+full gates turned a night of work into a night of waiting. When an item trips a
 stop condition, file it with enough context to decide cold and **move to the
-next item** — never halt the run. Keep the integration branch green at every
-commit. Push nothing. Leave the machine as you found it. Write the morning
-report incrementally, because you will probably die before the end.
+next item** — never halt the run. Keep the integration branch compiling at every
+merge, and green at close-out or reverted. Push nothing. Leave the machine as
+you found it. Write the morning report incrementally, because you will probably
+die before the end.
 
 ---
 
@@ -46,14 +48,18 @@ how a night gets wasted.
    be raised **before they leave**, not at 3am. This is the highest-value
    minute of the whole run: the expensive judgement is *which items are safe
    unattended*, and it is far cheaper made with them present.
-3. **Confirm a green baseline.** Run the FULL gate suite — this is one of the
-   two places the acceptance suite runs. Record the exact commands and their
-   exit codes. **If the tree is not green, fix it BEFORE dispatching the batch**
-   — with the human while they are still present, or alone if the failure is
-   already root-caused and a narrow gate settles it. Never dispatch over a red
-   baseline: you cannot tell your breakage from pre-existing breakage, and you
-   will spend the night chasing someone else's bug. If it cannot be fixed, stop
-   and say so.
+3. **Confirm a fast green baseline.** Run the static gates and the unit suite —
+   not acceptance, not docker integration; those run only at close-out. Record
+   the exact commands and their exit codes. **If the tree is not green, fix it
+   BEFORE dispatching the batch** — with the human while they are still
+   present, or alone if the failure is already root-caused and a narrow gate
+   settles it. Never dispatch over a red baseline: you cannot tell your breakage
+   from pre-existing breakage, and you will spend the night chasing someone
+   else's bug. If it cannot be fixed, stop and say so.
+
+   The trade this makes: a slow suite that was already red before the run looks
+   like the night's breakage at close-out. Settle that there, not here — re-run
+   only the failing leg on the pinned base SHA; red there means pre-existing.
 4. **Pin the base SHA.** Record it. Every branch you cut starts here.
    **COMMIT FIRST, so the baseline is attributable.** An unattended run that
    starts on a dirty tree cannot tell its own changes from what was already
@@ -74,11 +80,10 @@ how a night gets wasted.
 7. **Write the report file's header immediately** — queue, baseline, base SHA,
    start time. If you die in the first ten minutes, the human still learns
    something.
-8. **Know what binds you.** Nothing fires a close-out checklist at you: this
-   skill is invoked deliberately, and nothing reminds you per turn. That
-   changes the reminder, not the obligation — verify against the real gate and
-   read exit codes, kill a mutation for every test you write or change and
-   report the survivors, keep the task log true, and say "not done" where that
+8. **Know what binds you.** Nothing fires a close-out checklist at you, and
+   nothing reminds you per turn. Close-out is still owed: this skill runs the
+   `closeout` skill itself when the queue is exhausted, without asking. Until
+   then, read exit codes, keep the task log true, and say "not done" where that
    is the truth. There is no prompt coming. This skill is the rule.
 
 ---
@@ -162,29 +167,26 @@ For each admitted item, in order:
    **Name every task/finding ID in the commit BODY as well as the subject** —
    any downstream bookkeeping that scans only subject lines will silently lose
    the rest.
-5. **Run the MERGE GATE on the integrated result**, and read **exit codes** —
-   never grep output for "PASS". An exit 0 from a run that executed nothing is
-   the failure mode that fools everyone. The merge gate is build, lint,
-   generated-output checks, the unit suite, the architecture gates and the
-   integration tests, plus a FOCUSED acceptance run on the feature files the
-   change touched. Not the acceptance suite. When several branches are ready,
-   merge them together and gate once. A test that is red under the full unit
-   suite and green ten times alone is a load-sensitive race: record it as a
-   candidate row and move on; do not re-run the whole stage to make it pass.
-   TDD stays in force and is UNIT-based: a change writes its unit test first,
-   and updates the unit, flow and acceptance tests it falsifies — it just does
-   not RUN the acceptance suite. That is what pre-flight and close-out are for.
-6. **Green → merge to the integration branch. Red → the revert budget applies.**
+5. **Merge, then build the integrated tree** — the build is the only merge
+   check, and you read its **exit code**, never grep output for "PASS". It
+   catches the one failure a merge itself creates: two clean branches that no
+   longer compile together, which would poison every later merge and the
+   close-out bisect. Suites do not run here. TDD stays in force: a change writes
+   the failing test for its own behaviour first and updates the tests it
+   falsifies; the implementer runs those tests and the fast static gates, and
+   nothing wider.
+6. **Builds → keep the merge. Does not build → the revert budget applies.**
 7. **Record the outcome** in taskloom and in the report, immediately. Not
    batched at the end.
 8. **Reap the worktree**: merged, removed, branch deleted. Done is all three.
 
 ### The revert budget
 
-Two failed fix attempts on one item, then **revert to last green, file what you
-learned, and move on.** Do not spend six hours grinding. And never, under any
-circumstance, leave the integration branch red — a red tree at 7am means the
-human's morning starts with archaeology instead of review.
+Two failed fix attempts on one item, then **revert it, file what you learned,
+and move on.** Do not spend six hours grinding. And never leave the integration
+branch broken — not compiling between merges, not red after close-out. A broken
+tree at 7am means the human's morning starts with archaeology instead of
+review.
 
 ### Blast-radius check
 
@@ -192,6 +194,25 @@ Before merging, look at the diff size. If an item's change is dramatically
 larger than its description implied, that is a signal you misread the task.
 Stop, file it with the diff stat, and move on rather than merging something the
 human did not expect.
+
+### Bugs found along the way
+
+A bug discovered mid-run — by a gate, by a sub-agent, by reading code for
+another item — is **fixed now, test-first**, unless the fix needs an
+architectural change. Write the failing test that reproduces it, watch it go
+red, fix it, and land it like any item. Record it in the report as
+found-and-fixed.
+
+This is not admitting new work. The queue rule exists to keep judgement calls
+with the human; a defect with a reproducing test is not a judgement call, and
+leaving it for the morning only converts a solved problem into one somebody
+must rediscover.
+
+The exception is the stop conditions above, architecture first: if the fix
+would change a boundary, a contract, a persisted format, a dependency or
+anything else they name, do not fix it. Write it up for the human with the
+reproduction and the options, and move on. The revert budget applies to these
+fixes exactly as to queue items.
 
 ---
 
@@ -204,9 +225,13 @@ If you delegate (and you should, for anything context-heavy):
   completion notification that a leaf agent never receives — it waits forever
   with its deliverable unsent while the harness reports it `completed`.
   Forbidding this in prose does not work; it has been measured and made things
-  worse. Give implementers only fast, narrow gates (per-package test, vet,
-  lint). **You** run the full suite at merge time — which you must do anyway,
-  since you never close anything on an agent's reported exit code.
+  worse. Give implementers only fast, narrow gates (vet, lint, the static
+  checks). The full suite runs once, at close-out, by you — which is also why
+  nothing is closed on an agent's reported exit code alone.
+- **Implementers run only the tests their change needs.** TDD: the failing
+  test for their own behaviour first, then the tests their change falsifies.
+  No whole-package sweeps beyond what they touched, no mutation runs —
+  mutation belongs to close-out.
 - **Require commit-after-every-unit in every brief.** This is what makes a
   stalled agent survivable rather than fatal.
 - **Give every brief the stop conditions above**, and require it to escalate
@@ -249,14 +274,14 @@ If you delegate (and you should, for anything context-heavy):
 ## When the queue is exhausted
 
 Do **not** admit new work — that is the one judgement the human specifically
-kept for themselves. Instead, **deepen what you already did**:
+kept for themselves. Instead, **close out**:
 
-- run the FULL suite — acceptance included — from a clean state on the
-  integrated tree; this is the second of the two places it runs. If it is red,
+- **run the `closeout` skill now, without asking** — it is the run's one full
+  gate (every suite, acceptance included, from a clean state on the integrated
+  tree) and its one mutation pass. If the gate is red, re-run the failing leg
+  on the pinned base SHA first: red there is pre-existing, not yours. Otherwise
   bisect across the batch's merge commits (each is one branch, so a bisect is a
   few focused runs) and revert the merge that broke it;
-- add failure-path tests for anything you changed that lacked coverage
-  (happy-path suites routinely pass while missing the defect entirely);
 - adversarially re-check your own verdicts: try to **refute** each conclusion
   rather than confirm it, and say plainly where you now think you were wrong;
 - verify that claimed cleanup actually happened — `ls` it, check the process
@@ -297,7 +322,7 @@ sentence; a confident wrong claim costs the human their morning.
 ## The three rules that survive everything else
 
 1. **Push nothing.** Local history is always recoverable; a push is not.
-2. **Green at every commit, or reverted.**
+2. **Compiling at every merge, green at close-out — or reverted.**
 3. **When in doubt, file it and move on.** An item left undone costs one
    morning. An irreversible wrong decision costs much more, and the whole
    reason you are running unattended is that nobody is there to catch it.
