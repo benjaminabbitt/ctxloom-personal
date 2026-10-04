@@ -39,7 +39,11 @@ Decide from the declared version BEFORE decoding into the typed structure:
   every migration over a broken file and stamps it current: a parse error
   replaced by a clean load of rewritten bytes.
 - **missing** — the oldest generation: every migration applies. A format with
-  no older generation has nothing to run, so it decodes as current.
+  no older generation has nothing to run, so it decodes as current. An empty
+  or comment-only file is this case, not a corrupt one.
+- **older than the oldest migration kept** — refuse, naming the floor. A
+  format may drop migrations for generations nobody still has; a file below
+  the floor is told to be recreated, not half-migrated.
 
 The check runs before any strict decode, so a newer file gets the version
 message rather than an unknown-field error. A rename of the version key itself
@@ -53,8 +57,17 @@ undeclared.
 - Reading never writes. A loader that rewrites the file it loads produces
   surprise diffs in checked-in files and races itself when several processes
   load at once.
-- Persisting a migration is an explicit act: a flag on the command that owns
-  the file, which keeps a backup and can print instead of write.
+- Persisting a migration is an explicit act: one flag, with the same name in
+  every binary of the tool, that writes each older file it loaded back at the
+  current version, keeping a backup and able to print instead of write. No
+  prompt and no automatic rewrite stands in for it.
+
+## One file, one version
+
+Something published and signed as a unit — a package of many files — carries
+ONE version, on its manifest or envelope, and that version's migrations may
+reshape any file in the unit. Its member files carry no key of their own; two
+version sources inside one signature can disagree.
 
 ## Signed content
 
@@ -66,7 +79,10 @@ content back means re-signing it, and that is the signer's act.
 
 The version read, the migrate-in-memory, the newer-refusal and the write-back
 helper live in one shared package that every file kind uses. Per-kind code
-supplies only its current version and its ordered migrations. The machinery
+supplies only its ordered migrations and the oldest version it still
+migrates; the current version is DERIVED from those (oldest + number of
+steps), so a version bump without a migration cannot exist. Normalization that
+depends on runtime context is not a migration and stays with the caller. The machinery
 exists and is tested even when a kind has zero migrations — the steady state,
 not a special case: a current file passes through byte-identically, an older
 one is migrated and stamped, a newer one is refused, a malformed one is
