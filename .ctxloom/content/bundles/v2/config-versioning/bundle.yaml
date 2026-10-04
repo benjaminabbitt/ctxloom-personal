@@ -1,0 +1,18 @@
+version: 1.0.0
+tags:
+    - config
+    - persistence
+    - compatibility
+author: benjaminabbitt
+description: Persisted file formats carry an integer schema version; read old versions by migrating in memory, refuse newer ones, write back only on request
+notes: |
+    A file format outlives the binary that wrote it: a config is checked in,
+    synced to another machine, or written by a teammate's newer build. Without
+    a declared format version every reader guesses, and the guesses disagree —
+    one reads a missing key as "oldest", another as "current", and a corrupt
+    version silently becomes "old" and gets every migration run over it.
+
+    The rules here make the reader's question answerable from the file alone,
+    keep old files loading without touching them, and turn "this file is from
+    the future" into a clear refusal instead of an unknown-field error.
+name: config-versioning
