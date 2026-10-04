@@ -26,6 +26,14 @@ ordering, nothing else. Minor/patch levels promise that an older reader copes
 with a newer file; a strict decoder breaks that promise on the first unknown
 key, so the promise is false where it matters.
 
+## Every shape change bumps the version
+
+A rename, a removal, or a change in what a value means is a new format, even when
+the new code could cope with both. Bump the version and add a step — a pure rename
+gets one too. A reader only protects itself by refusing NEWER files if the number
+actually moves when the shape does; an unbumped rename is read by an older binary
+as a missing key, and it falls back silently instead of refusing.
+
 ## Reading
 
 Decide from the declared version BEFORE decoding into the typed structure:
@@ -59,7 +67,8 @@ undeclared.
   load at once.
 - Persisting a migration is an explicit act: one flag, with the same name in
   every binary of the tool, that writes each older file it loaded back at the
-  current version, keeping a backup and able to print instead of write. No
+  current version, able to print instead of write, keeping a backup only where nothing else
+  holds the previous version (version-controlled files already have one). No
   prompt and no automatic rewrite stands in for it.
 
 ## One file, one version
