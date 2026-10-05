@@ -1,38 +1,40 @@
-version: 1.2.0
+schema_version: 2
+version: 1.3.0
 tags:
-    - default
-    - unattended
-    - overnight
-    - autonomy
-    - orchestrator
+  - default
+  - unattended
+  - overnight
+  - autonomy
+  - orchestrator
 author: ben-abbitt-me
 description: Unattended and overnight operation — work an admitted queue autonomously, getting as far as is safely feasible while stopping short of any decision that is hard to reverse or that endangers the environment, and leave behind a report the human can act on cold.
 notes: |
-    Authored 2026-07-28 after an autonomous multi-agent remediation campaign
-    (session wordy-broad-stank). Every rule in the skill is there because
-    something went wrong, or nearly did, during a run like the one it describes:
+  Authored 2026-07-28 after an autonomous multi-agent remediation campaign
+  (session wordy-broad-stank). Every rule in the skill is there because
+  something went wrong, or nearly did, during a run like the one it describes:
 
-    - "unverifiable means stop" — agents correctly escalated container-only,
-      Windows-only and credential-gated paths rather than guessing; unattended,
-      that instinct has to be a written rule rather than good judgement.
-    - "never put a slow command in an implementer brief" — a gate at 123s
-      against a 120s tool timeout auto-backgrounds and promises a notification
-      a leaf agent never receives. Forbidding it in prose was measured and made
-      it WORSE (1/6 stalled without the prohibition, 4/7 with). See the
-      agent-ensemble bundle's prompt-authoring fragment for the full account.
-    - "commit after every unit" — five agents stalled in one campaign; every one
-      of them kept its work because it had committed.
-    - "name IDs in the commit BODY" — a bookkeeping pass that read only subject
-      lines lost 38 of 141 IDs, leaving findings marked open that were fixed.
-    - "green baseline before you start" — you cannot distinguish your breakage
-      from pre-existing breakage at 3am.
-    - "escalate and continue, never halt" — halting on item 3 of 40 wastes the
-      night, which is the whole resource being spent.
-    - "build only at merge; full gate and mutation once, at close-out" — the
-      2026-10-02 run spent ~20 min on a full gate per merge batch (4 batches);
-      the reds those gates found were all in suites the close-out gate runs
-      anyway, and implementer mutation runs duplicated close-out's.
+  - "unverifiable means stop" — agents correctly escalated container-only,
+    Windows-only and credential-gated paths rather than guessing; unattended,
+    that instinct has to be a written rule rather than good judgement.
+  - "never put a slow command in an implementer brief" — a gate at 123s
+    against a 120s tool timeout auto-backgrounds and promises a notification
+    a leaf agent never receives. Forbidding it in prose was measured and made
+    it WORSE (1/6 stalled without the prohibition, 4/7 with). See the
+    agent-ensemble bundle's prompt-authoring fragment for the full account.
+  - "commit after every unit" — five agents stalled in one campaign; every one
+    of them kept its work because it had committed.
+  - "name IDs in the commit BODY" — a bookkeeping pass that read only subject
+    lines lost 38 of 141 IDs, leaving findings marked open that were fixed.
+  - "green baseline before you start" — you cannot distinguish your breakage
+    from pre-existing breakage at 3am.
+  - "escalate and continue, never halt" — halting on item 3 of 40 wastes the
+    night, which is the whole resource being spent.
+  - "build, static legs and the unit suite at landing; integration, docker,
+    acceptance and mutation once, at close-out" — the 2026-10-02 run spent
+    ~20 min on a full gate per merge batch; a build-only landing then let unit
+    reds reach the pushed branch three times on 2026-10-04, so the unit suite
+    stays in the landing gate and the push happens only inside it.
 
-    Pairs with agent-ensemble (orchestrator conduct, delegation, prompt-authoring)
-    and with taskloom for the queue itself.
+  Pairs with agent-ensemble (orchestrator conduct, delegation, prompt-authoring)
+  and with taskloom for the queue itself.
 name: unattended

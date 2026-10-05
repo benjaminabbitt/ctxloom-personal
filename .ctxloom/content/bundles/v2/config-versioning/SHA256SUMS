@@ -1,0 +1,5 @@
+# ctxloom-bundle-manifest/1
+# name: config-versioning
+# version: 1.0.0
+eaf169640b1a4e94a01ee1a589fd983f22c596bf2900d135380bbce9a9e38b7a  bundle.yaml
+f306f25eea08ccaa70a729575d79835da64210a13f91c907d0b71fabc6d3807e  fragments/config-versioning.md
