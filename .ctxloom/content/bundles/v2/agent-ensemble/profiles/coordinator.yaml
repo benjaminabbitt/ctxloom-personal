@@ -9,7 +9,6 @@ bundles:
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/prompt-authoring
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/planning-and-brainstorming
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/design-review-checkpoints
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/sequential-thinking-usage
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/developer-mindset#fragments/close-the-turn
   - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
   - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/sequential-thinking
