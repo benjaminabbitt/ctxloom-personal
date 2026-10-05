@@ -54,6 +54,29 @@ what makes an item worth doing; verifiability is what makes it safe to do
 unattended. They are unrelated, and confusing them is how the queue fills with
 work that cannot move.
 
+## What the owner admits
+
+A gate settling an item is necessary, not sufficient. The owner admits:
+
+- **correctness** — the product does the wrong thing for a legitimate user;
+- **security across users or accounts, or over the network** — anything another
+  uid, another account, or an outside party (remote or fetched content, git
+  remotes, listeners) controls;
+- **chores** — duplication, wrong abstractions, shims and workarounds to replace
+  with the real fix, gate gaps. Do it once, correctly; flag any row whose
+  proposed fix is itself a plaster and name the correct fix.
+
+And defers:
+
+- **doc-only rows**, to a pre-release docs pass — code is still moving, so docs
+  written now go stale (a change still fixes the docs it falsifies);
+- **restrictions on the legitimate local user** — the threat model is other users
+  and the network, not the user or their own agents on their own machine;
+- **new capabilities** and **unruled decisions**.
+
+Every batch goes in front of the owner for a ruling, classified and with a
+one-line reason per row. The owner's ruling is the admission.
+
 ## What is withheld, and where it goes instead
 
 **The stop conditions are defined in the `unattended` skill. Read them there.**

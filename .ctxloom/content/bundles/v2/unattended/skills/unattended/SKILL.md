@@ -20,14 +20,17 @@ exercise, not an afterthought.
 
 Work the admitted queue one item at a time. Each item lands as its own branch,
 is merged to the integration branch once its implementer's own tests and fast
-static gates pass, and is recorded as it lands. The only check at merge is that
-the **integrated tree still builds**. The full gate — every suite, acceptance
-included — and the mutation pass run ONCE, at close-out, which you run
+static gates pass, and is recorded as it lands. The check at landing is the
+**integrated tree's build, every static leg, and the unit suite**. Integration,
+docker, acceptance and the mutation pass run ONCE, at close-out, which you run
 **automatically** when the queue is exhausted; nowhere in between. Per-merge
-full gates turned a night of work into a night of waiting. When an item trips a
+full gates turned a night of work into a night of waiting — but a build-only
+landing let unit reds reach the pushed branch three times in one night, each
+caught only afterwards, so the unit suite stays in the landing gate. When an item trips a
 stop condition, file it with enough context to decide cold and **move to the
 next item** — never halt the run. Keep the integration branch compiling at every
-merge, and green at close-out or reverted. Push nothing. Leave the machine as
+merge, and green at close-out or reverted. Push the integration branch only
+inside the landing chain, conditional on its exit codes. Leave the machine as
 you found it. Write the morning report incrementally, because you will probably
 die before the end.
 
@@ -114,7 +117,8 @@ a smaller version of it, and you do not work around it. You file it and move on.
 
 ### Actions that endanger the environment
 
-- **Nothing leaves the machine.** No push, no PR, no tag, no release, no
+- **Nothing leaves the machine but the gated integration-branch push.** No other
+  push, no PR, no tag, no release, no
   publish, no deploy, no posting to any external service, no writes to shared
   infrastructure. The human pushes in the morning, after reading a diff.
 - **No destructive git.** No rebase, no force-push, no `branch -D`, no
@@ -167,15 +171,19 @@ For each admitted item, in order:
    **Name every task/finding ID in the commit BODY as well as the subject** —
    any downstream bookkeeping that scans only subject lines will silently lose
    the rest.
-5. **Merge, then build the integrated tree** — the build is the only merge
-   check, and you read its **exit code**, never grep output for "PASS". It
-   catches the one failure a merge itself creates: two clean branches that no
-   longer compile together, which would poison every later merge and the
-   close-out bisect. Suites do not run here. TDD stays in force: a change writes
+5. **Merge, then gate the integrated tree** — build, every static leg, and the
+   unit suite — reading each **exit code**, never grepping output for "PASS".
+   It catches what a merge itself creates (two clean branches that no longer
+   compile or test together) before it poisons every later merge. Integration,
+   docker and acceptance suites do not run here. When several branches are
+   ready, land them in sequence through one chain. TDD stays in force: a change writes
    the failing test for its own behaviour first and updates the tests it
    falsifies; the implementer runs those tests and the fast static gates, and
    nothing wider.
-6. **Builds → keep the merge. Does not build → the revert budget applies.**
+6. **Green → fast-forward the integration branch and push it, in the SAME
+   command as the gate, pushing exactly the gated commit. Red → the revert
+   budget applies.** A push that is not conditional on the gate's exit codes in
+   that command is how a red tree reached origin before.
 7. **Record the outcome** in taskloom and in the report, immediately. Not
    batched at the end.
 8. **Reap the worktree**: merged, removed, branch deleted. Done is all three.
@@ -331,7 +339,8 @@ sentence; a confident wrong claim costs the human their morning.
 
 ## The three rules that survive everything else
 
-1. **Push nothing.** Local history is always recoverable; a push is not.
+1. **Push only what the gate passed, in the same command.** Local history is
+   always recoverable; a push is not.
 2. **Compiling at every merge, green at close-out — or reverted.**
 3. **When in doubt, file it and move on.** An item left undone costs one
    morning. An irreversible wrong decision costs much more, and the whole
