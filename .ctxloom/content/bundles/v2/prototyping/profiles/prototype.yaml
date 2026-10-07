@@ -4,4 +4,4 @@ tags:
   - greenfield
   - rapid
 bundles:
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/prototyping
+  - prototyping

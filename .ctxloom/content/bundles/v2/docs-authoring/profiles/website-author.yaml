@@ -4,5 +4,5 @@ tags:
   - docs
   - website
 bundles:
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/humanizer
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/docs-authoring
+  - humanizer
+  - docs-authoring

@@ -1,3 +1,3 @@
 description: 'Ingest / finder agent: cheap, fast, parallel lookup. Locates symbols/files/config/facts and fetches web pages, reports results straight back. Structural search (ast-grep), token-lean output (rtk), ctxloom context search, and wget/curl. Deliberately minimal.'
 bundles:
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/finder-tools
+  - agent-ensemble#fragments/finder-tools

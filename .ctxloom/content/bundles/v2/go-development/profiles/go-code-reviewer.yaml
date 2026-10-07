@@ -4,5 +4,5 @@ tags:
   - review
   - code-quality
 bundles:
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/core-practices
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/go-development
+  - core-practices
+  - go-development

@@ -5,6 +5,6 @@ tags:
   - frontend
   - react
 bundles:
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/core-practices
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/developer-mindset
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/just
+  - core-practices
+  - developer-mindset
+  - just

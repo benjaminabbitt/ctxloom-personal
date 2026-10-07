@@ -5,4 +5,4 @@ tags:
   - review
   - code-quality
 bundles:
-  - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/core-practices
+  - core-practices
