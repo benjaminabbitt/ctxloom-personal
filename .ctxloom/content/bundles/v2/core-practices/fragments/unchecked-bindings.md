@@ -1,4 +1,5 @@
 ---
+description: "You are about to write or edit text that no compiler or test reads: a code comment or docstring, including one added in passing in the middle of a code change; a commit message, README, doc or plan; a config, YAML or profile annotation or description; a task; or a fragment. For anyone whose next edit names other things in prose, lists members, states a count, size or line number, contrasts with another thing, or records what used to be true, however small the edit and whatever the main task is."
 tags:
   - practices
   - documentation
