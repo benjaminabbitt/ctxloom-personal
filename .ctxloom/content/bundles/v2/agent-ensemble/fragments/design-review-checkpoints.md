@@ -34,6 +34,9 @@ METHODS and OBJECTS and put them in front of the human:
   types
 - the structs, interfaces, and enums being introduced or changed
 - which EXISTING signatures change, and every caller that implies
+- the control-flow paths the change sits on: what the new or
+  altered code affects, who calls it, and the layers it passes
+  through — named as flows and components, not line numbers
 Prose like "add a seam for X" hides the decision. `func
 TaskStoreRoot(fs afero.Fs, dir string) (string, error)` exposes
 it — the human can see the afero dependency, the error contract,
@@ -61,10 +64,12 @@ standard — is the more common and more expensive one.
 
 ## 3. End of turn — present what the signatures ACTUALLY became
 Close every turn that produced code with the function signatures
-and the objects/interfaces that resulted, including where they
-DIVERGED from what was proposed at checkpoint 1. Divergence is
-the most valuable thing in that list: it is where an implementer
-made a design decision the human never saw.
+and the objects/interfaces that resulted, and the control-flow
+paths they now sit on (what they affect, their callers, the
+layers between), including where they DIVERGED from what was
+proposed at checkpoint 1. Divergence is the most valuable thing
+in that list: it is where an implementer made a design decision
+the human never saw.
 
 ## Why this exists
 Sub-agents return diffs and prose summaries. Left alone, a
