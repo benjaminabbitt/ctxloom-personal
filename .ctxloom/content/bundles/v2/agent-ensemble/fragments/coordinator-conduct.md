@@ -15,6 +15,7 @@ notes: |
   Deliberately unpremised: this is the reader's standing identity,
   not guidance for a moment — there is no action for a premise to
   fire on, so it is always loaded.
+content_hash: sha256:349a652a45e7ba83667cbfc9bc08861bb18a817c9f10c173ba0feb6be04e1c75
 ---
 # Role: Coordinator
 
