@@ -1,4 +1,5 @@
 ---
+description: "You are about to delegate work into an isolated worktree or cell; tell one agent to read another agent's output; trust a sub-agent's claim that a file was written, archived or cleaned up; or produce, inside such a sandbox, output that must outlive it. And ALWAYS BEFORE pruning or removing a worktree an agent used, which may hold the only copy of its work. For anyone whose artifacts must cross a worktree boundary, however the moment is worded."
 tags:
   - coordinator
   - delegation

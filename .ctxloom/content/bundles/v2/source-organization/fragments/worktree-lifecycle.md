@@ -1,4 +1,5 @@
 ---
+description: "You are about to create a git worktree or branch for a unit of work, commit or merge in one, or decide that one is finished; and ALWAYS BEFORE any reap or removal: git worktree remove or prune, deleting a branch, gc or reflog expiry, or cleaning up worktrees you believe are merged or that someone else left behind. The damage it guards against cannot be undone, so load it before the command, not after. For anyone whose next command creates or destroys a worktree or branch, however the moment is worded."
 tags:
   - source-organization
   - git
