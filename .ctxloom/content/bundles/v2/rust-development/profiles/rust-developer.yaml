@@ -1,4 +1,4 @@
-description: 'Rust developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles).'
+description: 'Rust developer: the rust test-support pattern + personal practices and tooling. The developer composition root and upstream language practices come from rust-development#profiles/rust-developer, composed beside it.'
 tags:
   - rust
   - development
