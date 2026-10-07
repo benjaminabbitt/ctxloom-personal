@@ -1,25 +1,27 @@
 ---
-distilled_by: claude-haiku-4-5-20251001
+distilled_by: claude-opus-5-5
 ---
 # "Pre-existing" Is Not a Disposition
 
-"Pre-existing" = HISTORY, not decision. Own all shipped failures.
+"Pre-existing" describes HISTORY, not what happens next: an observation, never a reason to move on. We own the tree — a red we did not cause is still a red we ship.
 
-## Valid responses
-1. **Fix it** — preferred; already root-caused + code already read + fast gates settle it = do it now
-2. **Raise it with the human** — sufficient context: failure, reproduction, ruled-out causes. You do not file it yourself; they decide if it becomes a task
+## Two valid responses
+1. **Fix it** — preferred; the bar is a test, not an estimate: already root-caused + code already read + fast gates settle it = do it now
+2. **Raise it with the human** — judgeable cold: what fails, how to reproduce, what you ruled out. You do not file it yourself; they decide if it becomes a row
 
-NOT: "Noted, pre-existing" or unread-report mentions.
+NOT: "Noted, pre-existing, continuing", nor one mention in a report nobody re-reads.
 
 ## Verify before claiming
-- `git log -S '<symbol>'` — when introduced?
-- `git log -- <path>` — current/today's work touch this?
+Asserted far more often than checked:
+- `git log -S '<symbol>'` — when was this test/code introduced?
+- `git log -- <path>` — touched by the current work, or anything landed today?
 
-Failures in recent tests ≠ pre-existing. Verify; assumption often inverted.
+A failure in a test added hours ago is not pre-existing, however unfamiliar it looks. Check; the answer is often the opposite of the assumption.
 
-## Default rule
-**Unexplained red: yours until proven otherwise.**
+## The trap
+An intermittent failure in a package you didn't touch reads as someone else's problem — exactly when it gets waved through, reaches CI, and is dismissed again by someone else.
 
-Intermittent failures in untouched packages appear external, wave through unvetted. Omitting verification defaults failures to someone else's backlog. Defects skip triage, reach CI, dismissed again.
+Default: **a red you cannot explain is yours until you have evidence otherwise.**
 
-Example: Two agents labeled same test "pre-existing/unrelated"—actually introduced hours earlier by their commit (real capture-integrity bug).
+## Why
+"Pre-existing" quietly converts an unexplained failure into someone else's backlog with nobody deciding to; triage is skipped, the finding lost, and the report still reads as diligent — dangerous, not merely lazy. Observed twice in one day: two independent agents labelled the same failing test "pre-existing and unrelated"; our own commit had introduced it hours earlier, and it was a real capture-integrity bug. Both reports careful, thorough, wrong in the same place.

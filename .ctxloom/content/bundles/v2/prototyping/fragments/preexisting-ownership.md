@@ -13,7 +13,7 @@ notes: |-
   red is yours until proven otherwise) exists because with several agents
   in a tree, any weaker default routes every ambiguous failure to a backlog
   nobody owns.
-content_hash: sha256:1df290328d43666cca381d86fb3de34a13f2ae1d1cb393c5a62f184183696ebb
+content_hash: sha256:978eb9f08b284af362c9ffb79bdbd31c37891341a5efadf81792dafaf701d639
 ---
 # "Pre-existing" Is Not a Disposition
 

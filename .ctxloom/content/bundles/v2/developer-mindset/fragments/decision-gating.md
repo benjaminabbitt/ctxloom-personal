@@ -4,6 +4,7 @@ tags:
   - communication
   - quality
   - architecture
+content_hash: sha256:1df294c7aebc24e260f6469481bfa3d24f0151e9b1a568333862c01d9ff2d050
 ---
 # Decision Gating
 
