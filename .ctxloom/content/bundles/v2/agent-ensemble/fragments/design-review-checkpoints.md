@@ -1,4 +1,5 @@
 ---
+description: "You are about to plan or dispatch a change that introduces or alters a signature, type, interface, boundary or dependency; to add, remove or swap a library; or to END A TURN in which code was produced, by you or by an agent you dispatched, and write the reply that reports it. The end-of-turn case is the one most often missed: if this turn produced code, load this before the final reply. For anyone about to put a design or its result in front of the human, however the moment is worded."
 tags:
   - coordinator
   - review
