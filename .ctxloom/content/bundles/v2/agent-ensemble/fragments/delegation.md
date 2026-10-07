@@ -13,6 +13,7 @@ notes: |
   synthesis. The "decide the reduce step before you fan out" rule
   exists because fan-outs get dispatched with no plan for merging
   what returns, and the results then rot unintegrated.
+content_hash: sha256:fbc366be5f0b76fd0cc4a3a023aea91ba7d3909c6d326eb8342bef433ec0cd1d
 ---
 # Delegation: keep your context lean
 
