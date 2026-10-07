@@ -1,4 +1,5 @@
 ---
+description: "You are about to call agent_run, agent_send, agent_recv, agent_stop, roster or agent_fetch_artifact, or decide how to wait for, address, resume, stop or collect from a child agent. For anyone driving delegated agents over ctxloom's agent bus, however the moment is worded."
 tags:
   - coordinator
   - tooling
