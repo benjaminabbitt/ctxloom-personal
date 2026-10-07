@@ -1,3 +1,5 @@
-description: 'Ingest / finder agent: cheap, fast, parallel lookup. Locates symbols/files/config/facts and fetches web pages, reports results straight back. Structural search (ast-grep), token-lean output (rtk), ctxloom context search, and wget/curl. Deliberately minimal.'
+description: 'Ingest / finder agent: cheap, fast, parallel lookup. Locates symbols/files/config/facts and fetches web pages, reports results straight back. Carries the finder''s tools — structural search (ast-grep), token-lean output (rtk), and the guidance on when to use them, ctxloom context search, and wget/curl. The role itself comes from agent-roles#profiles/finder, composed beside it. Deliberately minimal.'
 bundles:
   - agent-ensemble#fragments/finder-tools
+  - ast-grep
+  - rtk

@@ -1,0 +1,10 @@
+schema_version: 3
+version: 1.0.0
+tags:
+    - rtk
+    - tools
+    - cli
+    - tokens
+author: ctxloom
+description: RTK (Rust Token Killer) for token-optimized command output
+name: rtk

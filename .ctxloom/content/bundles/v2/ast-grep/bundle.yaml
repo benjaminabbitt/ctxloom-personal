@@ -1,0 +1,10 @@
+schema_version: 3
+version: 1.0.0
+tags:
+    - ast-grep
+    - tooling
+    - refactoring
+    - code-search
+author: ctxloom
+description: ast-grep structural code search and replace using tree-sitter AST matching
+name: ast-grep
