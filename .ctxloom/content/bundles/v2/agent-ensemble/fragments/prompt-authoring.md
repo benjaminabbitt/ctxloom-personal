@@ -1,4 +1,5 @@
 ---
+description: "You are about to write or revise a prompt, brief or task that another agent will act on: dispatching a sub-agent, a finder lookup, an implementer or a reviewer, or sending a follow-up that changes what a child is doing. Load it BEFORE the brief goes out; it says which commands must never appear in an implementer brief, and why a sub-agent given one stalls forever. For anyone handing work to an agent that will see only what you write, however the moment is worded."
 tags:
   - coordinator
   - prompt-writing
