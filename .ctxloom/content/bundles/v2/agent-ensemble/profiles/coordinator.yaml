@@ -10,9 +10,3 @@ bundles:
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/planning-and-brainstorming
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/agent-ensemble#fragments/design-review-checkpoints
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/developer-mindset#fragments/close-the-turn
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/conduct
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/sequential-thinking
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/code-review-structural#fragments/general
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/is-this-a-standard
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ai-coding-general#fragments/context-engineering
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ltk

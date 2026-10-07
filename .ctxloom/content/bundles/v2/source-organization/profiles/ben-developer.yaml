@@ -4,5 +4,4 @@ tags:
   - development
 bundles:
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/just
-  - ctxloom+git://github.com/ctxloom/ctxloom-default//bundles/ast-grep
   - ctxloom+git://github.com/benjaminabbitt/ctxloom-personal//bundles/source-organization
