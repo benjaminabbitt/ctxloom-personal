@@ -14,6 +14,7 @@ notes: |
   delegated evidence — the finder reads, the plan cites — which is
   also what keeps planning from consuming the coordinator's own
   context.
+content_hash: sha256:a49a50c2f41adff4b03df9fc094842f26f87c51b9fcd7bbd8cba84b8e576f603
 ---
 # Planning and brainstorming
 
