@@ -17,6 +17,7 @@ notes: |-
   exactly the same authority as the live ones — a task carrying its completed
   half looks identical to work never started, and a closed-but-unrecorded fix
   gets done twice.
+content_hash: sha256:c97a47d03f1c1e152f84b51cd8413fa70af5c9dafaa7d48413241b310e5d3ca5
 ---
 # Closing a turn: fix what you can, surface what you cannot
 
