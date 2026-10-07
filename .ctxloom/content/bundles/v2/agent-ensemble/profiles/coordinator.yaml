@@ -1,4 +1,4 @@
-description: 'Coordinator agent: sequences, brainstorms, and architects; delegates reads/web-search to the finder and substantial work to child agents; rarely edits code. Carries conduct, software-architecture, and prompt-writing knowledge — deliberately NO development-language bundles.'
+description: 'Coordinator agent: sequences, brainstorms, and architects; delegates reads/web-search to the finder and substantial work to child agents; rarely edits code. Carries the role, delegation, worktree, and prompt-writing knowledge — deliberately NO development-language bundles. Conduct and software-architecture come from agent-roles#profiles/coordinator, composed beside it.'
 bundles:
   - agent-ensemble#fragments/coordinator-conduct
   - agent-ensemble#fragments/delegation
