@@ -1,4 +1,4 @@
-description: 'TypeScript web developer: the upstream developer composition root + language practices + personal practices and tooling. Folded from the retired top-level profile (top-level remote profiles are retired; profiles ship inside bundles).'
+description: 'TypeScript web developer: personal practices and tooling. The developer composition root and upstream language practices come from typescript-development#profiles/typescript-web-developer, composed beside it.'
 tags:
   - typescript
   - web
