@@ -21,9 +21,9 @@ notes: |
     upstream `ai-developer#profiles/developer` root. Add the `reprise`
     bundle here for duplicate-drift discipline.
   - code review  → the per-language `*-code-reviewer` profiles
-    (e.g. `go-development#profiles/go-code-reviewer`), which inherit the
-    upstream `code-review-base#profiles/cr-all` root; reduce parallel
-    per-lens members with `code-review-base#profiles/cr-synthesis`.
+    (e.g. `go-development#profiles/go-code-reviewer`): one reviewer per
+    language, composed beside the upstream
+    `code-review-base#profiles/cr-thorough` review standards.
 
   Wire each role into a project's `.ctxloom/config.yaml` `agents:` map.
 name: agent-ensemble

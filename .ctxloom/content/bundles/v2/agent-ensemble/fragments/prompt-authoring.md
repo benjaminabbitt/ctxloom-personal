@@ -50,7 +50,7 @@ briefing.
 - Implementer prompts define the change and the escalation rule:
   "make X; escalate to me before changing any interface, contract,
   or cross-module structure."
-- Reviewer prompts name the lens and the severity bar.
+- Reviewer prompts name the scope under review and the severity bar.
 
 ## Adversarial framing where it helps
 For verification, instruct the agent to try to REFUTE a claim, not

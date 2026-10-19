@@ -1,4 +1,4 @@
-description: 'Python code reviewer: personal review standards. Every general lens (cr-all) comes from code-review-base#profiles/cr-thorough, composed beside it. For a parallel synthesized review, prefer tight per-lens members reduced with cr-synthesis.'
+description: 'Python code reviewer: personal review standards. The single reviewer for this language; compose it beside code-review-base#profiles/cr-thorough for the general review standards.'
 tags:
   - python
   - review
