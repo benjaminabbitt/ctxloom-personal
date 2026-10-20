@@ -34,11 +34,11 @@ unscoped query across every project you've touched returns noise.
 
 ## Know which tool answers which question
 
-ctxloom's `load_session`, `get_previous_session` and
-`recover_session` retrieve a KNOWN session — by harp name, by id,
-or by recency. They do NOT search by content. claude-mem answers
-the other question: WHICH session was it? Use claude-mem to find
-it, ctxloom to load it.
+ctxloom's `session list`, `session show` and `session search`
+find a session by harp name, title (its first user prompt) or
+times, and `ctxloom run --session <harp>` resumes one. They do NOT
+search by content. claude-mem answers the other question: WHICH
+session was it? Use claude-mem to find it, ctxloom to resume it.
 
 The ctxloom `search_content` / `search_library` tools search the
 content LIBRARY (fragments, skills, profiles, installable
@@ -54,8 +54,8 @@ local.
 
 ## Anti-patterns
 
-- Asking claude-mem about the CURRENT session. Scroll up, or use
-  ctxloom's session tools.
+- Asking claude-mem about the CURRENT session. Scroll up, or read
+  the session's own transcript.
 - Broad unscoped searches that dump dozens of observations.
 - Treating a memory hit as current. An observation records what was
   true when written; if it names a file, flag, or command, verify

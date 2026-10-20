@@ -1,39 +1,43 @@
 ---
 name: resume
-description: Bring back context from an earlier session — recover what /clear just wiped from THIS still-live session, pick up the session immediately before this one, or load a specific named prior session. Use when the user says "resume", "recover", "continue from last time", "what was I working on", right after a /clear, or when ctxloom's own start-session banner named a previous session for this project.
+description: Bring back context from an earlier session — recover what /clear just wiped from THIS still-live session, pick up the session immediately before this one, or read a specific named prior session — from the transcript ctxloom recorded for it. Use when the user says "resume", "recover", "continue from last time", "what was I working on", or right after a /clear.
 ---
 
 # resume
 
-ctxloom's `run` startup (Decision 11 of the CLI-primary reorg) never asks you
-to pick a session to resume — every `ctxloom run` opens a brand-new harp and
-prints a read-only summary before the engine even starts, including (when one
-exists) a line like:
+ctxloom's `run` startup never asks you to pick a session to resume — every
+`ctxloom run` opens a brand-new harp. ctxloom does not compact or distill
+sessions, and has no MCP tool that loads one: the engine compacts its own
+context. What ctxloom keeps of every session is its recorded transcript,
+`~/.ctxloom/sessions/<harp>/transcripts/transcript.jsonl` — one JSON line per
+event, the turns being the lines whose `kind` is `entry` (`entry.type` is
+`user`, `assistant`, `tool_use`, `tool_result`, …). It can be large: read
+its tail, or filter it to the `user` and `assistant` turns, rather than
+loading it whole.
 
-```
-previous session: quiet-loyal-otter — bring it back in-session with the "resume" skill
-```
+There are two ways back into an earlier session:
 
-That line is what this skill is for: resuming prior context is now something
-YOU (the model) do, from inside the session that's already running, not a
-startup-time flag or picker. This skill replaces the old `/recover` slash
-command and the old `run --session`/`--tasks-from` flags — both retired.
+- **At launch, by the human:** `ctxloom run --session <harp>` starts a new
+  session with the named session's full recorded transcript folded into its
+  assembled context. Suggest it when the user wants to carry on a whole
+  earlier session rather than pull part of it into this one.
+- **In-session, by YOU (the model):** find the session and read what you
+  need from its transcript. That is what this skill is for.
 
 ## Open by asking: which context, and from where?
 
-There are three distinct situations this skill covers. They use different
-tools; don't guess which one applies — the trigger tells you:
+There are three distinct situations this skill covers. They find the
+session differently; don't guess which one applies — the trigger tells you:
 
 1. **A `/clear` just happened IN THIS SESSION.** The context window was
-   wiped, but the session itself is still alive — its transcript kept
-   growing right through the clear. Go to **"Recover after /clear"** below.
+   wiped, but the session itself is still alive. Go to **"Recover after
+   /clear"** below.
 2. **The user wants to continue from "last time" / "where I left off"**, and
    hasn't named a specific session. This is the session immediately BEFORE
    the one you're in now, for this project. Go to **"Pick up the previous
    session"** below.
-3. **The user (or the start-session banner) names a SPECIFIC session** — a
-   harp name (e.g. `quiet-loyal-otter`) or a backend session ID. Go to
-   **"Load a named session"** below.
+3. **The user names a SPECIFIC session** — a harp name (e.g.
+   `quiet-loyal-otter`). Go to **"Load a named session"** below.
 
 These are independent — do only the one the trigger calls for. If none of
 the three obviously apply (e.g. the user just wants a status update on the
@@ -41,54 +45,40 @@ CURRENT session), this skill isn't the right tool; don't force it.
 
 ## Recover after /clear
 
-Use the `recover_session` MCP tool. `/clear` empties the context window but
-does **not** end the session — ctxloom resolves the current (still-live)
-session at read time and re-distills its still-growing transcript, so
-whatever was said before the clear is still recoverable.
+`/clear` empties the context window but does **not** end the session. This
+session's harp name is in the ctxloom MCP server's instructions ("Your
+session is named …"); read the turns before the clear from its transcript.
 
-1. Call `recover_session` with no arguments (it defaults to the most recent
-   session for this working directory — which is THIS session). Only pass
-   `session_id` if you have a specific reason to target a different session
-   explicitly.
+1. Read this session's transcript for the turns from before the clear.
 2. If content comes back, go to **"Review and hand back"** below.
-3. If nothing comes back ("No recoverable context found"), say so plainly —
-   don't invent a summary. A brand-new session (nothing happened before the
-   clear) or a very short one can legitimately have nothing worth
-   distilling.
+3. If there is nothing before the clear (or no transcript yet), say so
+   plainly — don't invent a summary.
 
 ## Pick up the previous session
 
-Use the `get_previous_session` MCP tool. It resolves the most recent session
-BEFORE the currently active one, for this project, via the session registry
-— the same resolution ctxloom's own start-session banner uses, so what it
-finds matches what the banner named. It is cross-agent aware (the previous
-session may have run under a different engine than this one) and falls back
-to the second-most-recent transcript if the registry entry is incomplete.
+Run `ctxloom session list`. It lists this project's recorded sessions with
+their title (the first thing each one's user asked), state and start/end
+times; the previous session is the most recent one that ENDED before this
+one started.
 
-1. Call `get_previous_session` with no required arguments.
-2. If it returns nothing, there is no earlier session for this project (this
-   is the first one) — say so.
-3. Otherwise go to **"Review and hand back"** below.
+1. If there is none, this is the first session for this project — say so.
+2. Otherwise read its transcript and go to **"Review and hand back"** below.
 
-Don't confuse this with the `/clear` case: `get_previous_session` looks
-BACKWARD to a session that already ended; `recover_session` looks at the
-CURRENT session's own pre-clear content. If the user just typed `/clear`,
-that's `recover_session`, not this.
+Don't confuse this with the `/clear` case: here you look BACKWARD to a
+session that already ended; after a `/clear` you read the CURRENT session's
+own pre-clear content.
 
 ## Load a named session
 
-Use the `load_session` MCP tool when a specific session is named — by the
-user, or because the start-session banner (or `ctxloom session list`) named
-one you're now acting on.
+When a specific session is named:
 
-1. Call `load_session` with `harp_name` (the human-readable name, e.g.
-   `quiet-loyal-otter` — prefer this when you have it) or `session_id` (a
-   backend UUID). If both are somehow known, `harp_name` wins.
-2. If you don't know the exact harp name, list candidates first rather than
-   guessing — `ctxloom session list` (or the `list_sessions` MCP tool) shows
-   recent harp-named sessions for this project; confirm with the user before
-   loading if there's any ambiguity.
-3. Go to **"Review and hand back"** below.
+1. `ctxloom session show <harp>` confirms it exists and shows its title,
+   state, engine and times.
+2. If you don't know the exact harp name, find candidates rather than
+   guessing — `ctxloom session list`, or `ctxloom session search <word>...`
+   (it matches the harp name, title and times, NOT what was said in the
+   session); confirm with the user before reading if there's any ambiguity.
+3. Read its transcript and go to **"Review and hand back"** below.
 
 ## Review and hand back
 
@@ -108,7 +98,7 @@ Whichever branch you took, once content comes back:
 
 ## Verify — the exit criterion
 
-Don't treat "the tool call returned something" as done. The user should have
+Don't treat "the read returned something" as done. The user should have
 seen a real summary (not a raw dump) and confirmed they want to continue
-before you act on the recovered context. If a tool call returns nothing,
-report that plainly rather than fabricating content to fill the gap.
+before you act on the recovered context. If the transcript has nothing to
+offer, report that plainly rather than fabricating content to fill the gap.
