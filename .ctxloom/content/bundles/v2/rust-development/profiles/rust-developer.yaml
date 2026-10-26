@@ -9,3 +9,4 @@ bundles:
   - rust-test-support-pattern
   - just
   - containers
+  - rust-development#fragments/cross-repo-dependencies
