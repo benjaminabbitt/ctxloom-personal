@@ -163,6 +163,12 @@ For each admitted item, in order:
    be owned by someone else. Check before working. Register-style claims are
    frequently stale in both directions.
 2. **Cut a branch from the pinned base**, one per item, in its own worktree.
+   An item that changes behaviour arrives with the red tests the human
+   reviewed at admission (`admit`; the `red-review` skill). Build on that
+   red commit. Those tests are the spec: make them pass, and never edit what
+   they assert. A reviewed test the implementation proves wrong is a decision
+   for the report, not a fix. An item that changes behaviour but has no
+   reviewed red tests wasn't admitted properly: file it and move on.
 3. **Do the work, or dispatch it** (see below). Validate before fixing: reaching
    "this claim is wrong" or "this is already fixed" is a *successful* outcome
    and is often worth more than a fix.
@@ -238,6 +244,8 @@ If you delegate (and you should, for anything context-heavy):
   nothing is closed on an agent's reported exit code alone.
 - **Implementers run only the tests their change needs.** TDD: the failing
   test for their own behaviour first, then the tests their change falsifies.
+  Where the item carries reviewed red tests, the brief names that commit as
+  the spec and forbids editing its assertions (`red-review`, rule 5).
   No whole-package sweeps beyond what they touched, no mutation runs —
   mutation belongs to close-out.
 - **Require commit-after-every-unit in every brief.** This is what makes a

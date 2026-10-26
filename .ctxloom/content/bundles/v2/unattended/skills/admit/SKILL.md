@@ -118,6 +118,21 @@ Reaching "this is already done" or "this claim is false" is a **successful**
 outcome of admission and is often worth more than admitting the item. Say so
 plainly and move on.
 
+## Write and review the red tests now
+
+Every admitted item that changes behaviour goes in WITH its red tests,
+written, committed red on the item's branch, and reviewed by the human
+during admission (the `red-review` skill, in the tdd bundle). The run
+implements against those tests; it can't get them reviewed itself, because
+nobody is there.
+
+This is also the sharpest admission filter there is. An item whose red
+tests can't be written yet has an open question, and isn't ready. Withhold
+it, and name the question.
+
+Write the red tests in parallel across candidates (dispatch them), and put
+them to the human in one batch. Only the review needs them present.
+
 ## The exchange with the human
 
 Lead with the recommendation, never a survey. They are trying to leave.

@@ -1,0 +1,21 @@
+schema_version: 3
+version: 1.0.0
+tags:
+  - default
+  - tdd
+  - testing
+  - workflow
+author: ben-abbitt-me
+description: Test-driven development as a review gate — the red tests are the spec, and the human reviews them before any implementation is written.
+notes: |
+  Authored 2026-10-25 (session limp-urban-cheer, taskloom). The owner's
+  rule: when beginning to implement anything test-first, write the red
+  tests and get them reviewed by the human BEFORE implementing. Several
+  proposals that week (fs-seam, tasks-lib, annals-macros) were already
+  run this way, by asking each time; this makes it the default.
+
+  Pairs with the unattended bundle: design-by-test (why the test is where
+  the design is decided), admit (red tests are written and reviewed during
+  admission, because nobody reviews at 3am) and unattended (the run
+  implements only against reviewed red tests).
+name: tdd

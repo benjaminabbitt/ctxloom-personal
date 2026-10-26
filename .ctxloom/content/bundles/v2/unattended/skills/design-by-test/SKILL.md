@@ -44,7 +44,8 @@ revisit once `StartOwnedRun` is written.
    proposal in history where a reviewer, or you tomorrow, can see what was
    decided and when. A design that only ever appears already-implemented was
    never reviewed, it was announced.
-3. Then implement until it passes.
+3. Get the red tests reviewed by the human (the `red-review` skill, in the
+   tdd bundle), then implement until they pass.
 
 The red commit is the artifact. Without it the claim "this was designed" is
 unverifiable, which is the same failure mode as an unchecked comment.
