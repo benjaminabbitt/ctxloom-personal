@@ -31,7 +31,7 @@ So: **explain the situation, never the project.**
 - **Agent reports.** Every DEFERRALS section, every "STOP AND REPORT" that
   fired, every "I did not decide X". Sub-agents are told to escalate rather than
   choose; those escalations die with the report unless surfaced.
-- **The task log.** Filter for the decision tag, plus terms like "decide" and
+- **The task log.** Filter for `human:decision`, plus terms like "decide" and
   "open question". Read the BODIES — a task titled for a symptom often carries
   the decision in its last paragraph.
 - **Design docs and plans.** "Open decisions" sections and `*.plan.md` files
@@ -68,26 +68,29 @@ Do not turn this step into "does the row contain an unanswered question". That
 test is wrong in a way that quietly DESTROYS the queue, and it was run at scale
 once before anyone noticed.
 
-The `human` tag does not mean "needs a decision". It means the row lands in the
-queue a PERSON WORKS FROM — work that trips an unattended stop condition. Those
-are two different sets, and the second is much larger. A row can have every
-question settled and still be human-only: prompt, skill, fragment and profile
-text are the human's voice; signing keys, dependency changes, schema and on-disk
-format changes, cross-repo moves, anything needing credentials or a live
-multi-process run, and anything whose only evidence is a person looking at it
-all qualify with no open question anywhere in the text.
+`human:` does not mean "needs a decision"; that is `human:decision`, one key of
+six. Any `human:` key means the row lands in the queue a PERSON WORKS FROM —
+work that trips an unattended stop condition. Those are two different sets, and
+the second is much larger. A row can have every question settled and still be
+human-only: prompt, skill, fragment and profile text are the human's voice;
+signing keys, dependency changes, schema and on-disk format changes, cross-repo
+moves, anything needing credentials or a live multi-process run, and anything
+whose only evidence is a person looking at it all qualify with no open question
+anywhere in the text.
 
 So when this step finds a row's decision already taken, that settles whether to
-ASK about it. It does not settle whether the row belongs in the human queue.
-Judge that against the stop conditions themselves — they live in the `unattended`
-skill — and leave the tag alone unless the remaining WORK could genuinely run
-with nobody watching.
+ASK about it, and retires its `human:decision`. It does not settle whether the
+row belongs in the human queue. Judge that against the stop conditions
+themselves — they live in the `unattended` skill — and leave its other `human:`
+keys alone unless the remaining WORK could genuinely run with nobody watching.
+If `human:decision` was its only key and the row still needs a person, add the
+key that says why before removing it.
 
-Measured: applying the wrong test to this project's backlog stripped the tag
-from 28 rows in one pass, on rows whose remaining work included editing signed
-bundle text and rebuilding a container image. It was caught by the human, not by
-the sweep. When in doubt the answer is to leave the tag on: a needless row costs
-one glance, and a dropped one costs the work.
+Measured: applying the wrong test to this project's backlog stripped the flat
+`human` tag from 28 rows in one pass, on rows whose remaining work included
+editing signed bundle text and rebuilding a container image. It was caught by
+the human, not by the sweep. When in doubt the answer is to leave the `human:`
+key on: a needless row costs one glance, and a dropped one costs the work.
 
 ### Why this is a numbered step and not advice
 
