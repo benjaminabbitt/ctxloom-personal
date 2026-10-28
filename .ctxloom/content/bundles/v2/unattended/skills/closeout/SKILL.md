@@ -72,8 +72,9 @@ keeps asserting it, with nothing to say which is current.
    across a line break, reporting "none cited" for a reference that is intact
    AND for one that is broken.
 5. **FIX WHAT YOU FOUND.** → `close-the-turn`
-   Filing is the exception. Defer only for a human decision (tag it `human`,
-   state the question) or a genuinely large load — and say which.
+   Filing is the exception. Defer only for a human decision (tag it
+   `human:decision`, state the question) or a genuinely large load — and say
+   which.
 
 ## How to report
 
