@@ -84,15 +84,16 @@ Do not restate them here and do not summarise them — a rule kept in two places
 drifts, and the stale copy goes on being enforced while it lies.
 
 Apply those conditions to every candidate. Anything that trips one is **NOT
-admitted**. Tag it `human` so it lands in the one queue a person actually works
-from, and say so in your report.
+admitted**. Tag it `human:` with the reason — `decision`, `voice`, `authority`,
+`verify`, `prerequisite` or `action`, several if several hold — so it lands in
+the one queue a person actually works from, and say so in your report.
 
 Beyond the stop conditions, withhold an item when:
 
 - it is **blocked on another row** that has not landed — admitting it queues a
   guaranteed stall, and the run will burn its revert budget discovering that;
-- it is **scoped to a different release** — a tag naming a future version is a
-  statement that the work is not for now;
+- it is **scoped to a different release** — a `triage:blocks-release=` naming a
+  future version is a statement that the work is not for now;
 - **the human must look at something** for the work to be judged done: a
   rendering, a pane, an interaction. There is nobody to look;
 - it needs a **live multi-process or credentialed run** the gates cannot drive.
