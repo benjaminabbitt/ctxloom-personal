@@ -30,7 +30,9 @@ notes: |
   - "escalate and continue, never halt" — halting on item 3 of 40 wastes the
     night, which is the whole resource being spent.
   - "build, static legs and the unit suite at landing; integration, docker,
-    acceptance and mutation once, at close-out" — the 2026-10-02 run spent
+    and acceptance once, at close-out; mutation once, over the branch, when
+    the queue is exhausted" (the owner moved mutation out of close-out on
+    2026-10-29) — the 2026-10-02 run spent
     ~20 min on a full gate per merge batch; a build-only landing then let unit
     reds reach the pushed branch three times on 2026-10-04, so the unit suite
     stays in the landing gate and the push happens only inside it.

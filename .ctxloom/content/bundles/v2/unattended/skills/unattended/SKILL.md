@@ -22,8 +22,10 @@ Work the admitted queue one item at a time. Each item lands as its own branch,
 is merged to the integration branch once its implementer's own tests and fast
 static gates pass, and is recorded as it lands. The check at landing is the
 **integrated tree's build, every static leg, and the unit suite**. Integration,
-docker, acceptance and the mutation pass run ONCE, at close-out, which you run
-**automatically** when the queue is exhausted; nowhere in between. Per-merge
+docker and acceptance run ONCE, at close-out, which you run **automatically**
+when the queue is exhausted; nowhere in between. The mutation pass runs once
+too, at the same moment, over the BRANCH only — the pinned base to the
+integrated tip — never per item and never inside close-out. Per-merge
 full gates turned a night of work into a night of waiting — but a build-only
 landing let unit reds reach the pushed branch three times in one night, each
 caught only afterwards, so the unit suite stays in the landing gate. When an item trips a
@@ -247,7 +249,7 @@ If you delegate (and you should, for anything context-heavy):
   Where the item carries reviewed red tests, the brief names that commit as
   the spec and forbids editing its assertions (`red-review`, rule 5).
   No whole-package sweeps beyond what they touched, no mutation runs —
-  mutation belongs to close-out.
+  mutation runs once, over the branch, when the queue is exhausted.
 - **Require commit-after-every-unit in every brief.** This is what makes a
   stalled agent survivable rather than fatal.
 - **Give every brief the stop conditions above**, and require it to escalate
@@ -300,7 +302,7 @@ kept for themselves. Instead, **close out**:
 
 - **run the `closeout` skill now, without asking** — it is the run's one full
   gate (every suite, acceptance included, from a clean state on the integrated
-  tree) and its one mutation pass. **A failing leg is fixed when found**,
+  tree). It runs no mutation. **A failing leg is fixed when found**,
   test-first, like a found bug — whether the night broke it or it was already
   red on the pinned base ("pre-existing" is history, not a disposition). To
   find the cause, re-run the failing leg on the pinned base SHA, and if it is
@@ -308,6 +310,12 @@ kept for themselves. Instead, **close out**:
   a bisect is a few focused runs). Revert the offending merge only when the
   revert budget is spent or the fix trips a stop condition — then report it
   with the reproduction;
+- **run the mutation pass over the branch**: mutate the diff from the pinned
+  base SHA to the integrated tip, with the repository's own diff-scoped
+  mutation recipe, judged against its thresholds. This is the run's one
+  mutation pass. A survivor is a found bug: kill it with a test, or name it
+  in the report as equivalent or unreachable, with why. A kill rate below
+  threshold is a failing leg, fixed like one — never a threshold to tune;
 - adversarially re-check your own verdicts: try to **refute** each conclusion
   rather than confirm it, and say plainly where you now think you were wrong;
 - verify that claimed cleanup actually happened — `ls` it, check the process

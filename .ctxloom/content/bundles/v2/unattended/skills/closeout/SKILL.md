@@ -1,6 +1,6 @@
 ---
 name: closeout
-description: Close out a turn that changed something — verify against the real gate, kill a mutation for every test written or changed, fix falsified docs and comments and document added behaviour, leave the task log true, and fix or file what was found. Use when finishing a turn that touched code, tests, docs or the task log; when asked to "close out", "wrap up", "finish this properly"; and at the end of a unit of work. Reports honestly, including "not done" where that is the truth.
+description: Close out a turn that changed something — verify against the real gate, fix falsified docs and comments and document added behaviour, leave the task log true, and fix or file what was found. Use when finishing a turn that touched code, tests, docs or the task log; when asked to "close out", "wrap up", "finish this properly"; and at the end of a unit of work. Reports honestly, including "not done" where that is the truth.
 ---
 
 # closeout
@@ -29,12 +29,13 @@ keeps asserting it, with nothing to say which is current.
    three that lie: `gofmt -l` lists files and exits 0, `go test -run` matching
    nothing exits 0 having run nothing, and a pipeline reports the LAST
    command's status.
-2. **KILL A MUTATION for every test you wrote or changed, and REPORT every one,
-   including survivors.** → `green-is-not-passing`, `turn-gates`
-   A survivor is the most valuable result there is: it names an untested claim
-   you just shipped. Scope the mutation to the production code your new or
-   changed tests NAME. Changed nothing under test? Say so; do not invent a run.
-3. **UPDATE THE DOCUMENTATION: fix what you falsified, document what you
+   **Close-out runs no mutation.** Mutation is judged at pre-push, over the
+   diff being pushed against the repository's thresholds, and by a scheduled
+   CI pass over the whole workspace; an unattended run adds one pass over its
+   branch when its queue is exhausted (the `unattended` skill). The owner
+   moved it out of the per-turn path on 2026-10-29 ("excessive and killing
+   productivity").
+2. **UPDATE THE DOCUMENTATION: fix what you falsified, document what you
    added.** → `unchecked-bindings`
    Nothing tests a comment or a doc, which is why this is on a checklist and
    not in CI. Two halves, and the second is the one that gets skipped:
@@ -56,7 +57,7 @@ keeps asserting it, with nothing to say which is current.
    redraw only the nodes and edges your change moved, keep the graph's own
    vocabulary, and cite symbols and files — never line numbers. If no diagram
    covers the area, do not draw one here; say so in the report.
-4. **LEAVE THE TASK LOG TRUE.** → `close-the-turn`
+3. **LEAVE THE TASK LOG TRUE.** → `close-the-turn`
    Close what landed, quoting ask against outcome. Cut a partly-satisfied task
    down to what REMAINS. Re-tag what you moved. BEFORE CLOSING, re-read it for
    anything still open — closing is destructive to queryability, so a live
@@ -71,7 +72,7 @@ keeps asserting it, with nothing to say which is current.
    is found only by regexing prose — which fails SILENTLY on a path wrapped
    across a line break, reporting "none cited" for a reference that is intact
    AND for one that is broken.
-5. **FIX WHAT YOU FOUND.** → `close-the-turn`
+4. **FIX WHAT YOU FOUND.** → `close-the-turn`
    Filing is the exception. Defer only for a human decision (tag it
    `human:decision`, state the question) or a genuinely large load — and say
    which.
