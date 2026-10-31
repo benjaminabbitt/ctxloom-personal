@@ -88,9 +88,11 @@ content back means re-signing it, and that is the signer's act.
 
 The version read, the migrate-in-memory, the newer-refusal and the write-back
 helper live in one shared package that every file kind uses. Per-kind code
-supplies only its ordered migrations and the oldest version it still
-migrates; the current version is DERIVED from those (oldest + number of
-steps), so a version bump without a migration cannot exist. Normalization that
+supplies only its current version, DECLARED, and its ordered migrations,
+each stepping one version to the next. The shared package refuses a chain
+that does not reach the current version in contiguous steps from the oldest
+it keeps, so a bump without a migration is an error when the kind is built,
+never a silent pass-through. Normalization that
 depends on runtime context is not a migration and stays with the caller. The machinery
 exists and is tested even when a kind has zero migrations — the steady state,
 not a special case: a current file passes through byte-identically, an older
