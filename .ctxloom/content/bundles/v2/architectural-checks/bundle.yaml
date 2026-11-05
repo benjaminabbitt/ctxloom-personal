@@ -1,0 +1,14 @@
+schema_version: 3
+version: 1.0.0
+tags:
+  - architecture
+  - quality
+  - workflow
+author: ben-abbitt-me
+description: Architectural checks — mechanical rules about which parts of the code may depend on which, enforced by the project's gate
+notes: |
+  Language- and tool-neutral by design: it names the practice and shows
+  tools per ecosystem only as examples. The fragment is tagged `default`,
+  the probable-inclusion set `ctxloom init` presents, so a project is asked
+  about it whatever its stack.
+name: architectural-checks
