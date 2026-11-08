@@ -1,5 +1,6 @@
 ---
 tags:
+  - default
   - versioning
   - workflow
 notes: |-
@@ -7,7 +8,7 @@ notes: |-
 ---
 # Pre-release (0.x.x)
 
-A 0.x.x version may carry the machinery for versioning, such as a version field on a file, a schema number, or a version in a path, but do not use it: no migrations, no compatibility shims, no support for an older shape, and no version bump for a change of format. This takes precedence over any guidance that says to bump a version or add a migration step when a persisted shape changes.
+This applies while the software's own version is 0.x.x. That version is a different number from the version of a persisted format, a monotonically increasing integer such as `schema_version`, and is only loosely related to it. In pre-release, a format may carry its format version, but do not use it: no bump for a change of format, no migration, no compatibility shim, and no support for an older shape. This takes precedence over any guidance that says to bump the format version or add a migration step when a persisted shape changes.
 
 Make breaking changes in pre-release without arguing about them. Do not weigh compatibility, offer alternatives that preserve the old shape, or ask whether to break. Change it.
 
