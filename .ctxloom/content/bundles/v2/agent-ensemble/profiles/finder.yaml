@@ -3,3 +3,4 @@ bundles:
   - agent-ensemble#fragments/finder-tools
   - ast-grep
   - rtk
+  - core-practices#fragments/pre-release

@@ -5,3 +5,4 @@ tags:
 bundles:
   - just
   - source-organization
+  - core-practices#fragments/pre-release

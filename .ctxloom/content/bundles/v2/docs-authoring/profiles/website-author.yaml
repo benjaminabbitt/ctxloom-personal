@@ -6,3 +6,4 @@ tags:
 bundles:
   - humanizer
   - docs-authoring
+  - core-practices#fragments/pre-release
