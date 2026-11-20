@@ -1,0 +1,24 @@
+schema_version: 3
+version: 1.0.0
+tags:
+    - licensing
+    - legal
+    - angzarr
+    - policy
+author: benjaminabbitt
+description: The owner's licensing rule for angzarr, its SDKs and CLIs, and the applications built on it; loaded when licences are discussed.
+notes: |
+    Recorded 2026-11-20 during the angzarr repository consolidation, when the
+    question "which licence does the merged repo carry?" showed that the
+    existing files disagree with each other: core's root LICENSE and README say
+    AGPL-3.0 while every crate in the five Rust repos declares
+    `Apache-2.0 OR BSD-3-Clause`, Cherenkov and ctxloom-lib are AGPL-3.0, and
+    the angzarr CLI is AGPL-3.0 with a generated-output exception.
+
+    The skill is the trigger: its `description` names the situations in which
+    licensing comes up, so it loads when a session starts talking about
+    licences, LICENSE files, Cargo `license` fields, dual licensing, AGPL, the
+    "managed service loophole", or which licence a crate, app or SDK should
+    carry. The rule itself is the owner's; items marked PROPOSED have not been
+    signed off and must not be applied as settled.
+name: licensing
