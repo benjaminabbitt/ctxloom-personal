@@ -5,8 +5,8 @@ description: The owner's licensing rule for angzarr and everything built on it. 
 
 # Licensing rule (owner's, recorded 2026-11-20)
 
-Not legal advice, and the owner's words rule over this summary. Items marked
-PROPOSED are not signed off: raise them, do not apply them as settled.
+Not legal advice, and the owner's words rule over this summary. Items 4 and 5 and the distributed-runtime set were signed off on
+2026-11-20; the licence files themselves are not yet written.
 
 ## The rule
 
@@ -27,14 +27,13 @@ PROPOSED are not signed off: raise them, do not apply them as settled.
    C++), `angzarr-router`, and the codegen CLI and proc-macros. Owner's words:
    "the angzarr distributed runtimes are agpl, the client linked code is
    BSD-3/Apache2."
-4. **Shared runtime code gets a runtime exception (PROPOSED, agreement in
-   principle only).** Because `angzarr-embedded` shares `angzarr-ports` with the
+4. **Shared runtime code gets a runtime exception (signed off 2026-11-20).** Because `angzarr-embedded` shares `angzarr-ports` with the
    distributed runtime, the proposal is AGPL plus a Classpath-style exception
    for everything that can end up in a user's process, so an application that
    links embedded is freed. Core stays plain AGPL. The owner said this "may be
    viable in other places"; that is not sign-off on a crate-by-crate table.
 5. **A narrow AGPL section 7 additional permission for programs that only use
-   the published gRPC API (PROPOSED).** Its purpose is to remove the FSF's
+   the published gRPC API (signed off 2026-11-20).** Its purpose is to remove the FSF's
    "complex data structures" ambiguity about whether a program exchanging rich
    data with an AGPL one becomes a combined work.
 6. **Licences are per crate.** One workspace may carry several licences, with a
@@ -53,9 +52,9 @@ PROPOSED are not signed off: raise them, do not apply them as settled.
   is linked by ctxloom, taskloom and Cherenkov; those can only become
   Apache/BSD once everything they link is permissive. Cherenkov's own README
   says AGPL-3.0.
-- **The service side is what AGPL protects:** the coordinator crates, reads and
-  the stores that run as a hosted service. Be explicit about which crates are
-  "the distributed runtime" before writing licence files.
+- **The service side is what AGPL protects** (signed-off set): angzarr-coordinator,
+  -coordinator-base, -coordinator-grpc, -reads, -store-sqlite, store-jsonl.
+  Everything else is runtime-exception or permissive.
 - **The owner is the copyright holder** and may relicense or dual-license their
   own code; contributors' rights need checking if outside contributions exist.
 - Never leave a README, LICENSE file and Cargo `license` fields disagreeing.
