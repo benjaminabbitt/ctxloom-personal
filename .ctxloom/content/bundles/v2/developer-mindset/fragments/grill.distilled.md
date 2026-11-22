@@ -1,31 +1,36 @@
 ---
-distilled_by: claude-code
+source_sha256: ce244a84d6e3a4fc76d68800fa04f1374832ddbaeb3119f8adf2379bff544499
 ---
 # Grill Me: Change Comprehension Gate
 
-Quiz developer on their changes before PR creation to verify understanding.
+Before creating a PR, quiz the developer on their changes to verify understanding.
 
 ## Process
-1. Analyze diff (staged + unstaged)
-2. Identify key decisions, trade-offs, edge cases, non-obvious implications
-3. Ask pointed questions one at a time testing genuine understanding
-4. Evaluate answers for real comprehension
-5. Gate PR on sufficient understanding
+
+1. **Analyze diff**: review all staged and unstaged changes on current branch
+2. **Identify key decisions**: architecture, trade-offs, edge cases, non-obvious implications
+3. **Formulate questions**: pointed, testing real understanding, not recall
+4. **Quiz**: ask one at a time, wait for responses
+5. **Evaluate**: does developer understand what changed and why
+6. **Gate PR**: create only after sufficient understanding shown
 
 ## Question Categories
-- **Intent**: What problem solved? Why this approach?
-- **Impact**: What else affected? What breaks if this fails?
-- **Edge cases**: Null/empty/concurrent behavior?
-- **Trade-offs**: What sacrificed? Technical debt introduced?
-- **Rollback**: How to revert safely? Blast radius?
+
+- **Intent**: problem solved; why this approach over alternatives
+- **Impact**: affected system parts; what breaks if it fails
+- **Edge cases**: null/empty/concurrent; behavior under condition Y
+- **Trade-offs**: what was sacrificed; technical debt introduced
+- **Rollback**: safe revert; blast radius
 
 ## Grading
-- **Pass**: Explains intent, impact, trade-offs clearly → proceed with PR
-- **Partial**: Gaps exist → point out gaps, re-quiz weak areas
-- **Fail**: Can't explain core decisions → no PR, suggest review areas
+
+- **Pass**: explains intent, impact, trade-offs clearly → proceed with PR
+- **Partial**: gaps → point them out, re-quiz weak areas
+- **Fail**: can't explain core decisions → no PR; suggest areas to review
 
 ## Rules
+
 - Rigorous but fair; test understanding, not memorization
-- Scale difficulty to change complexity
-- Explain wrong answers before continuing
-- Never create PR until developer passes
+- Difficulty matches change complexity
+- Wrong answer: explain why before moving on
+- No PR until pass

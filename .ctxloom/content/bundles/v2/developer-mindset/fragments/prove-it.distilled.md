@@ -1,40 +1,45 @@
 ---
-distilled_by: claude-code
+source_sha256: ae7b37f4062772509d52f30192147d3cc0f4cb2461b5aaf5b360d44b6a3f45d4
 ---
-# Prove It: Behavioural Diff Demonstration
+# Prove It: Behavioural Diff Demo
 
-Show concrete behaviour difference between main branch and current branch.
+Show concrete behaviour difference between main and current branch.
 
 ## Process
-1. Identify behavioural claims - what should differ?
-2. Design demonstrations exercising changed behaviour
-3. Show before (main branch behaviour)
-4. Show after (current branch behaviour)
-5. Present side-by-side diff of inputs, outputs, effects
+1. **Identify behavioural claims**: what should differ?
+2. **Design demos**: concrete scenarios exercising changed behaviour
+3. **Before**: run demo on main (or describe behaviour from code)
+4. **After**: run same demo on current branch
+5. **Diff**: side-by-side inputs, outputs, observable effects
 
-## Demonstration Methods
-- Test output comparison across branches
-- CLI invocation: same command, different output
-- Code walkthrough: trace input through both paths, show divergence
-- API calls: same request, different responses
-- Error scenarios: differing failure modes
+## Methods
+- **Tests**: run on both branches, compare
+- **CLI**: same command both branches, compare output
+- **Code walkthrough**: trace same input through both paths, show divergence
+- **API**: same request, compare responses
+- **Errors**: compare failure modes
 
 ## Format
-
 Per behavioural change:
+
 ```
 ## [Behaviour description]
+
 ### Main branch
-Input: ... Output/Behaviour: ...
+Input: ...
+Output/Behaviour: ...
+
 ### This branch
-Input: ... Output/Behaviour: ...
+Input: ...
+Output/Behaviour: ...
+
 ### What changed
-[Concise diff explanation + why it matters]
+[Concise difference and why it matters]
 ```
 
 ## Rules
 - Cover all intended changes, not just happy path
 - Include edge cases and error conditions
-- For pure refactors, demonstrate preserved behaviour
-- Show evidence, don't just claim
-- If local demo impossible, describe what would be tested and how
+- Purely structural (refactor): demonstrate behaviour preserved
+- No claims without evidence: show, don't tell
+- If infrastructure unavailable locally: describe what would be tested and how

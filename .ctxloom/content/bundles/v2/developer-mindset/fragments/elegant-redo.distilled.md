@@ -1,44 +1,45 @@
 ---
-distilled_by: claude-code
+source_sha256: 0914bafa16a2f8a526667b0f66d8ed54b752d3900c2739c758ef7b343482f4d8
 ---
 # Elegant Redo: Informed Reimplementation
 
-Discard current impl and rebuild using lessons from first attempt.
+Discard the current implementation and rebuild from scratch, using what the first attempt taught.
 
 ## Philosophy
-First impl teaches the problem. Second solves it well. Knowledge from edge cases, hidden requirements, and dead ends is the valuable output—not the code.
+- The first attempt's main output is knowledge (hidden requirements, edge cases, dead ends), not its code.
+- The second attempt is the one that solves the problem well.
 
 ## Process
-1. **Inventory knowledge** - Before deleting, document:
-   - Hidden requirements, surprising edge cases
-   - Architectural constraints revealed
-   - Dependencies/interfaces to preserve
-   - What worked vs what was over-engineered
+1. **Inventory first**, before deleting anything. Record:
+   - Hidden requirements found
+   - Surprising edge cases
+   - Architectural constraints
+   - Dependencies and interfaces to preserve
+   - What worked and should be kept conceptually
+   - What was over-engineered
+2. **Find the elegant core:**
+   - Simplest abstraction covering all known cases
+   - Data structures that fit the problem naturally
+   - Where the first attempt fought the language/framework
+   - What can be deleted entirely vs. what is essential
+3. **Scrap and rebuild:**
+   - No copy-paste from the old implementation
+   - Fresh code shaped by the lessons learned
+   - Structure comes from the problem, not the previous solution
+   - Reductive: less code, fewer abstractions, simpler interfaces
+4. **Validate:**
+   - Handles every edge case found in attempt one
+   - Passes existing tests (or improved versions)
+   - Demonstrably simpler: fewer lines, fewer abstractions, clearer flow
 
-2. **Identify elegant core** - With full problem knowledge:
-   - Simplest abstraction covering all cases?
-   - Natural data structures?
-   - Where did first attempt fight the language/framework?
-   - What's deletable vs essential?
-
-3. **Scrap and rebuild** - Start clean:
-   - No copy-paste from old impl
-   - Let structure emerge from problem
-   - Less code, fewer abstractions, simpler interfaces
-
-4. **Validate** - New solution must:
-   - Handle all discovered edge cases
-   - Pass existing/improved tests
-   - Be demonstrably simpler
-
-## When to Apply
-- Impl works but feels forced/overcomplicated
-- Real problem shape doesn't match code
-- Accumulated patches obscure design intent
-- Developer explicitly requests fresh take
+## When It Applies
+- Current implementation works but feels forced or over-complicated
+- The real shape of the problem has emerged and the code doesn't match it
+- Accumulated patches have obscured the original design intent
+- Developer explicitly asks for a fresh take
 
 ## Rules
-- No sunk cost preservation—judge on current merit
-- Simpler is better, but not at correctness cost
-- Goal: minimum structure handling full problem naturally
-- Keep tests (requirements); rewrite implementation
+- Judge everything on current merit; no sunk-cost preservation
+- Simpler is better, but never at the cost of correctness
+- Goal is elegance: the minimum structure that handles the full problem
+- Keep tests, since they encode requirements. Rewrite implementation, not specifications.
