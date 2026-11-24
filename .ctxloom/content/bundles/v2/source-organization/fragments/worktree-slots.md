@@ -1,5 +1,5 @@
 ---
-description: "You are about to cut, check out or build a branch of a large Rust project on this machine in a worktree; to pick which worktree to work in; or to hand a worktree to a child agent, or take one back from it. For anyone about to run git worktree add or git switch for a unit of work, however the moment is worded."
+description: "You are about to cut, check out or build a branch of a project on this machine in a worktree, in any language; to pick which worktree to work in; or to hand a worktree to a child agent, or take one back from it. For anyone about to run git worktree add or git switch for a unit of work, however the moment is worded."
 tags:
   - source-organization
   - git
@@ -15,11 +15,16 @@ notes: |-
 
 # Worktree slots (this machine only)
 
-A Rust worktree's cold `target/` costs minutes and tens of gigabytes; a
-warm one rebuilds only what a branch changed. So on this machine, branches
-of a large Rust project are worked in a small, fixed POOL of long-lived
-worktrees, the SLOTS, reused branch after branch, instead of a fresh
-worktree per branch.
+A worktree's build state is expensive to make and cheap to reuse, in every
+language: Rust's `target/`, a C or C++ build directory, .NET's `bin/` and
+`obj/`, Gradle's `build/` and `.gradle/`, Maven's `target/`, a Python
+`.venv`, a Node `node_modules/`. Made cold, it costs minutes and often tens
+of gigabytes; kept warm, a branch switch rebuilds only what the branch
+changed. So on this machine, branches of any project with such state are
+worked in a small, fixed POOL of long-lived worktrees, the SLOTS, reused
+branch after branch, instead of a fresh worktree per branch. (Go's build
+cache is per user, not per worktree, so a Go project gains less; use its
+slots all the same, for one rule everywhere.)
 
 This is a convention for agents on this machine. No repository holds code
 for it, and no project's docs describe it.
@@ -64,12 +69,15 @@ When your branch is merged or handed over, and the slot is clean and its
 commits are on a remote or merged:
 
 1. `git -C <slot> switch --detach`. The branch is then free for any other
-   checkout. Leave the files and `target/` warm.
+   checkout. Leave the files and the build state warm.
 2. Remove your claim file.
 
 Never `git worktree remove` a slot, never `prune`, and never delete its
-`target/` wholesale. The warmth is the point; the project's landing sweep
-keeps the caches bounded.
+build state wholesale (a `target/`, `node_modules/`, `.venv`, `build/`).
+The warmth is the point. A project that grows its caches without bound
+needs a sweep of its own (ctxloom's landing sweep is one); if a slot's
+state is outgrowing the disk, say so to your owner rather than deleting
+it.
 
 ## Delegating
 
