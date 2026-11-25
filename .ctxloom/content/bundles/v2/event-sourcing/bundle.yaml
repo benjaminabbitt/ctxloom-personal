@@ -1,0 +1,16 @@
+schema_version: 3
+version: 1.0.0
+tags:
+  - event-sourcing
+  - cqrs
+  - naming
+author: benjaminabbitt
+description: Commands and facts are named as imperatives, events as declarations of what happened; the pair reads as a request and its record
+notes: |
+  In an event-sourced system the message's NAME is its contract: whoever
+  reads a stream, a proto or a handler table learns from the name alone
+  whether a message asks for something (it may be refused) or states
+  something that already happened (it never is). Mixing the two moods makes
+  a reader guess, and a request misread as a record is how a refused command
+  ends up treated as done.
+name: event-sourcing
