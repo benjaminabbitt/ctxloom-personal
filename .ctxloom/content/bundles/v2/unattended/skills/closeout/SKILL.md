@@ -76,6 +76,15 @@ keeps asserting it, with nothing to say which is current.
    Filing is the exception. Defer only for a human decision (tag it
    `human:decision`, state the question) or a genuinely large load — and say
    which.
+5. **LAND BY THE MERGE POLICY, when the unit of work is landing.** →
+   `merge-policy`
+   - A feature or bug-fix branch is SQUASH-merged onto its target: one
+     commit, through the hooks, its body naming every ID it settles.
+   - A long-lived integration branch is merged NORMALLY (`--no-ff`), never
+     squashed or rebased.
+   - After a squash, prove the branch's content landed (patch ids) before
+     deleting it, and name the squash commit in the report.
+   - A kind you cannot tell is the human's call; ask before landing.
 
 ## How to report
 

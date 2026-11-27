@@ -40,7 +40,7 @@ Every agent-executed plan gets a worktree — no exceptions; isolation is the wh
 
 A commit on a named branch survives every deletion path there is: `worktree remove --force`, a harness's auto-clean, a `/tmp` wipe, `git worktree prune`. Uncommitted bytes in a working tree are the only state that can actually be destroyed. Work "lost with the worktree" was lost dirty; work that was committed is still sitting on its branch.
 
-So commit at every checkpoint — including WIP, including red. `--no-verify` is fine on a work-unit branch. The MERGE is the quality gate, not the individual commit; clean the history up on the way in. An agent that ends its session with an uncommitted working tree has not saved its work, it has staged it for deletion.
+So commit at every checkpoint — including WIP, including red. `--no-verify` is fine on a work-unit branch. The MERGE is the quality gate, not the individual commit; a work branch is squash-merged on the way in, so its history is flattened there (`merge-policy`). An agent that ends its session with an uncommitted working tree has not saved its work, it has staged it for deletion.
 
 A dirty worktree is also unreapable: `git worktree remove` refuses one without `--force`, and `--force` is banned (below). An uncommitted tree is therefore both the only losable state and the reason worktrees pile up. One habit fixes both.
 
