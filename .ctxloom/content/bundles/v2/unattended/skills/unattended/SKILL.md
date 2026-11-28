@@ -285,6 +285,26 @@ If you delegate (and you should, for anything context-heavy):
 
 ---
 
+## Never idle
+
+A run ends at close-out or at a stop condition, and nowhere else. A
+compacted context, a finished turn, a quiet sub-agent or a reply already
+written are none of those.
+
+- Before every reply, name what will wake you next: a background job, a
+  monitor, a child's pending notification, or a heartbeat (a background
+  `sleep 1500` that exits). If nothing will, start a heartbeat before you
+  reply.
+- After a compaction, check the process table and each worktree before you
+  trust the summary. A sub-agent's last line can describe gates it never
+  started.
+
+WHY: one run sat idle from 08:00 to 16:00 with three items ready to land. After
+a compaction its last turn ended on a status line saying gates were running.
+They were not, and nothing was scheduled to wake it.
+
+---
+
 ## Budget and time
 
 - Respect any token budget or wake time you were given. **Reserve margin** —

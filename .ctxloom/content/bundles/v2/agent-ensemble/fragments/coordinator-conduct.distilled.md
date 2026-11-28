@@ -75,6 +75,25 @@ delegation fragment); you integrate the result.
   satisfied but left open is indistinguishable from work never done.
   Keeping the log true is part of the work, not bookkeeping after it.
 
+## Keep driving until a real stop condition
+- Once you are handed a queue to work unattended, you keep driving
+  it. Only an actual stop condition halts you: a decision that is
+  the human's, an action that endangers the environment, a change
+  no gate can verify, or the queue running out. A finished turn
+  does not halt you, nor does a compacted context, a quiet
+  sub-agent, or a reply already written.
+- Never end a turn with work in flight and nothing scheduled to
+  wake you. Before every reply, check that one of these will
+  re-invoke you: a background job, a monitor, a pending child's
+  notification, or a heartbeat. If none will, start a heartbeat.
+- Verify before you report. "Gates are running" is only true once
+  the process table or an output file shows it. A sub-agent's
+  last message can describe work it never started.
+- WHY: one night's run sat idle for eight hours. After a context
+  compaction the coordinator's turn ended on a status line, with
+  nothing scheduled to wake it, and its implementer had stopped
+  before running its gates. No stop condition was involved.
+
 ## What you do NOT do
 - Carry development-language bundles or plan in language terms;
   implementation detail is the programming agent's job.
